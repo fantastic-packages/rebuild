@@ -84,6 +84,49 @@ toolsbuild() {
 	make tools/compile -j$NPROC
 }
 
+toolchainbuild() {
+	# toolchain-build.mk
+	local HOST_BUILD_PREFIX="$TOOLCHAIN_DIR"
+	local BUILD_DIR_HOST="$BUILD_DIR_TOOLCHAIN"
+	local toolchain_srcdir="$(find ./toolchain/ -type f -name "Makefile" | sed 's|./toolchain/||;s|Makefile$||')"
+	local toolchain_built="$(make toolchain/check | sed -n '/\btoolchain\/.* check$/{s| check||;s|^.*\btoolchain/||;p}')"
+	rm -rf "$HOST_BUILD_PREFIX"
+	mkdir -p "$HOST_BUILD_PREFIX"
+	cp ./openwrt-sdk-${VERSION}-${BOARD}-${SUBTARGET}/root/staging_dir/toolchain-*/* "$HOST_BUILD_PREFIX/"
+	#
+	local HOST_BUILD_DIR PKG_NAME PKG_VERSION PKG_SOURCE_DATE PKG_SOURCE_VERSION prepared_md5 prepared_confvar
+	mkdir -p "$HOST_BUILD_PREFIX/stamp" 2>/dev/null
+	for a in $toolchain_srcdir; do
+		if echo "$toolchain_built" | grep -q "\b${a%/}\b"; then
+			PKG_NAME=$(cat "./tools/${a}Makefile" | sed -n '/^PKG_NAME\b/{s|^[^=]*=\s*||;s|#.*||;p}')
+			PKG_VERSION=$(cat "./tools/${a}Makefile" | sed -n '/^PKG_VERSION\b/{s|^[^=]*=\s*||;s|#.*||;p}')
+			PKG_SOURCE_DATE=$(cat "./tools/${a}Makefile" | sed -n '/^PKG_SOURCE_DATE\b/{s|^[^=]*=\s*||;s|#.*||;p}')
+			PKG_SOURCE_VERSION=$(cat "./tools/${a}Makefile" | sed -n '/^PKG_SOURCE_VERSION\b/{s|^[^=]*=\s*||;s|#.*||;p}')
+			[ -z "$PKG_VERSION" ] && PKG_VERSION=$(echo "$PKG_SOURCE_DATE-${PKG_SOURCE_VERSION:0:8}" | sed 's|^-||;s|-$||')
+			# build_dir/toolchain-*
+			if [ "$CONFIG_AUTOREMOVE" = "y" ]; then
+				prepared_md5=$(find_md5_reproducible "$TOPDIR/tools/${a%/} $PKG_FILE_DEPENDS")
+			else
+				prepared_md5=$(find_md5 "$TOPDIR/tools/${a%/} $PKG_FILE_DEPENDS")
+			fi
+			prepared_confvar=$(confvar "CONFIG_AUTOREMOVE $HOST_PREPARED_DEPENDS")
+			HOST_BUILD_DIR="$BUILD_DIR_HOST/$PKG_NAME${PKG_VERSION:+-$PKG_VERSION}"
+			mkdir -p "$HOST_BUILD_DIR" 2>/dev/null
+			if [ "${a%/}" = "musl" ]; then
+				touch "$HOST_BUILD_DIR/.prepared${prepared_md5}_${prepared_confvar}"
+			else
+				touch "$HOST_BUILD_DIR/.prepared"
+			fi
+			touch "$HOST_BUILD_DIR/.configured"
+			touch "$HOST_BUILD_DIR/.built"
+			# staging_dir/host
+			touch "$HOST_BUILD_PREFIX/stamp/.${PKG_NAME}_installed"
+		fi
+	done
+	#
+	make toolchain/compile -j$NPROC
+}
+
 
 # Ref: https://www.cnblogs.com/NueXini/p/16557669.html
 # Ref: https://blog.csdn.net/Helloguoke/article/details/38066765
