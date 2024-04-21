@@ -4,18 +4,27 @@ selfname="$(basename $0 | sed -E 's|\.[^\.]+$||')"
 confinfo="${selfname/install-sdk_/}"
 version=$(echo "$confinfo" | cut -f1 -d'-')
 
+isEmpty() {
+	[ -z "$1" ] && return
+	echo "$1" | grep -q '^\s*$' && return
+	return 1
+}
+
 # .config
 CONFIG_AUTOREMOVE=$(sed -n '/^CONFIG_AUTOREMOVE=/{s|^.*=||p}' .config)
 CONFIG_VERSION_REPO=$(sed -n '/^CONFIG_VERSION_REPO=/{s|^.*=||p}' .config)
 CONFIG_arm=$(sed -n '/^CONFIG_arm=/{s|^.*=||p}' .config)
+CONFIG_MIPS64_ABI=$(sed -n '/^CONFIG_MIPS64_ABI=/{s|^.*=||p}' .config)
+CONFIG_MIPS64_ABI_O32=$(sed -n '/^CONFIG_MIPS64_ABI_O32=/{s|^.*=||p}' .config)
 
 # rules.mk
 VERSION="$version"
-ARCH=`eval "$(sed -n '/^CONFIG_ARCH=/{s|^.*=||p}' .config)"`
+ARCH=`eval "$(sed -n '/^CONFIG_ARCH=/{s|^.*=|echo |p}' .config)"`
 	[ "$ARCH" = "i486" -o "$ARCH" = "i586" -o "$ARCH" = "i686" ] && ARCH=i386
 ARCH_SUFFIX=`eval "$(sed -n '/^CONFIG_CPU_TYPE=/{s|^.*=|echo |p}' .config)"`
-	[ -z "$ARCH_SUFFIX" ] && ARCH_SUFFIX=_${ARCH_SUFFIX}
-	[ -n "$CONFIG_MIPS64_ABI" -a "$CONFIG_MIPS64_ABI_O32" = "y" ] && ARCH_SUFFIX=${ARCH_SUFFIX}_$(eval "$(sed -n '/^CONFIG_MIPS64_ABI=/{s|^.*=|echo |p}' .config)")
+	isEmpty "$ARCH_SUFFIX" && ARCH_SUFFIX=
+	[ -n "$ARCH_SUFFIX" ] && ARCH_SUFFIX=_${ARCH_SUFFIX}
+	( ! isEmpty "$CONFIG_MIPS64_ABI" && [ "$CONFIG_MIPS64_ABI_O32" != "y" ] ) && ARCH_SUFFIX=${ARCH_SUFFIX}_${CONFIG_MIPS64_ABI}
 BOARD=`eval "$(sed -n '/^CONFIG_TARGET_BOARD=/{s|^.*=|echo |p}' .config)"`
 SUBTARGET=`eval "$(sed -n '/^CONFIG_TARGET_SUBTARGET=/{s|^.*=|echo |p}' .config)"`
 TARGET_SUFFIX=`eval "$(sed -n '/^CONFIG_TARGET_SUFFIX=/{s|^.*=|echo |p}' .config)"`
@@ -53,7 +62,7 @@ toolsbuild() {
 	local tools_built="$(make tools/check | sed -n '/\btools\/.* check$/{s| check||;s|^.*\btools/||;p}')"
 	rm -rf "$HOST_BUILD_PREFIX"
 	mkdir -p "$HOST_BUILD_PREFIX"
-	cp ./openwrt-sdk-${VERSION}-${BOARD}-${SUBTARGET}/root/staging_dir/host/* "$HOST_BUILD_PREFIX/"
+	cp -r ./openwrt-sdk-${VERSION}-${BOARD}-${SUBTARGET}/root/staging_dir/host/* "$HOST_BUILD_PREFIX/"
 	#
 	local HOST_BUILD_DIR PKG_NAME PKG_VERSION PKG_SOURCE_DATE PKG_SOURCE_VERSION prepared_md5 prepared_confvar
 	mkdir -p "$HOST_BUILD_PREFIX/stamp" 2>/dev/null
@@ -63,7 +72,13 @@ toolsbuild() {
 			PKG_VERSION=$(cat "./tools/${a}Makefile" | sed -n '/^PKG_VERSION\b/{s|^[^=]*=\s*||;s|#.*||;p}')
 			PKG_SOURCE_DATE=$(cat "./tools/${a}Makefile" | sed -n '/^PKG_SOURCE_DATE\b/{s|^[^=]*=\s*||;s|#.*||;p}')
 			PKG_SOURCE_VERSION=$(cat "./tools/${a}Makefile" | sed -n '/^PKG_SOURCE_VERSION\b/{s|^[^=]*=\s*||;s|#.*||;p}')
+			HOST_BUILD_DIR="$(cat "./tools/${a}Makefile" | sed -n '/^HOST_BUILD_DIR\b/{s|^[^=]*=\s*||;s|#.*||;p}')"
 			[ -z "$PKG_VERSION" ] && PKG_VERSION=$(echo "$PKG_SOURCE_DATE-${PKG_SOURCE_VERSION:0:8}" | sed 's|^-||;s|-$||')
+			if [ -z "$HOST_BUILD_DIR" ]; then
+				HOST_BUILD_DIR="$BUILD_DIR_HOST/$PKG_NAME${PKG_VERSION:+-$PKG_VERSION}"
+			else
+				eval "$(echo "$HOST_BUILD_DIR" | sed 's|(|\{|g;s|)|\}|g;s|^|HOST_BUILD_DIR=|')"
+			fi
 			# build_dir/host
 			if [ "$CONFIG_AUTOREMOVE" = "y" ]; then
 				prepared_md5=$(find_md5_reproducible "$TOPDIR/tools/${a%/} $PKG_FILE_DEPENDS")
@@ -71,7 +86,6 @@ toolsbuild() {
 				prepared_md5=$(find_md5 "$TOPDIR/tools/${a%/} $PKG_FILE_DEPENDS")
 			fi
 			prepared_confvar=$(confvar "CONFIG_AUTOREMOVE $HOST_PREPARED_DEPENDS")
-			HOST_BUILD_DIR="$BUILD_DIR_HOST/$PKG_NAME${PKG_VERSION:+-$PKG_VERSION}"
 			mkdir -p "$HOST_BUILD_DIR" 2>/dev/null
 			touch "$HOST_BUILD_DIR/.prepared${prepared_md5}_${prepared_confvar}"
 			touch "$HOST_BUILD_DIR/.configured"
@@ -92,7 +106,7 @@ toolchainbuild() {
 	local toolchain_built="$(make toolchain/check | sed -n '/\btoolchain\/.* check$/{s| check||;s|^.*\btoolchain/||;p}')"
 	rm -rf "$HOST_BUILD_PREFIX"
 	mkdir -p "$HOST_BUILD_PREFIX"
-	cp ./openwrt-sdk-${VERSION}-${BOARD}-${SUBTARGET}/root/staging_dir/toolchain-*/* "$HOST_BUILD_PREFIX/"
+	cp -r ./openwrt-sdk-${VERSION}-${BOARD}-${SUBTARGET}/root/staging_dir/toolchain-*/* "$HOST_BUILD_PREFIX/"
 	#
 	local HOST_BUILD_DIR PKG_NAME PKG_VERSION PKG_SOURCE_DATE PKG_SOURCE_VERSION prepared_md5 prepared_confvar
 	mkdir -p "$HOST_BUILD_PREFIX/stamp" 2>/dev/null
