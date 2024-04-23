@@ -15,9 +15,6 @@ CONFIG_AUTOREMOVE=`eval "$(sed -n '/^CONFIG_AUTOREMOVE=/{s|^.*=|echo |p}' .confi
 CONFIG_arm=`eval "$(sed -n '/^CONFIG_arm=/{s|^.*=|echo |p}' .config)"`
 CONFIG_MIPS64_ABI=`eval "$(sed -n '/^CONFIG_MIPS64_ABI=/{s|^.*=|echo |p}' .config)"`
 CONFIG_MIPS64_ABI_O32=`eval "$(sed -n '/^CONFIG_MIPS64_ABI_O32=/{s|^.*=|echo |p}' .config)"`
-#
-CONFIG_BINUTILS_VERSION=`eval "$(sed -n '/^CONFIG_BINUTILS_VERSION=/{s|^.*=|echo |p}' .config)"`
-CONFIG_GCC_VERSION=`eval "$(sed -n '/^CONFIG_GCC_VERSION=/{s|^.*=|echo |p}' .config)"`
 
 # rules.mk
 VERSION="$version"
@@ -117,30 +114,18 @@ hostbuild() {
 			PKG_SOURCE_VERSION=$(cat "$_src/Makefile" "$_topsrc/"**.mk 2>/dev/null | sed -n '/^\s*PKG_SOURCE_VERSION\b/{s|^[^=]*=\s*||;s|#.*||;p}')
 			HOST_BUILD_DIR="$(cat "$_src/Makefile" "$_topsrc/"**.mk 2>/dev/null | sed -n '/^\s*HOST_BUILD_DIR\b/{s|^[^=]*=\s*||;s|#.*||;s|(|\{|g;s|)|\}|g;p}')"
 			#
-			case "$PKG_NAME" in
-				gcc) continue;;
-				linux) continue;;
-			esac
-			#
 			[ -z "$PKG_VERSION" ] && PKG_VERSION=$(echo "$PKG_SOURCE_DATE-${PKG_SOURCE_VERSION:0:8}" | sed 's|^-||;s|-$||')
 			echo "$PKG_VERSION" | grep -q '\$' && {
 			#echo "$PKG_VERSION" | grep -q '^\$(call qstrip,' && {
 			#	PKG_VERSION=`eval echo "$(echo "$PKG_VERSION" | sed 's|\$(call qstrip,||;s|)$||;s|(|\{|g;s|)|\}|g')"`
 			#} || {
-				case "$PKG_NAME" in
-					binutils) PKG_VERSION=$CONFIG_BINUTILS_VERSION;;
-					gcc) PKG_VERSION=$(echo "$CONFIG_GCC_VERSION" | cut -f1 -d'+');;
-				esac
 				echo [$PKG_NAME-$PKG_VERSION]: Unique PKG_VERSION: $PKG_VERSION
 			}
 			#
 			if [ -z "$HOST_BUILD_DIR" ]; then
 				HOST_BUILD_DIR="$BUILD_DIR_HOST/$PKG_NAME${PKG_VERSION:+-$PKG_VERSION}"
 			else
-				case "$PKG_NAME" in
-					gcc) [ "$GCC_VARIANT" != "minimal" ] && HOST_BUILD_DIR="$BUILD_DIR_HOST/$PKG_NAME${PKG_VERSION:+-$PKG_VERSION}-$GCC_VARIANT";;
-					*) HOST_BUILD_DIR="$(track_missing_vars "$HOST_BUILD_DIR" "$_src")";;
-				esac
+				HOST_BUILD_DIR="$(track_missing_vars "$HOST_BUILD_DIR" "$_src")"
 				echo [$PKG_NAME${PKG_VERSION:+-$PKG_VERSION}]: Unique HOST_BUILD_DIR: $HOST_BUILD_DIR
 			fi
 			#
@@ -155,21 +140,11 @@ hostbuild() {
 				|| HOST_STAMP_PREPARED="$HOST_BUILD_DIR/.prepared${prepared_md5}_${prepared_confvar}"
 			# build_dir/*
 			mkdir -p "$HOST_BUILD_DIR" 2>/dev/null
-			if [ "$type" = "toolchain" ]; then
-				cat "$_src/Makefile" "$_topsrc/"**.mk 2>/dev/null | grep -q '^\s*ln -snf .*\$(PKG_NAME)' \
-					&& ln -snf "$HOST_BUILD_DIR" "$BUILD_DIR_HOST/$PKG_NAME"
-			fi
 			touch "$HOST_STAMP_PREPARED"
 			touch "$HOST_BUILD_DIR/.configured"
 			touch "$HOST_BUILD_DIR/.built"
 			# staging_dir/*
-			case "$PKG_NAME" in
-				gcc)
-					touch "$HOST_BUILD_PREFIX/stamp/.${PKG_NAME}_${GCC_VARIANT}_installed"
-					unset GCC_VARIANT
-				;;
-				*) touch "$HOST_BUILD_PREFIX/stamp/.${PKG_NAME}_installed";;
-			esac
+			touch "$HOST_BUILD_PREFIX/stamp/.${PKG_NAME}_installed"
 		fi
 	done
 }
@@ -189,28 +164,9 @@ toolsbuild() {
 	make tools/compile -j$NPROC
 }
 
-toolchainbuild() {
-	# toolchain-build.mk
-	local HOST_BUILD_PREFIX="$TOOLCHAIN_DIR"
-	local BUILD_DIR_HOST="$BUILD_DIR_TOOLCHAIN"
-	local toolchain_srcdir="$(find ./toolchain/ -type f -name "Makefile" | sed 's|./toolchain/||;s|Makefile$||')"
-	local toolchain_built="$(make toolchain/check | sed -n '/\btoolchain\/.* check$/{s| check||;s|^.*\btoolchain/||;p}')"
-	rm -rf "$HOST_BUILD_PREFIX"
-	rm -rf "$BUILD_DIR_HOST"
-	mkdir -p "$HOST_BUILD_PREFIX"
-	cp -r ./openwrt-sdk-${VERSION}-${BOARD}-${SUBTARGET}/root/staging_dir/toolchain-*/* "$HOST_BUILD_PREFIX/"
-	#
-	hostbuild toolchain "$toolchain_srcdir" "$toolchain_built"
-	git log --format=%h -1 toolchain > "$HOST_BUILD_PREFIX/stamp/.ver_check"
-	#
-	make toolchain/compile -j$NPROC
-}
-
 
 toolsbuild
 echo -e "\033[0;32mTools build completed! \033[0m"
-toolchainbuild
-echo -e "\033[0;32mToolchain build completed! \033[0m"
 
 # Ref: https://www.cnblogs.com/NueXini/p/16557669.html
 # Ref: https://blog.csdn.net/Helloguoke/article/details/38066765

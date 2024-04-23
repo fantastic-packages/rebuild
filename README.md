@@ -28,7 +28,7 @@ cp -f config_${version}-${target}-${subtarget}.buildinfo .config
 make menuconfig
 ./scripts/feeds update -a
 
-# Install prebuilt toolchain
+# Install prebuilt host-tools
 chmod +x install-sdk_*.sh
 mkdir -p ./openwrt-sdk-${version}-${target}-${subtarget} 2>/dev/null
 rm -rf ./openwrt-sdk-${version}-${target}-${subtarget}/*
@@ -36,5 +36,8 @@ ballpath="$(tar --no-recursion --exclude="*/*/*" -tJf ./openwrt-sdk-${version}-$
 tar -C ./openwrt-sdk-${version}-${target}-${subtarget}/ -xJf ./openwrt-sdk-${version}-${target}-${subtarget}.tar.xz "$ballpath"
 mv ./openwrt-sdk-${version}-${target}-${subtarget}/* ./openwrt-sdk-${version}-${target}-${subtarget}/root
 bash ./install-sdk_${version}.sh
+
+# Build toolchain
+make toolchain/compile -j$(nproc)
 ```
 
