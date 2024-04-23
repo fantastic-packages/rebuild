@@ -15,7 +15,7 @@ git remote update -p
 
 # Download necessary tools
 sha256sums="$(curl -L "https://downloads.openwrt.org/releases/${version}/targets/${target}/${subtarget}/sha256sums")"
-curl -Lo config.buildinfo "https://github.com/fantastic-packages/rebuild/tree/gh-pages/releases/${version}/targets/${target}/${subtarget}/config.buildinfo"
+curl -Lo config_${version}-${target}-${subtarget}.buildinfo "https://github.com/fantastic-packages/rebuild/tree/gh-pages/releases/${version}/targets/${target}/${subtarget}/config.buildinfo"
 curl -Lo install-sdk_${version}.sh "https://github.com/fantastic-packages/rebuild/tree/master/install-sdk.sh"
 curl -Lo openwrt-sdk-${version}-${target}-${subtarget}.tar.xz "https://downloads.openwrt.org/releases/${version}/targets/${target}/${subtarget}/$(echo "$sha256sums" | sed -n '/\bsdk\b/{s|^[[:xdigit:]]*\s*\*||;p}')"
 
@@ -24,7 +24,7 @@ git checkout -f v${version}
 
 # Initialize build environment
 make dirclean; rm -rf ./llvm-bpf*
-cp -f config.buildinfo .config
+cp -f config_${version}-${target}-${subtarget}.buildinfo .config
 make menuconfig
 ./scripts/feeds update -a
 
