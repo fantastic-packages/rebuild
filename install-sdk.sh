@@ -105,7 +105,7 @@ hostbuild() {
 	local srcdir="$2"
 	local built="$3"
 
-	local _topsrc _src PKG_NAME PKG_VERSION PKG_SOURCE_DATE PKG_SOURCE_VERSION HOST_BUILD_DIR prepared_md5 prepared_confvar
+	local _topsrc _src PKG_NAME PKG_VERSION PKG_SOURCE_DATE PKG_SOURCE_VERSION HOST_BUILD_DIR prepared_md5 prepared_confvar HOST_STAMP_PREPARED
 	mkdir -p "$HOST_BUILD_PREFIX/stamp" 2>/dev/null
 	for a in $srcdir; do
 		if echo "$built" | grep -q "\b${a%/}\b"; then
@@ -118,7 +118,7 @@ hostbuild() {
 			HOST_BUILD_DIR="$(cat "$_src/Makefile" "$_topsrc/"**.mk 2>/dev/null | sed -n '/^\s*HOST_BUILD_DIR\b/{s|^[^=]*=\s*||;s|#.*||;s|(|\{|g;s|)|\}|g;p}')"
 			#
 			case "$PKG_NAME" in
-				gcc) local GCC_VARIANT="$(track_missing_vars '${GCC_VARIANT}' "$_src")";;
+				gcc) continue;;
 				linux) continue;;
 			esac
 			#
@@ -144,23 +144,22 @@ hostbuild() {
 				echo [$PKG_NAME${PKG_VERSION:+-$PKG_VERSION}]: Unique HOST_BUILD_DIR: $HOST_BUILD_DIR
 			fi
 			#
+			prepared_confvar=$(confvar "CONFIG_AUTOREMOVE $HOST_PREPARED_DEPENDS")
 			if [ "$CONFIG_AUTOREMOVE" = "y" ]; then
 				prepared_md5=$(find_md5_reproducible "$_src $PKG_FILE_DEPENDS")
 			else
 				prepared_md5=$(find_md5 "$_src $PKG_FILE_DEPENDS")
 			fi
-			prepared_confvar=$(confvar "CONFIG_AUTOREMOVE $HOST_PREPARED_DEPENDS")
+			cat "$_src/Makefile" "$_topsrc/"**.mk 2>/dev/null | grep -q 'include\s*$(INCLUDE_DIR)/toolchain-build.mk' \
+				&& HOST_STAMP_PREPARED="$HOST_BUILD_DIR/.prepared" \
+				|| HOST_STAMP_PREPARED="$HOST_BUILD_DIR/.prepared${prepared_md5}_${prepared_confvar}"
 			# build_dir/*
 			mkdir -p "$HOST_BUILD_DIR" 2>/dev/null
-			case "$type" in
-				tools) touch "$HOST_BUILD_DIR/.prepared${prepared_md5}_${prepared_confvar}";;
-				toolchain)
-					case "${a%/}" in
-						musl) touch "$HOST_BUILD_DIR/.prepared${prepared_md5}_${prepared_confvar}";;
-						*) touch "$HOST_BUILD_DIR/.prepared";;
-					esac
-				;;
-			esac
+			if [ "$type" = "toolchain" ]; then
+				cat "$_src/Makefile" "$_topsrc/"**.mk 2>/dev/null | grep -q '^\s*ln -snf .*\$(PKG_NAME)' \
+					&& ln -snf "$HOST_BUILD_DIR" "$BUILD_DIR_HOST/$PKG_NAME"
+			fi
+			touch "$HOST_STAMP_PREPARED"
 			touch "$HOST_BUILD_DIR/.configured"
 			touch "$HOST_BUILD_DIR/.built"
 			# staging_dir/*
@@ -202,10 +201,16 @@ toolchainbuild() {
 	cp -r ./openwrt-sdk-${VERSION}-${BOARD}-${SUBTARGET}/root/staging_dir/toolchain-*/* "$HOST_BUILD_PREFIX/"
 	#
 	hostbuild toolchain "$toolchain_srcdir" "$toolchain_built"
+	git log --format=%h -1 toolchain > "$HOST_BUILD_PREFIX/stamp/.ver_check"
 	#
 	make toolchain/compile -j$NPROC
 }
 
+
+toolsbuild
+echo -e "\033[0;32mTools build completed! \033[0m"
+toolchainbuild
+echo -e "\033[0;32mToolchain build completed! \033[0m"
 
 # Ref: https://www.cnblogs.com/NueXini/p/16557669.html
 # Ref: https://blog.csdn.net/Helloguoke/article/details/38066765
