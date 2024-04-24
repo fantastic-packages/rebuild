@@ -15,7 +15,8 @@ git remote update -p
 
 # Download necessary tools
 sha256sums="$(curl -L "https://downloads.openwrt.org/releases/${version}/targets/${target}/${subtarget}/sha256sums")"
-curl -Lo config_${version}-${target}-${subtarget}.buildinfo "https://github.com/fantastic-packages/rebuild/tree/gh-pages/releases/${version}/targets/${target}/${subtarget}/config.buildinfo"
+curl -Lo config_${version}-${target}-${subtarget}.buildinfo "https://downloads.openwrt.org/releases/${version}/targets/${target}/${subtarget}/config.buildinfo"
+curl -Lo modconf_${version}-${target}-${subtarget}.buildinfo "https://github.com/fantastic-packages/rebuild/tree/target/releases/${version}/targets/${target}/${subtarget}/config.buildinfo"
 curl -Lo install-sdk_${version}.sh "https://github.com/fantastic-packages/rebuild/tree/master/install-sdk.sh"
 curl -Lo openwrt-sdk-${version}-${target}-${subtarget}.tar.xz "https://downloads.openwrt.org/releases/${version}/targets/${target}/${subtarget}/$(echo "$sha256sums" | sed -n '/\bsdk\b/{s|^[[:xdigit:]]*\s*\*||;p}')"
 
@@ -38,6 +39,9 @@ mv ./openwrt-sdk-${version}-${target}-${subtarget}/* ./openwrt-sdk-${version}-${
 bash ./install-sdk_${version}.sh
 
 # Build toolchain
+cp -f modconf_${version}-${target}-${subtarget}.buildinfo .config
+make menuconfig
+make tools/compile -j$(nproc)
 make toolchain/compile -j$(nproc)
 ```
 
