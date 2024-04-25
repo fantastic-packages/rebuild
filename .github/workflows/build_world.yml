@@ -1,0 +1,210 @@
+name: build_world
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: true
+        default: '23.05.3'
+        type: string
+      board:
+        description: 'Device board'
+        required: true
+        default: 'x86'
+        type: string
+      subtarget:
+        description: 'Device subtarget'
+        required: true
+        default: '64'
+        type: string
+
+env:
+  DELETE_USELESS_FILES: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # To push a branch
+
+    env:
+      TPATH: ''
+      CONFBRANCH: 'conf'
+      TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
+      VERSION: ${{ inputs.version }}
+      BOARD: ${{ inputs.board }}
+      SUBTARGET: ${{ inputs.subtarget }}
+      USIGN_ID: '53FF2B6672243D28'
+      USIGN_KEY: ${{ secrets[format('USIGN_{0}', '53FF2B6672243D28' )] }}
+
+    steps:
+      - name: Check if deployed
+        shell: bash
+        run: |
+          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/fantastic-packages/rebuild/tree/$TARGETBRANCH)
+          echo rcode: $rcode
+          [ "$rcode" = "404" ] || { >&2 echo Branch $TARGETBRANCH is deployed, need to delete to continue.; exit 1; }
+
+      - name: Check can be build
+        shell: bash
+        run: |
+          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/fantastic-packages/rebuild/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/config.buildinfo)
+          echo rcode: $rcode
+          [ "$rcode" != "404" ] || { >&2 echo No config.buildinfo can be build.; exit 1; }
+
+      - name: Import keys
+        env:
+          USIGN_PUBKEY_URL: 'https://github.com/fantastic-packages/packages/raw/master/keys/usign/${{ env.USIGN_ID }}.pub'
+        shell: bash
+        run: |
+          # usign
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "USIGN_PUBKEY<<$EOF" >> $GITHUB_ENV
+          curl -sL "$USIGN_PUBKEY_URL" >> $GITHUB_ENV
+          echo "$EOF" >> $GITHUB_ENV
+
+      - name: Maximize build space
+        if: env.DELETE_USELESS_FILES == 'true' && !cancelled()
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 10240
+          swap-size-mb: 8192
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+
+      - name: Initialize Environment
+        shell: bash
+        run: |
+          sudo apt update
+          sudo apt -y install build-essential clang flex bison g++ gawk \
+          gcc-multilib g++-multilib gettext git libncurses-dev libssl-dev \
+          python3-distutils rsync unzip zlib1g-dev file wget
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CONFBRANCH }}
+
+      - name: Checkout to TARGETBRANCH ${{ env.TARGETBRANCH }}
+        id: checkout_to_targetbranch
+        shell: bash
+        run: |
+          git config --local user.name "GitHub Action"
+          git config --local user.email "actions-user@users.noreply.github.com"
+          #
+          git checkout --orphan $TARGETBRANCH
+          git reset .
+          git commit -m '' --allow-empty --allow-empty-message
+
+      - name: Initialize Openwrt Environment
+        id: init_openwrt_env
+        if: ${{ steps.checkout_to_targetbranch.outcome == 'success' }}
+        shell: bash
+        run: |
+          git clone --depth 1 --branch v23.05.3 https://github.com/openwrt/openwrt.git openwrt
+          # .config
+          cp -f $VERSION/$BOARD/$SUBTARGET/config.buildinfo openwrt/.config
+          # key-build
+          echo "$USIGN_KEY" > openwrt/key-build
+          echo "$USIGN_PUBKEY" > openwrt/key-build.pub
+          # prebuilt LLVM toolchain
+          op_target_url_prefix="https://downloads.openwrt.org/releases/$VERSION/targets/$BOARD/$SUBTARGET"
+          sha256sums="$(curl -L "${op_target_url_prefix}/sha256sums")"
+          curl -Lo llvm-bpf.tar.xz "${op_target_url_prefix}/$(echo "$sha256sums" | sed -n '/\bllvm\b/{s|^[[:xdigit:]]*\s*\*||;p}')"
+          tar -xJf llvm-bpf.tar.xz -C openwrt/
+
+      - name: Build world
+        id: build_world
+        if: ${{ steps.init_openwrt_env.outcome == 'success' }}
+        shell: bash
+        run: |
+          NPROC=$(nproc)
+          pushd openwrt
+          #
+          echo "::group::  make defconfig"
+          make defconfig
+          echo "::endgroup::"
+          #
+          echo "::group::  make prepare -j$NPROC"
+          make prepare -j$NPROC
+          echo "::endgroup::"
+          #
+          echo "::group::  make package/compile -j$NPROC"
+          make package/compile -j$NPROC
+          echo "::endgroup::"
+          #
+          echo "::group::  make package/install -j$NPROC"
+          make package/install -j$NPROC
+          echo "::endgroup::"
+          #
+          echo "::group::  install fantastic feed"
+          pushd staging_dir/target-*/root-$BOARD/etc/opkg
+          echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
+          sed -i "/src\/gz openwrt_core /{ \
+              s|downloads.openwrt.org/releases/$VERSION|github.com/fantastic-packages/rebuild/raw/$TARGETBRANCH| \
+              }" distfeeds.conf
+          popd
+          echo "::endgroup::"
+          #
+          echo "::group::  make target/install -j$NPROC"
+          make target/install -j$NPROC
+          echo "::endgroup::"
+          #
+          echo "::group::  finishing work"
+          make package/index
+          make json_overview_image_info
+          make checksum
+          echo "::endgroup::"
+          #
+          popd
+
+      - name: Push packages
+        id: push_packages
+        if: ${{ steps.build_world.outcome == 'success' || steps.checkout_to_targetbranch.outcome == 'success' }}
+        shell: bash
+        run: |
+          mv openwrt/bin/* ./
+          git add packages/ # Non-essential
+          git add targets/$BOARD/$SUBTARGET/packages/
+          git add targets/$BOARD/$SUBTARGET/*.buildinfo
+          git add targets/$BOARD/$SUBTARGET/*.json
+          git add targets/$BOARD/$SUBTARGET/*.manifest
+          git add targets/$BOARD/$SUBTARGET/sha256sums
+          git commit -m "Upload packages"
+          git push --set-upstream origin $TARGETBRANCH
+
+      - name: Upload artifact (All)
+        if: ${{ steps.push_packages.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-all
+          path: |
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/
+            !targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/packages/
+
+      - name: Upload artifact (Image files)
+        if: ${{ steps.push_packages.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-image
+          path: |
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*.bin
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*.img
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*.img.*
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-kernel.*
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-uImage.*
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-factory.*
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-recovery.*
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-sysupgrade.*
+
+      - name: Upload artifact (Supplementary files)
+        if: ${{ steps.push_packages.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-supplementary
+          path: |
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/kernel-debug.*
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-imagebuilder-*.*
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-sdk-*.*
