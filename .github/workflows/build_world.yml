@@ -127,6 +127,10 @@ jobs:
           make defconfig
           echo "::endgroup::"
           #
+          echo "::group::  scripts/feeds update -a"
+          scripts/feeds update -a
+          echo "::endgroup::"
+          #
           echo "::group::  make prepare -j$NPROC"
           make prepare -j$NPROC
           echo "::endgroup::"
@@ -140,12 +144,14 @@ jobs:
           echo "::endgroup::"
           #
           echo "::group::  install fantastic feed"
-          pushd staging_dir/target-*/root-$BOARD/etc/opkg
-          echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
-          sed -i "/src\/gz openwrt_core /{ \
-              s|downloads.openwrt.org/releases/$VERSION|github.com/fantastic-packages/rebuild/raw/$TARGETBRANCH| \
-              }" distfeeds.conf
-          popd
+          for p in build_dir staging_dir; do
+            pushd $p/target-*/root-$BOARD/etc/opkg
+              echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
+              sed -i "/src\/gz openwrt_core /{ \
+                s|downloads.openwrt.org/releases/$VERSION|github.com/fantastic-packages/rebuild/raw/$TARGETBRANCH| \
+                }" distfeeds.conf
+            popd
+          done
           echo "::endgroup::"
           #
           echo "::group::  make target/install -j$NPROC"
@@ -166,7 +172,7 @@ jobs:
         shell: bash
         run: |
           mv openwrt/bin/* ./
-          git add packages/ # Non-essential
+          #git add packages/ # Non-essential
           git add targets/$BOARD/$SUBTARGET/packages/
           git add targets/$BOARD/$SUBTARGET/*.buildinfo
           git add targets/$BOARD/$SUBTARGET/*.json
@@ -195,6 +201,7 @@ jobs:
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*.img.*
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-kernel.*
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-uImage.*
+            targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-rootfs.*
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-factory.*
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-recovery.*
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-sysupgrade.*
