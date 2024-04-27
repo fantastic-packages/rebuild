@@ -35,8 +35,8 @@ jobs:
       VERSION: ${{ inputs.version }}
       BOARD: ${{ inputs.board }}
       SUBTARGET: ${{ inputs.subtarget }}
-      USIGN_ID: '53FF2B6672243D28'
-      USIGN_KEY: ${{ secrets[format('USIGN_{0}', '53FF2B6672243D28' )] }}
+      USIGN_ID: ${{ vars.USIGN_ID }}
+      USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
 
     steps:
       - name: Check if deployed
@@ -123,12 +123,12 @@ jobs:
           NPROC=$(nproc)
           pushd openwrt
           #
-          echo "::group::  make defconfig"
-          make defconfig
-          echo "::endgroup::"
-          #
           echo "::group::  scripts/feeds update -a"
           scripts/feeds update -a
+          echo "::endgroup::"
+          #
+          echo "::group::  make defconfig"
+          make defconfig
           echo "::endgroup::"
           #
           echo "::group::  make prepare -j$NPROC"
@@ -213,5 +213,19 @@ jobs:
           name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-supplementary
           path: |
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/kernel-debug.*
+
+      - name: Upload artifact (Image Builder)
+        if: ${{ steps.push_packages.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-IB
+          path: |
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-imagebuilder-*.*
+
+      - name: Upload artifact (SDK)
+        if: ${{ steps.push_packages.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-SDK
+          path: |
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-sdk-*.*
