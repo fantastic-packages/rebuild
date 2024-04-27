@@ -150,7 +150,7 @@ jobs:
               echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
               sed -i "/src\/gz openwrt_core /{ \
                 s|downloads.openwrt.org/releases/$VERSION|github.com/$GITHUB_REPOSITORY/raw/$TARGETBRANCH| \
-                }" distfeeds.conf
+              }" distfeeds.conf
             popd
           done
           echo "::endgroup::"

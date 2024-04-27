@@ -18,6 +18,11 @@ on:
         required: true
         default: '64'
         type: string
+      profile:
+        description: 'Device profile'
+        required: true
+        default: 'generic'
+        type: string
       arch:
         description: 'Device architecture'
         required: true
@@ -29,7 +34,7 @@ env:
 
 jobs:
   build_image:
-    name: build_image ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
+    name: build_image ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}
     runs-on: ubuntu-latest
 
     env:
@@ -38,9 +43,11 @@ jobs:
       VERSION: ${{ inputs.version }}
       BOARD: ${{ inputs.board }}
       SUBTARGET: ${{ inputs.subtarget }}
+      PROFILE: ${{ inputs.profile }}
       ARCH: ${{ inputs.arch }}
       USIGN_ID: ${{ vars.USIGN_ID }}
       USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
+      ROOTFS_SIZE: 256
 
     steps:
       - name: Check if deployed
@@ -100,3 +107,55 @@ jobs:
           done
           echo "Installing $INSTALLS"
           echo "INSTALLS=$INSTALLS" >> $GITHUB_ENV
+
+      - name: Setup Image Builder
+        id: setup
+        shell: bash
+        run: |
+          tar -xf targets/$BOARD/$SUBTARGET/*-imagebuilder-*.*
+          pushd *-imagebuilder-*
+          # key-build
+          echo "$USIGN_KEY" > key-build
+          echo "$USIGN_PUBKEY" > key-build.pub
+          echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
+          # core feed
+          sed -i '/src\/gz openwrt_core /{ \
+            s|https://downloads.openwrt.org/releases/$VERSION|file://$GITHUB_WORKSPACE| \
+          }' repositories.conf
+          # fantastic feeds
+          n=$[ $(sed -n '/This is the local package repository/=' repositories.conf) -1 ]
+          sed -i "${n}i\
+          src/gz fantastic_packages https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH/packages\n\
+          src/gz fantastic_luci https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH/luci" \
+          repositories.conf
+          # ROOTFS_SIZE
+          sed -i "s|\(\bCONFIG_TARGET_ROOTFS_PARTSIZE\)=.*|\1=$ROOTFS_SIZE|" .config
+
+      - name: Build image
+        id: build_image
+        if: ${{ steps.setup.outcome == 'success' }}
+        shell: bash
+        run: |
+          echo "::group::  ls -R keys/"
+          ls -R keys/
+          echo "::endgroup::"
+          #
+          echo "::group::  repositories.conf"
+          cat repositories.conf
+          echo "::endgroup::"
+          #
+          echo "::group::  make image"
+          make image \
+          	PROFILE="$PROFILE" \
+          	DISABLED_SERVICES="$DISABLED_SERVICES" \
+          	ADD_LOCAL_KEY="$ADD_LOCAL_KEY" \
+          	PACKAGES="$INSTALLS"
+          echo "::endgroup::"
+
+      - name: Upload artifact (All)
+        if: ${{ steps.build_image.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-${{ inputs.profile }}-all
+          path: |
+            bin/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/
