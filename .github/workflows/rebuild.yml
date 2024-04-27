@@ -56,7 +56,7 @@ jobs:
 
       - name: Import keys
         env:
-          USIGN_PUBKEY_URL: 'https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/keys/usign/${{ env.USIGN_ID }}.pub'
+          USIGN_PUBKEY_URL: 'https://github.com/${{ github.repository_owner }}/packages/raw/master/keys/usign/${{ env.USIGN_ID }}.pub'
         shell: bash
         run: |
           # usign
