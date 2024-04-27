@@ -23,11 +23,6 @@ on:
         required: true
         default: 'generic'
         type: string
-      arch:
-        description: 'Device architecture'
-        required: true
-        default: 'x86_64'
-        type: string
 
 env:
   DELETE_USELESS_FILES: false
@@ -44,7 +39,6 @@ jobs:
       BOARD: ${{ inputs.board }}
       SUBTARGET: ${{ inputs.subtarget }}
       PROFILE: ${{ inputs.profile }}
-      ARCH: ${{ inputs.arch }}
       USIGN_ID: ${{ vars.USIGN_ID }}
       USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
       ROOTFS_SIZE: 256
@@ -91,23 +85,6 @@ jobs:
         with:
           ref: ${{ env.TARGETBRANCH }}
 
-      - name: Determine packages be installed
-        shell: bash
-        run: |
-          INSTALLS=''
-          url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/preinstalled \
-               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/generic \
-               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/$ARCH"
-          for l in $url; do
-            if [ "$(curl -sL -w '%{http_code}' "$l" -o preinstalled)" != "404" ]; then
-              INSTALLS=${INSTALLS:+$INSTALLS }$(cat preinstalled 2>/dev/null | tr '\n' ' ')
-            else
-              >&2 echo URL: $l is not found.
-            fi
-          done
-          echo "Installing $INSTALLS"
-          echo "INSTALLS=$INSTALLS" >> $GITHUB_ENV
-
       - name: Setup Image Builder
         id: setup
         shell: bash
@@ -115,6 +92,9 @@ jobs:
           tar -xf targets/$BOARD/$SUBTARGET/*-imagebuilder-*.*
           mv *-imagebuilder-* imagebuilder
           pushd imagebuilder
+          #
+          eval "$(grep CONFIG_TARGET_ARCH_PACKAGES .config)"
+          echo "ARCH=$CONFIG_TARGET_ARCH_PACKAGES" >> $GITHUB_ENV
           # key-build
           echo "$USIGN_KEY" > key-build
           echo "$USIGN_PUBKEY" > key-build.pub
@@ -133,6 +113,23 @@ jobs:
           sed -i "s|\(\bCONFIG_TARGET_ROOTFS_PARTSIZE\)=.*|\1=$ROOTFS_SIZE|" .config
           #
           popd
+
+      - name: Determine packages be installed
+        shell: bash
+        run: |
+          INSTALLS=''
+          url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/preinstalled \
+               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/generic \
+               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/$ARCH"
+          for l in $url; do
+            if [ "$(curl -sL -w '%{http_code}' "$l" -o preinstalled)" != "404" ]; then
+              INSTALLS=${INSTALLS:+$INSTALLS }$(cat preinstalled 2>/dev/null | tr '\n' ' ')
+            else
+              >&2 echo URL: $l is not found.
+            fi
+          done
+          echo "Installing $INSTALLS"
+          echo "INSTALLS=$INSTALLS" >> $GITHUB_ENV
 
       - name: Build image
         id: build_image
