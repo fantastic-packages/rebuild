@@ -106,8 +106,8 @@ jobs:
           # fantastic feeds
           n=$[ $(sed -n '/This is the local package repository/=' repositories.conf) -1 ]
           sed -i "${n}i\
-          src/gz fantastic_packages https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH/packages\n\
-          src/gz fantastic_luci https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH/luci" \
+          src/gz fantastic_packages_packages https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH/packages\n\
+          src/gz fantastic_packages_luci https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH/luci" \
           repositories.conf
           # ROOTFS_SIZE
           sed -i "s|\(\bCONFIG_TARGET_ROOTFS_PARTSIZE\)=.*|\1=$ROOTFS_SIZE|" .config
