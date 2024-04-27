@@ -122,6 +122,7 @@ jobs:
         shell: bash
         run: |
           NPROC=$(nproc)
+          sudo chown -R $USER:$GROUPS openwrt
           pushd openwrt
           #
           echo "::group::  scripts/feeds update -a"

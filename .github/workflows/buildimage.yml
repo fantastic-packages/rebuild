@@ -113,7 +113,8 @@ jobs:
         shell: bash
         run: |
           tar -xf targets/$BOARD/$SUBTARGET/*-imagebuilder-*.*
-          pushd *-imagebuilder-*
+          mv *-imagebuilder-* imagebuilder
+          pushd imagebuilder
           # key-build
           echo "$USIGN_KEY" > key-build
           echo "$USIGN_PUBKEY" > key-build.pub
@@ -130,12 +131,16 @@ jobs:
           repositories.conf
           # ROOTFS_SIZE
           sed -i "s|\(\bCONFIG_TARGET_ROOTFS_PARTSIZE\)=.*|\1=$ROOTFS_SIZE|" .config
+          #
+          popd
 
       - name: Build image
         id: build_image
         if: ${{ steps.setup.outcome == 'success' }}
         shell: bash
         run: |
+          sudo chown -R $USER:$GROUPS imagebuilder
+          pushd imagebuilder
           echo "::group::  ls -R keys/"
           ls -R keys/
           echo "::endgroup::"
@@ -151,6 +156,8 @@ jobs:
           	ADD_LOCAL_KEY="$ADD_LOCAL_KEY" \
           	PACKAGES="$INSTALLS"
           echo "::endgroup::"
+          #
+          popd
 
       - name: Upload artifact (All)
         if: ${{ steps.build_image.outcome == 'success' }}
@@ -158,4 +165,4 @@ jobs:
         with:
           name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-${{ inputs.profile }}-all
           path: |
-            bin/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/
+            imagebuilder/bin/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/
