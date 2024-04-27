@@ -1,4 +1,4 @@
-name: build_world
+name: Rebuild
 
 on:
   workflow_dispatch:
@@ -23,7 +23,8 @@ env:
   DELETE_USELESS_FILES: true
 
 jobs:
-  build:
+  build_world:
+    name: build_world ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
     runs-on: ubuntu-latest
     permissions:
       contents: write  # To push a branch
@@ -180,6 +181,9 @@ jobs:
           git add targets/$BOARD/$SUBTARGET/sha256sums
           git commit -m "Upload packages"
           git push --set-upstream origin $TARGETBRANCH
+          git add targets/$BOARD/$SUBTARGET/*-imagebuilder-*.*
+          git commit -m "Upload imagebuilder"
+          git push
 
       - name: Upload artifact (All)
         if: ${{ steps.push_packages.outcome == 'success' }}
