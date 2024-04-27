@@ -46,13 +46,13 @@ jobs:
       - name: Check if deployed
         shell: bash
         run: |
-          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/fantastic-packages/rebuild/tree/$TARGETBRANCH)
+          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/$GITHUB_REPOSITORY/tree/$TARGETBRANCH)
           echo rcode: $rcode
           [ "$rcode" != "404" ] || { >&2 echo Branch $TARGETBRANCH is not deployed, please build world first.; exit 1; }
 
       - name: Import keys
         env:
-          USIGN_PUBKEY_URL: 'https://github.com/fantastic-packages/packages/raw/master/keys/usign/${{ env.USIGN_ID }}.pub'
+          USIGN_PUBKEY_URL: 'https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/keys/usign/${{ env.USIGN_ID }}.pub'
         shell: bash
         run: |
           # usign
@@ -88,9 +88,9 @@ jobs:
         shell: bash
         run: |
           INSTALLS=''
-          url="https://github.com/fantastic-packages/rebuild/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/preinstalled \
-               https://github.com/fantastic-packages/packages/raw/master/.github/workflows/prebuildpackages/generic \
-               https://github.com/fantastic-packages/packages/raw/master/.github/workflows/prebuildpackages/$ARCH"
+          url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/preinstalled \
+               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/generic \
+               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/$ARCH"
           for l in $url; do
             if [ "$(curl -sL -w '%{http_code}' "$l" -o preinstalled)" != "404" ]; then
               INSTALLS=${INSTALLS:+$INSTALLS }$(cat preinstalled 2>/dev/null | tr '\n' ' ')

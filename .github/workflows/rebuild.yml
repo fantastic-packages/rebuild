@@ -43,20 +43,20 @@ jobs:
       - name: Check if deployed
         shell: bash
         run: |
-          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/fantastic-packages/rebuild/tree/$TARGETBRANCH)
+          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/$GITHUB_REPOSITORY/tree/$TARGETBRANCH)
           echo rcode: $rcode
           [ "$rcode" = "404" ] || { >&2 echo Branch $TARGETBRANCH is deployed, need to delete to continue.; exit 1; }
 
       - name: Check can be build
         shell: bash
         run: |
-          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/fantastic-packages/rebuild/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/config.buildinfo)
+          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/config.buildinfo)
           echo rcode: $rcode
           [ "$rcode" != "404" ] || { >&2 echo No config.buildinfo can be build.; exit 1; }
 
       - name: Import keys
         env:
-          USIGN_PUBKEY_URL: 'https://github.com/fantastic-packages/packages/raw/master/keys/usign/${{ env.USIGN_ID }}.pub'
+          USIGN_PUBKEY_URL: 'https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/keys/usign/${{ env.USIGN_ID }}.pub'
         shell: bash
         run: |
           # usign
@@ -149,7 +149,7 @@ jobs:
             pushd $p/target-*/root-$BOARD/etc/opkg
               echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
               sed -i "/src\/gz openwrt_core /{ \
-                s|downloads.openwrt.org/releases/$VERSION|github.com/fantastic-packages/rebuild/raw/$TARGETBRANCH| \
+                s|downloads.openwrt.org/releases/$VERSION|github.com/$GITHUB_REPOSITORY/raw/$TARGETBRANCH| \
                 }" distfeeds.conf
             popd
           done
