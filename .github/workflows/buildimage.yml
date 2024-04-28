@@ -94,7 +94,8 @@ jobs:
           pushd imagebuilder
           #
           eval "$(grep CONFIG_TARGET_ARCH_PACKAGES .config)"
-          echo "ARCH=$CONFIG_TARGET_ARCH_PACKAGES" >> $GITHUB_ENV
+          ARCH_PACKAGES=$CONFIG_TARGET_ARCH_PACKAGES
+          echo "ARCH_PACKAGES=$ARCH_PACKAGES" >> $GITHUB_ENV
           # key-build
           echo "$USIGN_KEY" > key-build
           echo "$USIGN_PUBKEY" > key-build.pub
@@ -106,8 +107,8 @@ jobs:
           # fantastic feeds
           n=$[ $(sed -n '/This is the local package repository/=' repositories.conf) -1 ]
           sed -i "${n}i\
-          src/gz fantastic_packages_packages https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH/packages\n\
-          src/gz fantastic_packages_luci https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH/luci" \
+          src/gz fantastic_packages_packages https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH_PACKAGES/packages\n\
+          src/gz fantastic_packages_luci https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH_PACKAGES/luci" \
           repositories.conf
           # ROOTFS_SIZE
           sed -i "s|\(\bCONFIG_TARGET_ROOTFS_PARTSIZE\)=.*|\1=$ROOTFS_SIZE|" .config
@@ -120,7 +121,7 @@ jobs:
           INSTALLS=''
           url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/preinstalled \
                https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/generic \
-               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/$ARCH"
+               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/$ARCH_PACKAGES"
           for l in $url; do
             if [ "$(curl -sL -w '%{http_code}' "$l" -o preinstalled)" != "404" ]; then
               INSTALLS=${INSTALLS:+$INSTALLS }$(cat preinstalled 2>/dev/null | tr '\n' ' ')
