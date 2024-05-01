@@ -78,7 +78,7 @@ jobs:
           sudo apt update
           sudo apt -y install build-essential clang flex bison g++ gawk \
           gcc-multilib g++-multilib gettext git libncurses-dev libssl-dev \
-          python3-distutils rsync unzip zlib1g-dev file wget
+          python3-distutils rsync unzip zlib1g-dev file wget libelf-dev zlib1g-dev
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -137,23 +137,35 @@ jobs:
         if: ${{ steps.setup.outcome == 'success' }}
         shell: bash
         run: |
+          group() {
+            endgroup
+            echo "::group::  $1"
+            GROUP=1
+          }
+          endgroup() {
+            if [ -n "$GROUP" ]; then
+              echo "::endgroup::"
+            fi
+            GROUP=
+          }
+          trap 'endgroup' ERR
           sudo chown -R $USER:$GROUPS imagebuilder
           pushd imagebuilder
-          echo "::group::  ls -R keys/"
+          group "ls -R keys/"
           ls -R keys/
-          echo "::endgroup::"
+          endgroup
           #
-          echo "::group::  repositories.conf"
+          group "repositories.conf"
           cat repositories.conf
-          echo "::endgroup::"
+          endgroup
           #
-          echo "::group::  make image"
+          group "make image"
           make image \
-          	PROFILE="$PROFILE" \
-          	DISABLED_SERVICES="$DISABLED_SERVICES" \
-          	ADD_LOCAL_KEY="$ADD_LOCAL_KEY" \
-          	PACKAGES="$INSTALLS"
-          echo "::endgroup::"
+            PROFILE="$PROFILE" \
+            DISABLED_SERVICES="$DISABLED_SERVICES" \
+            ADD_LOCAL_KEY="$ADD_LOCAL_KEY" \
+            PACKAGES="$INSTALLS"
+          endgroup
           #
           popd
 

@@ -45,7 +45,7 @@ jobs:
         run: |
           rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/$GITHUB_REPOSITORY/tree/$TARGETBRANCH)
           echo rcode: $rcode
-          [ "$rcode" = "404" ] || { >&2 echo Branch $TARGETBRANCH is deployed, need to delete to continue.; exit 1; }
+          [ "$rcode" = "404" ] || { echo "DEPLOYED=y" >> $GITHUB_ENV; }
 
       - name: Check can be build
         shell: bash
@@ -95,9 +95,16 @@ jobs:
           git config --local user.name "GitHub Action"
           git config --local user.email "actions-user@users.noreply.github.com"
           #
-          git checkout --orphan $TARGETBRANCH
-          git reset .
-          git commit -m '' --allow-empty --allow-empty-message
+          if [ "$DEPLOYED" = "y" ]; then
+            git checkout -f $TARGETBRANCH
+            rm -rf *
+            git add .
+          else
+            git checkout --orphan $TARGETBRANCH
+            git reset .
+            git commit -m '' --allow-empty --allow-empty-message
+            git push --set-upstream origin $TARGETBRANCH
+          fi
 
       - name: Initialize Openwrt Environment
         id: init_openwrt_env
@@ -106,7 +113,7 @@ jobs:
         run: |
           git clone --depth 1 --branch v23.05.3 https://github.com/openwrt/openwrt.git openwrt
           # .config
-          cp -f $VERSION/$BOARD/$SUBTARGET/config.buildinfo openwrt/.config
+          curl -Lo openwrt/.config "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/config.buildinfo"
           # key-build
           echo "$USIGN_KEY" > openwrt/key-build
           echo "$USIGN_PUBKEY" > openwrt/key-build.pub
@@ -121,31 +128,43 @@ jobs:
         if: ${{ steps.init_openwrt_env.outcome == 'success' }}
         shell: bash
         run: |
+          group() {
+            endgroup
+            echo "::group::  $1"
+            GROUP=1
+          }
+          endgroup() {
+            if [ -n "$GROUP" ]; then
+              echo "::endgroup::"
+            fi
+            GROUP=
+          }
+          trap 'endgroup' ERR
           NPROC=$(nproc)
           sudo chown -R $USER:$GROUPS openwrt
           pushd openwrt
           #
-          echo "::group::  scripts/feeds update -a"
+          group "scripts/feeds update -a"
           scripts/feeds update -a
-          echo "::endgroup::"
+          endgroup
           #
-          echo "::group::  make defconfig"
+          group "make defconfig"
           make defconfig
-          echo "::endgroup::"
+          endgroup
           #
-          echo "::group::  make prepare -j$NPROC"
+          group "make prepare -j$NPROC"
           make prepare -j$NPROC
-          echo "::endgroup::"
+          endgroup
           #
-          echo "::group::  make package/compile -j$NPROC"
+          group "make package/compile -j$NPROC"
           make package/compile -j$NPROC
-          echo "::endgroup::"
+          endgroup
           #
-          echo "::group::  make package/install -j$NPROC"
+          group "make package/install -j$NPROC"
           make package/install -j$NPROC
-          echo "::endgroup::"
+          endgroup
           #
-          echo "::group::  install fantastic feed"
+          group "install fantastic feed"
           for p in build_dir staging_dir; do
             pushd $p/target-*/root-$BOARD/etc/opkg
               echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
@@ -154,17 +173,17 @@ jobs:
               }" distfeeds.conf
             popd
           done
-          echo "::endgroup::"
+          endgroup
           #
-          echo "::group::  make target/install -j$NPROC"
+          group "make target/install -j$NPROC"
           make target/install -j$NPROC
-          echo "::endgroup::"
+          endgroup
           #
-          echo "::group::  finishing work"
+          group "finishing work"
           make package/index
           make json_overview_image_info
           make checksum
-          echo "::endgroup::"
+          endgroup
           #
           popd
 
@@ -180,10 +199,19 @@ jobs:
           git add targets/$BOARD/$SUBTARGET/*.json
           git add targets/$BOARD/$SUBTARGET/*.manifest
           git add targets/$BOARD/$SUBTARGET/sha256sums
-          git commit -m "Upload packages"
-          git push --set-upstream origin $TARGETBRANCH
+          #git commit -m "Upload packages"
+          #git push
           git add targets/$BOARD/$SUBTARGET/*-imagebuilder-*.*
-          git commit -m "Upload imagebuilder"
+          #git commit -m "Upload imagebuilder"
+          #git push
+          pushd targets/$BOARD/$SUBTARGET
+          sdkname=$(basename *-sdk-*.*)
+          split -b 80m $sdkname ${sdkname}.
+          popd
+          git add targets/$BOARD/$SUBTARGET/${sdkname}.*
+          #git commit -m "Upload sdk"
+          #git push
+          git commit -m "Upload packages imagebuilder sdk"
           git push
 
       - name: Upload artifact (All)
