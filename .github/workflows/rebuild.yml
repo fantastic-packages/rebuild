@@ -107,7 +107,8 @@ jobs:
           git config --local user.email "actions-user@users.noreply.github.com"
           #
           if [ "$DEPLOYED" = "y" ]; then
-            git checkout -f $TARGETBRANCH
+            git fetch --depth=1 origin $TARGETBRANCH
+            git checkout -b $TARGETBRANCH --track origin/$TARGETBRANCH
             rm -rf *
             git add .
           else
@@ -224,6 +225,7 @@ jobs:
           #git push
           git commit -m "Upload packages imagebuilder sdk"
           git push
+          rm -f targets/$BOARD/$SUBTARGET/${sdkname}.*
 
       - name: Upload artifact (All)
         if: ${{ steps.push_packages.outcome == 'success' }}
