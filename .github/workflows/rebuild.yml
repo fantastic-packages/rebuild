@@ -182,8 +182,8 @@ jobs:
           make prepare -j$NPROC
           endgroup
           #
-          group "make package/compile -j$NPROC"
-          make package/compile -j$NPROC
+          group "make package/compile V=s -j$NPROC"
+          make package/compile V=s -j$NPROC
           endgroup
           #
           group "make package/install -j$NPROC"
