@@ -160,6 +160,20 @@ jobs:
           scripts/feeds update -a
           endgroup
           #
+          group "scripts/feeds install <External KernelPackage>"
+          extfeeds=$(grep '^src-git ' feeds.conf.default | awk '{print $2}' | grep -v luci | tr '\n' ' ')
+          installs=''
+          pushd feeds
+          for feed in $extfeeds; do
+            cd $feed
+            installs=${installs:+$installs }$(grep -Er "\\$+\(eval \\$+\(call KernelPackage," | awk -F ':' '{print $1}' | sort -u | awk -F '/' '{print $(NF-1)}')
+            cd ..
+          done
+          popd
+          echo installs: $installs
+          scripts/feeds install $installs
+          endgroup
+          #
           group "make defconfig"
           make defconfig
           endgroup
@@ -205,7 +219,7 @@ jobs:
         shell: bash
         run: |
           mv openwrt/bin/* ./
-          #git add packages/ # Non-essential
+          git add packages/ # Non-essential
           git add targets/$BOARD/$SUBTARGET/packages/
           git add targets/$BOARD/$SUBTARGET/*.buildinfo
           git add targets/$BOARD/$SUBTARGET/*.json
