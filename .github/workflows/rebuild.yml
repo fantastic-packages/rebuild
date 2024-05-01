@@ -18,6 +18,17 @@ on:
         required: true
         default: '64'
         type: string
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+      board:
+        required: true
+        type: string
+      subtarget:
+        required: true
+        type: string
 
 env:
   DELETE_USELESS_FILES: true
