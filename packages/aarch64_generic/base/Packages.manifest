@@ -1,0 +1,1751 @@
+Package: ar3k-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: ar3k-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 961496
+Filename: ar3k-firmware_20230804-1_aarch64_generic.ipk
+Size: 961679
+SHA256sum: 5edaf38f401606f289e8530035fe49a0a8c1fccd5fb85b6455f82482bff064fc
+Description:  ath3k firmware
+
+Package: ath9k-htc-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: ath9k-htc-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 61878
+Filename: ath9k-htc-firmware_20230804-1_aarch64_generic.ipk
+Size: 62372
+SHA256sum: 64bf5e041dd82d90d43419829eb8d3ff7bf0e1423cb9ad64a46b181956219cb4
+Description:  AR9271/AR7010 firmware
+
+Package: bnx2-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: bnx2-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 105163
+Filename: bnx2-firmware_20230804-1_aarch64_generic.ipk
+Size: 105816
+SHA256sum: f470446ff242ac71a3d3b50939298d47b607f0d93d2877bb12ffacd6cd0e21e3
+Description:  Broadcom BCM5706/5708/5709/5716 firmware
+
+Package: bnx2x-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: bnx2x-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 2421828
+Filename: bnx2x-firmware_20230804-1_aarch64_generic.ipk
+Size: 2415493
+SHA256sum: 6e8c016968085bdb7f44ba99237da37f3d35700a717b5018e6104c3257c91272
+Description:  =QLogic 5771x/578xx firmware
+
+Package: brcmfmac-firmware-usb
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: brcmfmac-firmware-usb
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 502983
+Filename: brcmfmac-firmware-usb_20230804-1_aarch64_generic.ipk
+Size: 503696
+SHA256sum: 71e47facb39a6205972f88b75f81ae2ffd31c762b17d47dd49c5c9f12069c44f
+Description:  Broadcom BCM43xx fullmac USB firmware
+
+Package: busybox
+Version: 1.36.1-1
+Depends: libc
+Conflicts: busybox-selinux
+Source: package/utils/busybox
+SourceName: busybox
+License: GPL-2.0
+LicenseFiles: LICENSE archival/libarchive/bz/LICENSE
+Section: base
+Require-User: ntp=123:ntp=123
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:busybox:busybox
+Essential: yes
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 240066
+Filename: busybox_1.36.1-1_aarch64_generic.ipk
+Size: 240194
+SHA256sum: bde5266d37a9d68988442fa8534e3b88a3a699dc9af3c8a00d177f791c38827b
+Description:  The Swiss Army Knife of embedded Linux.
+ It slices, it dices, it makes Julian Fries.
+
+Package: ca-bundle
+Version: 20230311-1
+Depends: libc
+Provides: ca-certs
+Source: package/system/ca-certificates
+SourceName: ca-bundle
+Section: base
+SourceDateEpoch: 1711146363
+Architecture: all
+Installed-Size: 123477
+Filename: ca-bundle_20230311-1_all.ipk
+Size: 124249
+SHA256sum: cb8363dfbe3b607edfac21ed3fbf2fd6a8fd41713f19b9bfe418a2f10f5a86c0
+Description:  System CA certificates as a bundle
+
+Package: carl9170-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: carl9170-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 9762
+Filename: carl9170-firmware_20230804-1_aarch64_generic.ipk
+Size: 10494
+SHA256sum: 10f2355b830c17ee9aab24f1bc4a7eeac4abf5215802dfb41c7b8e05e736d39c
+Description:  AR9170 firmware
+
+Package: chat
+Version: 2.4.9.git-2021-01-04-4
+Depends: libc
+Source: package/network/services/ppp
+SourceName: chat
+License: BSD-4-Clause
+Section: net
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:samba:ppp
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 9960
+Filename: chat_2.4.9.git-2021-01-04-4_aarch64_generic.ipk
+Size: 10645
+SHA256sum: 43761ae9df29cc1536f057c16dfcc0b09ba817dde38c5c9bfeb89aed31a3cac0
+Description:  This package contains an utility to establish conversation with other PPP servers
+ (via a modem).
+
+Package: dnsmasq
+Version: 2.90-2
+Depends: libc, libubus20230605
+Source: package/network/services/dnsmasq
+SourceName: dnsmasq
+License: GPL-2.0
+LicenseFiles: COPYING
+Section: net
+Require-User: dnsmasq=453:dnsmasq=453
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:thekelleys:dnsmasq
+Architecture: aarch64_generic
+Installed-Size: 150191
+Filename: dnsmasq_2.90-2_aarch64_generic.ipk
+Size: 150434
+SHA256sum: 3581034d936ba3b886a0e640ac4e4c1abd3a3d3f01726e36d79b4ff408eacd25
+Description:  It is intended to provide coupled DNS and DHCP service to a LAN.
+
+Package: e100-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: e100-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 834
+Filename: e100-firmware_20230804-1_aarch64_generic.ipk
+Size: 1560
+SHA256sum: 616e9f844ca13efb01639527680e1ade9e6e568ff0aeaebe897418acf01818fc
+Description:  Intel e100
+
+Package: e2fsprogs
+Version: 1.47.0-2
+Depends: libc, libuuid1, libext2fs2
+Source: package/utils/e2fsprogs
+SourceName: e2fsprogs
+License: GPL-2.0
+LicenseFiles: NOTICE
+Section: utils
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:e2fsprogs_project:e2fsprogs
+Architecture: aarch64_generic
+Installed-Size: 197409
+Filename: e2fsprogs_1.47.0-2_aarch64_generic.ipk
+Size: 197701
+SHA256sum: 13e451149ee9f78423122a84cf6819ed08b64d1b57032799463fa59344c5ca47
+Description:  This package contains essential ext2 filesystem utilities which consists of
+ e2fsck, mke2fs and most of the other core ext2 filesystem utilities.
+
+Package: edgeport-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: edgeport-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 18903
+Filename: edgeport-firmware_20230804-1_aarch64_generic.ipk
+Size: 19569
+SHA256sum: 8b1abd165c16004d7b4b561cbf1b41b7f6daa1af6708a238a5158646c9db1fbd
+Description:  USB Inside Out Edgeport Serial Driver firmware
+
+Package: firewall4
+Version: 2023-09-01-598d9fbb-1
+Depends: ucode (>= 2022-03-22), libc, kmod-nft-core, kmod-nft-fib, kmod-nft-offload, kmod-nft-nat, nftables-json, ucode, ucode-mod-fs, ucode-mod-ubus, ucode-mod-uci
+Provides: uci-firewall
+Source: package/network/config/firewall4
+SourceName: firewall4
+License: ISC
+Section: net
+SourceDateEpoch: 1711146363
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 28670
+Filename: firewall4_2023-09-01-598d9fbb-1_aarch64_generic.ipk
+Size: 29663
+SHA256sum: c0d3132b03249b258a7a42d6c106010de8cd059d62f68cedc91a1ee1f44bc425
+Description:  This package provides an nftables-based implementation of the UCI firewall
+ sharing the same configuration format.
+
+Package: getrandom
+Version: 2022-08-13-4c7b720b-2
+Depends: libc
+Source: package/system/ubox
+SourceName: getrandom
+License: GPL-2.0
+Section: base
+SourceDateEpoch: 1711146363
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: aarch64_generic
+Installed-Size: 1792
+Filename: getrandom_2022-08-13-4c7b720b-2_aarch64_generic.ipk
+Size: 2436
+SHA256sum: fe4b48cb0f02afaa49c1638592be098072417d7a0541bc7bcab5376ba37375e2
+Description:  OpenWrt getrandom system helper
+
+Package: hostapd-common
+Version: 2023-09-08-e5ccbfc6-6
+Depends: libc
+Source: package/network/services/hostapd
+SourceName: hostapd-common
+License: BSD-3-Clause
+Section: net
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:w1.fi:hostapd
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 16209
+Filename: hostapd-common_2023-09-08-e5ccbfc6-6_aarch64_generic.ipk
+Size: 16991
+SHA256sum: cd2733cb446301cc97d0baf1051196e8919848cda6b215f092517c58c30c6390
+Description:  hostapd/wpa_supplicant common support files
+
+Package: iw
+Version: 5.19-1
+Depends: libc, libnl-tiny1
+Source: package/network/utils/iw
+SourceName: iw
+License: GPL-2.0
+Section: net
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:kernel:iw
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 52107
+Filename: iw_5.19-1_aarch64_generic.ipk
+Size: 52780
+SHA256sum: 42ba33c3fa8d1d2f0ce6d0c6ee2ac0ebafba4d72a8e59ac3871ca9bbf74ba0c9
+Description:  cfg80211 interface configuration utility
+
+Package: iwinfo
+Version: 2023-07-01-ca79f641-1
+Depends: libc, libiwinfo20230701
+Source: package/network/utils/iwinfo
+SourceName: iwinfo
+License: GPL-2.0
+Section: utils
+SourceDateEpoch: 1711146363
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 7477
+Filename: iwinfo_2023-07-01-ca79f641-1_aarch64_generic.ipk
+Size: 8181
+SHA256sum: 2611adea07b97e3988b9ed8608e5bbbf686313980c82719d4c2b3b36d8ddd304
+Description:  Command line frontend for the wireless information library.
+
+Package: jansson4
+Version: 2.14-3
+Depends: libc
+Provides: jansson
+Source: package/libs/jansson
+SourceName: jansson
+License: MIT
+LicenseFiles: LICENSE
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 4
+CPE-ID: cpe:/a:jansson_project:jansson
+Architecture: aarch64_generic
+Installed-Size: 24940
+Filename: jansson4_2.14-3_aarch64_generic.ipk
+Size: 25623
+SHA256sum: d59a4ca87a1e10176f277f89458d3d550714daede65fe4eec0a9c5226ce474d0
+Description:  Jansson is a C library for encoding, decoding and manipulating JSON data
+
+Package: jshn
+Version: 2023-05-23-75a3b870-1
+Depends: libc, libjson-c5, libubox20230523, libblobmsg-json20230523
+Source: package/libs/libubox
+SourceName: jshn
+License: ISC
+Section: utils
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 7130
+Filename: jshn_2023-05-23-75a3b870-1_aarch64_generic.ipk
+Size: 7733
+SHA256sum: f07bb60ac7341d9ae03ab5f6507ac544ffa7ab8416b1f96ae36fff9225ef04a7
+Description:  Library for parsing and generating JSON from shell scripts
+
+Package: jsonfilter
+Version: 2024-01-23-594cfa86-1
+Depends: libc, libubox20230523, libjson-c5
+Source: package/utils/jsonfilter
+SourceName: jsonfilter
+License: ISC
+Section: base
+SourceDateEpoch: 1711146363
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 10471
+Filename: jsonfilter_2024-01-23-594cfa86-1_aarch64_generic.ipk
+Size: 11089
+SHA256sum: ec8b62563151aa22bcf9d6b13e085995c751afc6c379bdf864ba52d0a506cc89
+Description:  OpenWrt JSON filter utility
+
+Package: libbfd
+Version: 2.40-1
+Depends: libc, zlib
+Source: package/devel/binutils
+SourceName: libbfd
+License: GPL-3.0+
+Section: libs
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:gnu:binutils
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 509321
+Filename: libbfd_2.40-1_aarch64_generic.ipk
+Size: 505893
+SHA256sum: 767756da4d7ccb008058d3ba90a55909c3045efbfd2c0f5e00fce8e5f13c8ef2
+Description:  libbfd
+
+Package: libblkid1
+Version: 2.39-2
+Depends: libc, libuuid1
+Provides: libblkid
+Source: package/utils/util-linux
+SourceName: libblkid
+License: GPL-2.0-only
+LicenseFiles: COPYING libblkid/COPYING libmount/COPYING Documentation/licenses/COPYING.GPLv2 Documentation/licenses/COPYING.LGPLv2.1 libuuid/COPYING Documentation/licenses/COPYING.BSD-3
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 1
+CPE-ID: cpe:/a:kernel:util-linux
+Architecture: aarch64_generic
+Installed-Size: 116714
+Filename: libblkid1_2.39-2_aarch64_generic.ipk
+Size: 117356
+SHA256sum: 4f83bf8bb0bf92ab727e1d723cece662a48d3dfb769d5430cfe313fea81274de
+Description:  The libblkid library is used to identify block devices (disks) as to their
+ content (e.g. filesystem type, partitions) as well as extracting additional
+ information such as filesystem labels/volume names, partitions, unique
+ identifiers/serial numbers...
+
+Package: libblobmsg-json20230523
+Version: 2023-05-23-75a3b870-1
+Depends: libc, libjson-c5, libubox20230523
+Provides: libblobmsg-json
+Source: package/libs/libubox
+SourceName: libblobmsg-json
+License: ISC
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 20230523
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 4390
+Filename: libblobmsg-json20230523_2023-05-23-75a3b870-1_aarch64_generic.ipk
+Size: 5011
+SHA256sum: d309de0dd203ab302c088b346c7ad6c159373c724596a0cfc14ebef9486fdf06
+Description:  blobmsg <-> json conversion library
+
+Package: libbpf1
+Version: 1.2.2-1
+Depends: libc, libelf1
+Provides: libbpf
+Source: package/libs/libbpf
+SourceName: libbpf
+License: LGPL-2.1 OR BSD-2-Clause
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 1
+CPE-ID: cpe:/a:libbpf_project:libbpf
+Maintainer: Tony Ambardar <itugrok@yahoo.com>
+Architecture: aarch64_generic
+Installed-Size: 144677
+Filename: libbpf1_1.2.2-1_aarch64_generic.ipk
+Size: 145517
+SHA256sum: 0cef2456770d62d124cb1d21a7758a0ff096995127cbe6269d54f19085bbdccd
+Description:  libbpf is a library for loading eBPF programs and reading and manipulating eBPF objects from user-space.
+
+Package: libbz2-1.0
+Version: 1.0.8-1
+Depends: libc
+Provides: libbz2
+Source: package/utils/bzip2
+SourceName: libbz2
+License: bzip2-1.0.8
+LicenseFiles: LICENSE
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: -1.0
+CPE-ID: cpe:/a:bzip:bzip2
+Maintainer: Steven Barth <cyrus@openwrt.org>
+Architecture: aarch64_generic
+Installed-Size: 26407
+Filename: libbz2-1.0_1.0.8-1_aarch64_generic.ipk
+Size: 27079
+SHA256sum: 623abffb5c67216826c636b603bd7cad46507937230a2de6b3b656745a2a207a
+Description:  bzip2 is a freely available, patent free, high-quality
+ data compressor. This packages provides libbz2 library.
+
+Package: libcomerr0
+Version: 1.47.0-2
+Depends: libc, libuuid1
+Provides: libcomerr
+Source: package/utils/e2fsprogs
+SourceName: libcomerr
+License: GPL-2.0
+LicenseFiles: NOTICE
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 0
+CPE-ID: cpe:/a:e2fsprogs_project:e2fsprogs
+Architecture: aarch64_generic
+Installed-Size: 4361
+Filename: libcomerr0_1.47.0-2_aarch64_generic.ipk
+Size: 5003
+SHA256sum: 1d8cb84240de8fe0d010dec74bfdf16cd18e86814d6f7bc6671aa0a8a11b01ec
+Description:  This package contains libcom_err, the common error description library
+ bundled with e2fsprogs.
+
+Package: libctf
+Version: 2.40-1
+Depends: libc, libbfd
+Source: package/devel/binutils
+SourceName: libctf
+License: GPL-3.0+
+Section: libs
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:gnu:binutils
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 152923
+Filename: libctf_2.40-1_aarch64_generic.ipk
+Size: 153342
+SHA256sum: f25d573e74a9996a16348ec5771bb43f3a8469c83f988936725b3cf66e07864c
+Description:  libctf
+
+Package: libdw1
+Version: 0.189-1
+Depends: libc, libelf1, libbz2-1.0, musl-fts
+Provides: libdw
+Source: package/libs/elfutils
+SourceName: libdw
+License: GPL-3.0-or-later
+LicenseFiles: COPYING COPYING-GPLV2 COPYING-LGPLV3
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 1
+CPE-ID: cpe:/a:elfutils_project:elfutils
+Maintainer: Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Architecture: aarch64_generic
+Installed-Size: 223895
+Filename: libdw1_0.189-1_aarch64_generic.ipk
+Size: 223324
+SHA256sum: 8e0557d86cca8b23a328c7096db0977ea313c2b236b3bfee6c01ff29a5b13a44
+Description:  ELF manipulation libraries (libdw)
+
+Package: libelf1
+Version: 0.189-1
+Depends: libc, zlib
+Provides: libelf, libelf11
+Source: package/libs/elfutils
+SourceName: libelf
+License: GPL-3.0-or-later
+LicenseFiles: COPYING COPYING-GPLV2 COPYING-LGPLV3
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 1
+CPE-ID: cpe:/a:elfutils_project:elfutils
+Maintainer: Luiz Angelo Daros de Luca <luizluca@gmail.com>
+Architecture: aarch64_generic
+Installed-Size: 42141
+Filename: libelf1_0.189-1_aarch64_generic.ipk
+Size: 42714
+SHA256sum: d1dc6798a12a7001f38584aa25f7406ac79fad6683039a1937122432015683ef
+Description:  ELF manipulation libraries (libelf)
+
+Package: libext2fs2
+Version: 1.47.0-2
+Depends: libc, libuuid1, libblkid1, libss2, libcomerr0
+Provides: libext2fs
+Source: package/utils/e2fsprogs
+SourceName: libext2fs
+License: GPL-2.0
+LicenseFiles: NOTICE
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 2
+CPE-ID: cpe:/a:e2fsprogs_project:e2fsprogs
+Architecture: aarch64_generic
+Installed-Size: 188327
+Filename: libext2fs2_1.47.0-2_aarch64_generic.ipk
+Size: 188731
+SHA256sum: 152eed96280c317fae88d61a9e1049b5baca9416dbf7716e7704731cc4aadeed
+Description:  libext2fs is a library which can access ext2, ext3 and ext4 filesystems.
+
+Package: libf2fs6
+Version: 1.16.0-1
+Depends: libc, libuuid1
+Conflicts: libf2fs-selinux
+Provides: libf2fs
+Source: package/utils/f2fs-tools
+SourceName: libf2fs
+License: GPL-2.0-only
+LicenseFiles: COPYING
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 6
+CPE-ID: cpe:/a:f2fs-tools_project:f2fs-tools
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 42261
+Filename: libf2fs6_1.16.0-1_aarch64_generic.ipk
+Size: 42931
+SHA256sum: 224f4dc050e196730509dc4b8010845970a3a74da7064cdfad7cbd695066d981
+Description:  Library for Flash-Friendly File System (F2FS) tools
+
+Package: libiwinfo-data
+Version: 2023-07-01-ca79f641-1
+Depends: libc
+Source: package/network/utils/iwinfo
+SourceName: libiwinfo-data
+License: GPL-2.0
+Section: opt
+SourceDateEpoch: 1711146363
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 3056
+Filename: libiwinfo-data_2023-07-01-ca79f641-1_aarch64_generic.ipk
+Size: 3770
+SHA256sum: c28d90d42e465205095fa86b6f65b7327fcd51b51767a1248558d11ff58c74be
+Description:  libiwinfo Lua binding
+
+Package: libiwinfo20230701
+Version: 2023-07-01-ca79f641-1
+Depends: libc, libnl-tiny1, libuci20130104, libubus20230605, libiwinfo-data
+Provides: libiwinfo
+Source: package/network/utils/iwinfo
+SourceName: libiwinfo
+License: GPL-2.0
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 20230701
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 28171
+Filename: libiwinfo20230701_2023-07-01-ca79f641-1_aarch64_generic.ipk
+Size: 29031
+SHA256sum: 9653163263159c03bd93ba37e9656ac31590ffbe11e728fceb50e6236c8b8d39
+Description:  Wireless information library with simplified API for nl80211
+ and wext driver interfaces.
+
+Package: libjson-c5
+Version: 0.16-3
+Depends: libc
+Provides: libjson-c
+Source: package/libs/libjson-c
+SourceName: libjson-c
+License: MIT
+LicenseFiles: COPYING
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 5
+CPE-ID: cpe:/a:json-c_project:json-c
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 28910
+Filename: libjson-c5_0.16-3_aarch64_generic.ipk
+Size: 29690
+SHA256sum: ee2436a5f78381e2275285a3412875107b48c764ae4076d596f5da26a0da2a0f
+Description:  This package contains a library for javascript object notation backends.
+
+Package: libjson-script20230523
+Version: 2023-05-23-75a3b870-1
+Depends: libc, libubox20230523
+Provides: libjson-script
+Source: package/libs/libubox
+SourceName: libjson-script
+License: ISC
+Section: utils
+SourceDateEpoch: 1711146363
+ABIVersion: 20230523
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 5681
+Filename: libjson-script20230523_2023-05-23-75a3b870-1_aarch64_generic.ipk
+Size: 6285
+SHA256sum: 7b15f924040c4e22d53b119a1a2dcfc1334b448affa9c7b60eae7ae5a17e2f93
+Description:  Minimalistic JSON based scripting engine
+
+Package: libmbedtls12
+Version: 2.28.7-2
+Depends: libc
+Provides: libmbedtls
+Source: package/libs/mbedtls
+SourceName: libmbedtls
+License: GPL-2.0-or-later
+LicenseFiles: gpl-2.0.txt
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 12
+CPE-ID: cpe:/a:arm:mbed_tls
+Architecture: aarch64_generic
+Installed-Size: 253020
+Filename: libmbedtls12_2.28.7-2_aarch64_generic.ipk
+Size: 253562
+SHA256sum: bc30625e474f2f1a264e3a4105eb4b8dcc3bf0addb8b7ce6a3545b25b8df45d9
+Description:  The aim of the mbedtls project is to provide a quality, open-source
+ cryptographic library written in C and targeted at embedded systems.
+ This package contains the mbedtls library.
+
+Package: libmnl0
+Version: 1.0.5-1
+Depends: libc
+Provides: libmnl
+Source: package/libs/libmnl
+SourceName: libmnl
+License: LGPL-2.1+
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 0
+CPE-ID: cpe:/a:netfilter:libmnl
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 7224
+Filename: libmnl0_1.0.5-1_aarch64_generic.ipk
+Size: 8416
+SHA256sum: 57c07448d4297ea756ec5a22732da07a53674d2cdc36201e3c838ef68c925c0a
+Description:  libmnl is a minimalistic user-space library oriented to Netlink developers.
+ There are a lot of common tasks in parsing, validating, constructing of
+ both the Netlink header and TLVs that are repetitive and easy to get wrong.
+ This library aims to provide simple helpers that allows you to re-use code
+ and to avoid re-inventing the wheel. The main features of this library are:
+ .
+ * Small: the shared library requires around 30KB for an x86-based computer.
+ .
+ * Simple: this library avoids complexity and elaborated abstractions that
+ tend to hide Netlink details.
+ .
+ * Easy to use: the library simplifies the work for Netlink-wise developers.
+ It provides functions to make socket handling, message building, validating,
+ parsing and sequence tracking, easier.
+ .
+ * Easy to re-use: you can use the library to build your own abstraction layer
+ on top of this library.
+ .
+ * Decoupling: the interdependency of the main bricks that compose the library
+ is reduced, i.e. the library provides many helpers, but the programmer is not
+ forced to use them.
+
+Package: libnftnl11
+Version: 1.2.6-1
+Depends: libc, libmnl0
+Provides: libnftnl
+Source: package/libs/libnftnl
+SourceName: libnftnl
+License: GPL-2.0-or-later
+LicenseFiles: COPYING
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 11
+CPE-ID: cpe:/a:netfilter:libnftnl
+Maintainer: Steven Barth <steven@midlink.org>
+Architecture: aarch64_generic
+Installed-Size: 64607
+Filename: libnftnl11_1.2.6-1_aarch64_generic.ipk
+Size: 65279
+SHA256sum: 14bdb3e288a4156a291590a4882a357be2fc7cf2278cbe4d0c412f4713539fcc
+Description:  libnftnl is a userspace library providing a low-level netlink
+ programming interface (API) to the in-kernel nf_tables subsystem.
+
+Package: libnl-tiny1
+Version: 2023-07-27-bc92a280-1
+Depends: libc
+Provides: libnl-tiny
+Source: package/libs/libnl-tiny
+SourceName: libnl-tiny
+License: LGPL-2.1
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 1
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 17116
+Filename: libnl-tiny1_2023-07-27-bc92a280-1_aarch64_generic.ipk
+Size: 17764
+SHA256sum: 737c0c8c58a5a4ef05709787414accaea299ec531b35c0f5d2f4c7c7e1eca7f1
+Description:  This package contains a stripped down version of libnl
+
+Package: libopcodes
+Version: 2.40-1
+Depends: libc, libbfd
+Source: package/devel/binutils
+SourceName: libopcodes
+License: GPL-3.0+
+Section: libs
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:gnu:binutils
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 199176
+Filename: libopcodes_2.40-1_aarch64_generic.ipk
+Size: 192901
+SHA256sum: 53f679e650caa6f068ca2560eea8dd1f34367ae5d150341ed81204cb75ec15f8
+Description:  libopcodes
+
+Package: libpcap1
+Version: 1.10.4-1
+Depends: libc
+Provides: libpcap
+Source: package/libs/libpcap
+SourceName: libpcap
+License: BSD-3-Clause
+LicenseFiles: LICENSE
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 1
+CPE-ID: cpe:/a:tcpdump:libpcap
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 102877
+Filename: libpcap1_1.10.4-1_aarch64_generic.ipk
+Size: 103545
+SHA256sum: 0008eb31abc764149e80bffc570001ca180d4aec9bac8d0add38e9655c2bf493
+Description:  This package contains a system-independent library for user-level network packet
+ capture.
+
+Package: libsmartcols1
+Version: 2.39-2
+Depends: libc, librt
+Provides: libsmartcols
+Source: package/utils/util-linux
+SourceName: libsmartcols
+License: GPL-2.0-only
+LicenseFiles: COPYING libblkid/COPYING libmount/COPYING Documentation/licenses/COPYING.GPLv2 Documentation/licenses/COPYING.LGPLv2.1 libuuid/COPYING Documentation/licenses/COPYING.BSD-3
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 1
+CPE-ID: cpe:/a:kernel:util-linux
+Architecture: aarch64_generic
+Installed-Size: 45847
+Filename: libsmartcols1_2.39-2_aarch64_generic.ipk
+Size: 46585
+SHA256sum: 475cb896a82fa45537d448caea29f76ab5afd40ea79d1b2a67f280c7f5b5f060
+Description:  The smartcols library is used to print tables and trees in a pretty way.
+
+Package: libss2
+Version: 1.47.0-2
+Depends: libc, libcomerr0
+Provides: libss
+Source: package/utils/e2fsprogs
+SourceName: libss
+License: GPL-2.0
+LicenseFiles: NOTICE
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 2
+CPE-ID: cpe:/a:e2fsprogs_project:e2fsprogs
+Architecture: aarch64_generic
+Installed-Size: 9357
+Filename: libss2_1.47.0-2_aarch64_generic.ipk
+Size: 10033
+SHA256sum: d2f02e5f2bb9e652099911aedc9cdef2624ce0c82b14115bd47816b420d00dab
+Description:  This pacakge contains libss, a command-line interface parsing library
+ bundled with e2fsprogs.
+
+Package: libubox20230523
+Version: 2023-05-23-75a3b870-1
+Depends: libc
+Provides: libubox
+Source: package/libs/libubox
+SourceName: libubox
+License: ISC
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 20230523
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 24513
+Filename: libubox20230523_2023-05-23-75a3b870-1_aarch64_generic.ipk
+Size: 25155
+SHA256sum: afe1c98986308fc9aba80738eeba0bc7256cae9833b5720a10337bc2568adaf4
+Description:  Basic utility library
+
+Package: libubus20230605
+Version: 2023-06-05-f787c97b-1
+Depends: libc, libubox20230523
+Provides: libubus
+Source: package/system/ubus
+SourceName: libubus
+License: LGPL-2.1
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 20230605
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 11593
+Filename: libubus20230605_2023-06-05-f787c97b-1_aarch64_generic.ipk
+Size: 12227
+SHA256sum: 5350168c981a67e2e5f80ca6b6f300ea1d1803b04304b5ae20a4854d44bf968f
+Description:  OpenWrt RPC client library
+
+Package: libuci20130104
+Version: 2023-08-10-5781664d-1
+Depends: libc, libubox20230523
+Provides: libuci
+Source: package/system/uci
+SourceName: libuci
+License: LGPL-2.1
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 20130104
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 18321
+Filename: libuci20130104_2023-08-10-5781664d-1_aarch64_generic.ipk
+Size: 18990
+SHA256sum: c56253c7f262909b0174a4378264cf256ef060f493ac0b16554ccd755ae8f03c
+Description:  C library for the Unified Configuration Interface (UCI)
+
+Package: libuclient20201210
+Version: 2023-04-13-007d9454-1
+Depends: libc, libubox20230523
+Provides: libuclient
+Source: package/libs/uclient
+SourceName: libuclient
+License: ISC
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 20201210
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 11210
+Filename: libuclient20201210_2023-04-13-007d9454-1_aarch64_generic.ipk
+Size: 11830
+SHA256sum: 36d845843ed9d5093993bbdf43daeb821628422193ac18dd20496f3d6a5e085c
+Description:  HTTP/1.1 client library
+
+Package: libucode20230711
+Version: 2023-11-07-a6e75e02-1
+Depends: libc, libjson-c5
+Provides: libucode
+Source: package/utils/ucode
+SourceName: libucode
+License: ISC
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 20230711
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 78203
+Filename: libucode20230711_2023-11-07-a6e75e02-1_aarch64_generic.ipk
+Size: 78885
+SHA256sum: f7105c7fdc87e18d276ddb2c1e8e826ac2a1191f6103a6fe7cc0ec6484fc4429
+Description:  The libucode package provides the shared runtime library for the ucode interpreter.
+
+Package: libustream-mbedtls20201210
+Version: 2023-02-25-498f6e26-1
+Depends: libc, libubox20230523, libmbedtls12
+Conflicts: libustream-openssl, libustream-wolfssl
+Provides: libustream-mbedtls
+Source: package/libs/ustream-ssl
+SourceName: libustream-mbedtls
+License: ISC
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 20201210
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 4911
+Filename: libustream-mbedtls20201210_2023-02-25-498f6e26-1_aarch64_generic.ipk
+Size: 5535
+SHA256sum: bc56e53382ae04dd4eace56e36707394258543bbd1a23a3211096c8a6ce39eb4
+Description:  ustream SSL Library (mbedtls)
+
+Package: libuuid1
+Version: 2.39-2
+Depends: libc, librt
+Provides: libuuid
+Source: package/utils/util-linux
+SourceName: libuuid
+License: GPL-2.0-only
+LicenseFiles: COPYING libblkid/COPYING libmount/COPYING Documentation/licenses/COPYING.GPLv2 Documentation/licenses/COPYING.LGPLv2.1 libuuid/COPYING Documentation/licenses/COPYING.BSD-3
+Section: libs
+SourceDateEpoch: 1711146363
+ABIVersion: 1
+CPE-ID: cpe:/a:kernel:util-linux
+Architecture: aarch64_generic
+Installed-Size: 13110
+Filename: libuuid1_2.39-2_aarch64_generic.ipk
+Size: 13914
+SHA256sum: 3dfc666b5ba28bee8bb42e98255cee1ec76a4b859f70a11ab68a6dafd4128a0a
+Description:  The UUID library is used to generate unique identifiers for objects
+ that may be accessible beyond the local system. This library
+ generates UUIDs compatible with those created by the Open Software
+ Foundation (OSF) Distributed Computing Environment (DCE) utility.
+
+Package: logd
+Version: 2022-08-13-4c7b720b-2
+Depends: libc, libubox20230523, libubus20230605, libblobmsg-json20230523
+Source: package/system/ubox
+SourceName: logd
+License: GPL-2.0
+Section: base
+Require-User: logd=514:logd=514
+SourceDateEpoch: 1711146363
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: aarch64_generic
+Installed-Size: 12401
+Filename: logd_2022-08-13-4c7b720b-2_aarch64_generic.ipk
+Size: 12898
+SHA256sum: 8b75424d571955512cad0486c23ccae8d83432c91c00a1ed6cad6038f6549eee
+Description:  OpenWrt system log implementation
+
+Package: mkf2fs
+Version: 1.16.0-1
+Depends: libc, libf2fs6
+Conflicts: mkf2fs-selinux
+Source: package/utils/f2fs-tools
+SourceName: mkf2fs
+License: GPL-2.0-only
+LicenseFiles: COPYING
+Section: utils
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:f2fs-tools_project:f2fs-tools
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 15870
+Filename: mkf2fs_1.16.0-1_aarch64_generic.ipk
+Size: 16509
+SHA256sum: 4677dad4c3bb23d7ec7da4fa373380e19b32318abd3f2b5785617cab3534c51b
+Description:  Utility for creating a Flash-Friendly File System (F2FS)
+
+Package: mt7601u-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: mt7601u-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 26439
+Filename: mt7601u-firmware_20230804-1_aarch64_generic.ipk
+Size: 27148
+SHA256sum: 48f0b58cce2ecfb4ad0b1891b9e33223a73c5b5b7bdf66cccb9e54f113761799
+Description:  MediaTek MT7601U firmware
+
+Package: musl-fts
+Version: 1.2.7-1
+Depends: libc, libpthread
+Source: package/libs/musl-fts
+SourceName: musl-fts
+License: LGPL-2.1
+LicenseFiles: COPYING AUTHORS
+Section: libs
+SourceDateEpoch: 1711146363
+Maintainer: Lucian Cristian <lucian.cristian@gmail.com>
+Architecture: aarch64_generic
+Installed-Size: 5265
+Filename: musl-fts_1.2.7-1_aarch64_generic.ipk
+Size: 5908
+SHA256sum: a6dbfece1b64ff200ecce61973ddb910eb464ef83d47cbe402ec73611487bb58
+Description:  The musl-fts package implements the fts(3) functions fts_open, fts_read, fts_children, fts_set and fts_close, which are missing in musl libc.
+
+Package: mwifiex-pcie-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: mwifiex-pcie-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 514904
+Filename: mwifiex-pcie-firmware_20230804-1_aarch64_generic.ipk
+Size: 515542
+SHA256sum: 5f8f6a03afb4fb5e2bd729a0aece280801a78397a368799fc81342fca70121dc
+Description:  Marvell 8897 firmware
+
+Package: mwifiex-sdio-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: mwifiex-sdio-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 876716
+Filename: mwifiex-sdio-firmware_20230804-1_aarch64_generic.ipk
+Size: 876978
+SHA256sum: a3af0f3f0a96d6144ce9e2a8b5deef5944341eb1578f5cb88b51d2bd2b1b1e18
+Description:  Marvell 8887/8997 firmware
+
+Package: mwl8k-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: mwl8k-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 192359
+Filename: mwl8k-firmware_20230804-1_aarch64_generic.ipk
+Size: 193200
+SHA256sum: e8f4bf47aaeeda80493b39edfbe0ec26bcbe52295067c82baa4b3e8cdda21d16
+Description:  Marvell 8366/8687 firmware
+
+Package: netifd
+Version: 2024-01-04-c18cc79d-1
+Depends: libc, libuci20130104, libnl-tiny1, libubus20230605, ubus, ubusd, jshn, libubox20230523
+Source: package/network/config/netifd
+SourceName: netifd
+License: GPL-2.0
+Section: base
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 107469
+Filename: netifd_2024-01-04-c18cc79d-1_aarch64_generic.ipk
+Size: 107816
+SHA256sum: 351feacdc149a039aa6c0470fc01630a536059d470ddc2fa8ad1af3fe32aaab1
+Description:  OpenWrt Network Interface Configuration Daemon
+
+Package: nftables-json
+Version: 1.0.8-1
+Depends: libc, kmod-nft-core, libnftnl11, jansson4
+Provides: nftables
+Source: package/network/utils/nftables
+SourceName: nftables-json
+License: GPL-2.0
+LicenseFiles: COPYING
+Section: net
+SourceDateEpoch: 1711146363
+Architecture: aarch64_generic
+Installed-Size: 308753
+Filename: nftables-json_1.0.8-1_aarch64_generic.ipk
+Size: 308357
+SHA256sum: 0b437e1bfe5e22d7e603763485ac8204c940180ee0bda353e850f14c17bc9123
+Description:  nftables userspace utility with JSON support
+
+Package: objdump
+Version: 2.40-1
+Depends: libc, libopcodes, libctf
+Source: package/devel/binutils
+SourceName: objdump
+License: GPL-3.0+
+Section: devel
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:gnu:binutils
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 148518
+Filename: objdump_2.40-1_aarch64_generic.ipk
+Size: 148838
+SHA256sum: fe3201b8c7b4b94a94ca04058369d9fbc3c95c6a1550d2a297a175bedd8ea0ff
+Description:  objdump
+
+Package: odhcp6c
+Version: 2023-05-12-bcd28363-20
+Depends: libc, libubox20230523
+Source: package/network/ipv6/odhcp6c
+SourceName: odhcp6c
+License: GPL-2.0
+Section: net
+SourceDateEpoch: 1711146363
+Maintainer: Hans Dedecker <dedeckeh@gmail.com>
+Architecture: aarch64_generic
+Installed-Size: 27475
+Filename: odhcp6c_2023-05-12-bcd28363-20_aarch64_generic.ipk
+Size: 28177
+SHA256sum: b1704980ed5e5e92a351a510b212203dbe23a4a7eae07d3ca95dc3a8de536632
+Description:  Embedded DHCPv6-client for OpenWrt
+
+Package: odhcpd-ipv6only
+Version: 2023-10-24-d8118f6e-1
+Depends: libc, libubox20230523, libuci20130104, libubus20230605, libnl-tiny1
+Source: package/network/services/odhcpd
+SourceName: odhcpd-ipv6only
+License: GPL-2.0
+Section: net
+SourceDateEpoch: 1711146363
+Maintainer: Hans Dedecker <dedeckeh@gmail.com>
+Architecture: aarch64_generic
+Installed-Size: 44738
+Filename: odhcpd-ipv6only_2023-10-24-d8118f6e-1_aarch64_generic.ipk
+Size: 45567
+SHA256sum: 798447968f8e470f51aea25e825b773184cd546f30d2060fc628610966a6abe8
+Description:  odhcpd is a daemon for serving and relaying IP management protocols to
+ configure clients and downstream routers. It tries to follow the RFC 6204
+ requirements for IPv6 home routers.
+ 
+ This is a variant providing server services for RA, stateless and stateful
+ DHCPv6,  prefix delegation and can be used to relay RA, DHCPv6 and NDP between
+ routed (non-bridged) interfaces in case no delegated prefixes are available.
+
+Package: openwrt-keyring
+Version: 2022-03-25-62471e69-2
+Depends: libc
+Provides: lede-keyring
+Source: package/system/openwrt-keyring
+SourceName: openwrt-keyring
+License: GPL-2.0
+Section: base
+SourceDateEpoch: 1711146363
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: aarch64_generic
+Installed-Size: 310
+Filename: openwrt-keyring_2022-03-25-62471e69-2_aarch64_generic.ipk
+Size: 1084
+SHA256sum: bb0a4ff2214a829b253971a293994194c9d34d95aa361d5829c50de4b1c0cf59
+Description:  The keyring of with the developer using and gpg public keys.
+
+Package: opkg
+Version: 2022-02-24-d038e5b6-2
+Depends: libc, uclient-fetch, libpthread, libubox20230523
+Source: package/system/opkg
+SourceName: opkg
+License: GPL-2.0
+LicenseFiles: COPYING
+Section: base
+SourceDateEpoch: 1711146363
+Essential: yes
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 73309
+Filename: opkg_2022-02-24-d038e5b6-2_aarch64_generic.ipk
+Size: 74059
+SHA256sum: 051d74ff847b5477eee33604e59b97493eff0ad7443bf4843287637ffdea402d
+Description:  Lightweight package management system
+ opkg is the opkg Package Management System, for handling
+ installation and removal of packages on a system. It can
+ recursively follow dependencies and download all packages
+ necessary to install a particular package.
+ 
+ opkg knows how to install both .ipk and .deb packages.
+
+Package: partx-utils
+Version: 2.39-2
+Depends: libc, libblkid1, libsmartcols1
+Source: package/utils/util-linux
+SourceName: partx-utils
+License: GPL-2.0-only
+LicenseFiles: COPYING libblkid/COPYING libmount/COPYING Documentation/licenses/COPYING.GPLv2 Documentation/licenses/COPYING.LGPLv2.1 libuuid/COPYING Documentation/licenses/COPYING.BSD-3
+Section: utils
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:kernel:util-linux
+Architecture: aarch64_generic
+Installed-Size: 66141
+Filename: partx-utils_2.39-2_aarch64_generic.ipk
+Size: 66415
+SHA256sum: 735e9c9e18f6826747e7261b15aabbef20725521e9cf8f0512fd21206c6441f7
+Description:  contains partx, addpart, delpart
+
+Package: ppp-mod-pppoe
+Version: 2.4.9.git-2021-01-04-4
+Depends: libc, kmod-pppoe
+Source: package/network/services/ppp
+SourceName: ppp-mod-pppoe
+License: BSD-4-Clause
+Section: net
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:samba:ppp
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 11365
+Filename: ppp-mod-pppoe_2.4.9.git-2021-01-04-4_aarch64_generic.ipk
+Size: 12051
+SHA256sum: c91760ceb4f3a6c8c76359d1b6198284ef3236bbe5248b0643e6e0ba23b58e4f
+Description:  This package contains a PPPoE (PPP over Ethernet) plugin for ppp.
+
+Package: ppp
+Version: 2.4.9.git-2021-01-04-4
+Depends: libc, kmod-ppp
+Source: package/network/services/ppp
+SourceName: ppp
+License: BSD-4-Clause
+Section: net
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:samba:ppp
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 137409
+Filename: ppp_2.4.9.git-2021-01-04-4_aarch64_generic.ipk
+Size: 137904
+SHA256sum: f53ea12105128725b66aecd5fdcd8e4868bdbd3e3906a23601cd989e4670c787
+Description:  This package contains the PPP (Point-to-Point Protocol) daemon.
+
+Package: procd-seccomp
+Version: 2023-06-25-2db83655-2
+Depends: libc, libubox20230523, libblobmsg-json20230523
+Source: package/system/procd
+SourceName: procd-seccomp
+License: GPL-2.0
+Section: base
+SourceDateEpoch: 1711146363
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: aarch64_generic
+Installed-Size: 19188
+Filename: procd-seccomp_2023-06-25-2db83655-2_aarch64_generic.ipk
+Size: 19416
+SHA256sum: bc37a6afaaac4707b3f6b7b3e57e77c7c3ef7253bfced162b8fcd0c2bc778fd4
+Description:  OpenWrt process seccomp helper + utrace
+
+Package: procd-ujail
+Version: 2023-06-25-2db83655-2
+Depends: libc, libubox20230523, libubus20230605, libuci20130104, libblobmsg-json20230523
+Source: package/system/procd
+SourceName: procd-ujail
+License: GPL-2.0
+Section: base
+SourceDateEpoch: 1711146363
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: aarch64_generic
+Installed-Size: 43675
+Filename: procd-ujail_2023-06-25-2db83655-2_aarch64_generic.ipk
+Size: 44212
+SHA256sum: 4eb465a1d73f07ba53db85890f200ef898453b5baa667c08082b7681214129c2
+Description:  OpenWrt process jail helper
+
+Package: procd
+Version: 2023-06-25-2db83655-2
+Depends: libc, ubusd, ubus, libjson-script20230523, ubox, libubox20230523, libubus20230605, libblobmsg-json20230523, libjson-c5, jshn
+Conflicts: procd-selinux
+Source: package/system/procd
+SourceName: procd
+License: GPL-2.0
+Section: base
+Require-User: :dialout=20 :audio=29
+SourceDateEpoch: 1711146363
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: aarch64_generic
+Installed-Size: 62682
+Filename: procd_2023-06-25-2db83655-2_aarch64_generic.ipk
+Size: 62507
+SHA256sum: 3800e3772487b7261a376b55a6d1f918166183dbedf595479bc358321e872001
+Description:  OpenWrt system process manager
+
+Package: r8152-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: r8152-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 10908
+Filename: r8152-firmware_20230804-1_aarch64_generic.ipk
+Size: 11641
+SHA256sum: 19940680565bca351d1274ad5e9e41dbb8e2da3f45c81582627d71baab8843b4
+Description:  RealTek RTL8152 firmware
+
+Package: r8169-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: r8169-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 23812
+Filename: r8169-firmware_20230804-1_aarch64_generic.ipk
+Size: 24487
+SHA256sum: 32c7aa4b04f0e55e39817b744aba681631f2129f7078af1ac251bf78428739bd
+Description:  RealTek RTL8169 firmware
+
+Package: rs9113-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: rs9113-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 84653
+Filename: rs9113-firmware_20230804-1_aarch64_generic.ipk
+Size: 85212
+SHA256sum: e25d10c8959ebb24f7d73f981f89f10a0108dde5badb6dff4d4d4cf6537d4dd5
+Description:  RedPine Signals rs9113 firmware
+
+Package: rt2800-pci-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: rt2800-pci-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 3960
+Filename: rt2800-pci-firmware_20230804-1_aarch64_generic.ipk
+Size: 4682
+SHA256sum: b90a2969737d686a7984102e158c7e447853f6b9a5f123227c85fb93f85dc2a8
+Description:  Ralink RT28xx/3xxx PCI/SoC firmware
+
+Package: rt2800-usb-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: rt2800-usb-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 2931
+Filename: rt2800-usb-firmware_20230804-1_aarch64_generic.ipk
+Size: 3644
+SHA256sum: 54246989bcf6f9f569a2516f602d3273e5d7e574e37e61da5e4761bad6c1c18d
+Description:  Ralink RT28xx/3xxx USB firmware
+
+Package: rtl8192ce-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: rtl8192ce-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 20753
+Filename: rtl8192ce-firmware_20230804-1_aarch64_generic.ipk
+Size: 21453
+SHA256sum: 7b0768b9288f300163118e7b93c85aec8c86a95f8f6c9ef88a087d99c7a459f8
+Description:  RealTek RTL8192CE firmware
+
+Package: rtl8192cu-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: rtl8192cu-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 18704
+Filename: rtl8192cu-firmware_20230804-1_aarch64_generic.ipk
+Size: 19461
+SHA256sum: 7f2105c12e86de28c86672b02f81dd18ba9ad59b3212ee418bb5c19075168b0b
+Description:  RealTek RTL8192CU firmware
+
+Package: rtl8192de-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: rtl8192de-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 13526
+Filename: rtl8192de-firmware_20230804-1_aarch64_generic.ipk
+Size: 14249
+SHA256sum: 4478e1ff73cb684393e30a4188ec1ef67629e97afd4cc167b12979d542a89095
+Description:  RealTek RTL8192DE firmware
+
+Package: rtl8192se-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: rtl8192se-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 36768
+Filename: rtl8192se-firmware_20230804-1_aarch64_generic.ipk
+Size: 37463
+SHA256sum: 75383f3a407052732e19f023645104e1a32e31c2c37c93bb55c1e0810273c273
+Description:  RealTek RTL8192SE firmware
+
+Package: rtl8821ae-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: rtl8821ae-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 23990
+Filename: rtl8821ae-firmware_20230804-1_aarch64_generic.ipk
+Size: 24673
+SHA256sum: 7c9bf9a7b3e98bde5bf1d336f6dae1de88818326fb886469fc2e126fedc10aa1
+Description:  RealTek RTL8821AE firmware
+
+Package: tc-tiny
+Version: 6.3.0-1
+Depends: libc, kmod-sched-core
+Provides: tc
+Alternatives: 200:/sbin/tc:/usr/libexec/tc-tiny
+Source: package/network/utils/iproute2
+SourceName: tc-tiny
+License: GPL-2.0
+Section: net
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:iproute2_project:iproute2
+Maintainer: Russell Senior <russell@personaltelco.net>
+Architecture: aarch64_generic
+Installed-Size: 171426
+Filename: tc-tiny_6.3.0-1_aarch64_generic.ipk
+Size: 172023
+SHA256sum: 162e58926c45ac65e9c895e2c71277eb5376134c3a5ad93d03e6114f610bb3ee
+Description:  Traffic control utility (minimal)
+
+Package: ubox
+Version: 2022-08-13-4c7b720b-2
+Depends: libc, libubox20230523, ubusd, ubus, libubus20230605, libuci20130104
+Alternatives: 100:/sbin/rmmod:/sbin/kmodloader, 100:/sbin/insmod:/sbin/kmodloader, 100:/sbin/lsmod:/sbin/kmodloader, 100:/sbin/modinfo:/sbin/kmodloader, 100:/sbin/modprobe:/sbin/kmodloader
+Source: package/system/ubox
+SourceName: ubox
+License: GPL-2.0
+Section: base
+SourceDateEpoch: 1711146363
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: aarch64_generic
+Installed-Size: 19296
+Filename: ubox_2022-08-13-4c7b720b-2_aarch64_generic.ipk
+Size: 19671
+SHA256sum: 27735307011a7932793d41959d8b65eb55352a9f29b523fe49403d21d6b08ce1
+Description:  OpenWrt system helper toolbox
+
+Package: ubus
+Version: 2023-06-05-f787c97b-1
+Depends: libc, libubus20230605, libblobmsg-json20230523, ubusd
+Source: package/system/ubus
+SourceName: ubus
+License: LGPL-2.1
+Section: base
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 6800
+Filename: ubus_2023-06-05-f787c97b-1_aarch64_generic.ipk
+Size: 7549
+SHA256sum: 14be3a3e831220b646b9b9a56c6c7af65d629b4ce1e0c1e110ed2bf9fb0acd66
+Description:  OpenWrt RPC client utility
+
+Package: ubusd
+Version: 2023-06-05-f787c97b-1
+Depends: libc, libubox20230523, libblobmsg-json20230523
+Source: package/system/ubus
+SourceName: ubusd
+License: LGPL-2.1
+Section: base
+Require-User: ubus=81:ubus=81
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 13471
+Filename: ubusd_2023-06-05-f787c97b-1_aarch64_generic.ipk
+Size: 14088
+SHA256sum: 8cf90ec3c2e6c7fe8b66aca26584074dc3d60de9a38eac7e178f189585dc2f97
+Description:  OpenWrt RPC daemon
+
+Package: uci
+Version: 2023-08-10-5781664d-1
+Depends: libc, libuci20130104
+Source: package/system/uci
+SourceName: uci
+License: LGPL-2.1
+Section: base
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 7320
+Filename: uci_2023-08-10-5781664d-1_aarch64_generic.ipk
+Size: 7993
+SHA256sum: fa77a52b852d225c8e8a922c99870f7c02252c797deba601962125f82bac686c
+Description:  Utility for the Unified Configuration Interface (UCI)
+
+Package: uclient-fetch
+Version: 2023-04-13-007d9454-1
+Depends: libc, libuclient20201210
+Provides: wget
+Alternatives: 200:/usr/bin/wget:/bin/uclient-fetch
+Source: package/libs/uclient
+SourceName: uclient-fetch
+License: ISC
+Section: net
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 7673
+Filename: uclient-fetch_2023-04-13-007d9454-1_aarch64_generic.ipk
+Size: 8340
+SHA256sum: e9633be302b89cc4abcbaf5b2c8538d3b47fbc9a2d117f180bb65d97e7b053cf
+Description:  Tiny wget replacement using libuclient
+
+Package: ucode-mod-fs
+Version: 2023-11-07-a6e75e02-1
+Depends: libc, ucode
+Source: package/utils/ucode
+SourceName: ucode-mod-fs
+License: ISC
+Section: lang
+SourceDateEpoch: 1711146363
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 10420
+Filename: ucode-mod-fs_2023-11-07-a6e75e02-1_aarch64_generic.ipk
+Size: 11087
+SHA256sum: 70d41188870ffdfcbc22a4d7d8821bd28ecec476ac3c223f1b0ddfddaca18129
+Description:  The filesystem plugin module allows interaction with the local file system.
+
+Package: ucode-mod-ubus
+Version: 2023-11-07-a6e75e02-1
+Depends: libc, ucode, libubus20230605, libblobmsg-json20230523
+Source: package/utils/ucode
+SourceName: ucode-mod-ubus
+License: ISC
+Section: lang
+SourceDateEpoch: 1711146363
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 14908
+Filename: ucode-mod-ubus_2023-11-07-a6e75e02-1_aarch64_generic.ipk
+Size: 15556
+SHA256sum: 92a46ec2630c8c6f3ff548cfb2a2598b1f59fd96c9bfd2afa35b1627d43942a0
+Description:  The ubus module allows ucode template scripts to enumerate and invoke ubus procedures.
+
+Package: ucode-mod-uci
+Version: 2023-11-07-a6e75e02-1
+Depends: libc, ucode, libuci20130104
+Source: package/utils/ucode
+SourceName: ucode-mod-uci
+License: ISC
+Section: lang
+SourceDateEpoch: 1711146363
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 7595
+Filename: ucode-mod-uci_2023-11-07-a6e75e02-1_aarch64_generic.ipk
+Size: 8286
+SHA256sum: 3ef38cf4cab1710b540c132185d574d64125828b9cbccad1bf8545fabbabbb77
+Description:  The uci module allows templates to read and modify uci configuration.
+
+Package: ucode
+Version: 2023-11-07-a6e75e02-1
+Depends: libc, libucode20230711
+Source: package/utils/ucode
+SourceName: ucode
+License: ISC
+Section: lang
+SourceDateEpoch: 1711146363
+Maintainer: Jo-Philipp Wich <jo@mein.io>
+Architecture: aarch64_generic
+Installed-Size: 6762
+Filename: ucode_2023-11-07-a6e75e02-1_aarch64_generic.ipk
+Size: 7482
+SHA256sum: 6dd6b08d2e94c2355067794ba2114e696c539fb777d21b16d75b5b8bb336bce9
+Description:  ucode is a tiny script interpreter featuring an ECMAScript oriented
+ script language and Jinja-inspired templating.
+
+Package: urandom-seed
+Version: 3
+Depends: libc, getrandom
+Source: package/system/urandom-seed
+SourceName: urandom-seed
+License: GPL-2.0-only
+Section: base
+SourceDateEpoch: 1711146363
+Architecture: aarch64_generic
+Installed-Size: 829
+Filename: urandom-seed_3_aarch64_generic.ipk
+Size: 1552
+SHA256sum: 08cfb30f77a0c72365c71d6f5bc0cf1cbd8fbf57a184608adde79b7a363db47d
+Description:  /etc/urandom.seed handling for OpenWrt
+
+Package: urngd
+Version: 2023-11-01-44365eb1-1
+Depends: libc, libubox20230523
+Source: package/system/urngd
+SourceName: urngd
+License: GPL-2.0 BSD-3-Clause
+Section: utils
+SourceDateEpoch: 1711146363
+Architecture: aarch64_generic
+Installed-Size: 7946
+Filename: urngd_2023-11-01-44365eb1-1_aarch64_generic.ipk
+Size: 8860
+SHA256sum: 790e0583db0706f7b1868b6a44e15d6d2ddc7f8e33a2d809cc5e2a12f50a1067
+Description:  urngd is OpenWrt's micro non-physical true random number generator based on
+ timing jitter.
+ 
+ Using the Jitter RNG core, the rngd provides an entropy source that feeds into
+ the Linux /dev/random device if its entropy runs low. It updates the
+ /dev/random entropy estimator such that the newly provided entropy unblocks
+ /dev/random.
+ 
+ The seeding of /dev/random also ensures that /dev/urandom benefits from
+ entropy. Especially during boot time, when the entropy of Linux is low, the
+ Jitter RNGd provides a source of sufficient entropy.
+
+Package: usign
+Version: 2020-05-23-f1f65026-1
+Depends: libc, libubox20230523
+Source: package/system/usign
+SourceName: usign
+License: ISC
+Section: base
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 11804
+Filename: usign_2020-05-23-f1f65026-1_aarch64_generic.ipk
+Size: 12415
+SHA256sum: 475d88e59ed49e444802a140ca722288649d333b659d9d24d3e1b7d67d270805
+Description:  OpenWrt signature verification utility
+
+Package: wil6210-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: wil6210-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 254940
+Filename: wil6210-firmware_20230804-1_aarch64_generic.ipk
+Size: 255741
+SHA256sum: eb22e5203903f4f688f788ddea7e87e14344b0a5b14227baf86d65b6ce42d34c
+Description:  wil6210 firmware
+
+Package: wireless-regdb
+Version: 2024.01.23-1
+Depends: libc
+Source: package/firmware/wireless-regdb
+SourceName: wireless-regdb
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: all
+Installed-Size: 2305
+Filename: wireless-regdb_2024.01.23-1_all.ipk
+Size: 3022
+SHA256sum: c604b3f27720cbfb09aa8b3fd8c4728d9fcbdddc59f0e7e00951158af3ef8363
+Description:  Wireless Regulatory Database
+
+Package: wl12xx-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: wl12xx-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 1175085
+Filename: wl12xx-firmware_20230804-1_aarch64_generic.ipk
+Size: 1175093
+SHA256sum: eed34bbcf36e1f49bceddc2c1c5086101ace88ed284d218162fec98a1be5ef08
+Description:  TI WL12xx firmware
+
+Package: wl18xx-firmware
+Version: 20230804-1
+Depends: libc
+Source: package/firmware/linux-firmware
+SourceName: wl18xx-firmware
+Section: firmware
+SourceDateEpoch: 1711146363
+Maintainer: Felix Fietkau <nbd@nbd.name>
+Architecture: aarch64_generic
+Installed-Size: 343325
+Filename: wl18xx-firmware_20230804-1_aarch64_generic.ipk
+Size: 343918
+SHA256sum: 2d8afab595c2eb43e95468382444792cce2597efd6ea25cd1f1b205e05e25fa3
+Description:  TI WL18xx firmware
+
+Package: wwan
+Version: 2019-04-29-6
+Depends: libc
+Source: package/network/utils/wwan
+SourceName: wwan
+License: GPL-2.0
+Section: net
+SourceDateEpoch: 1711146363
+Maintainer: John Crispin <john@phrozen.org>
+Architecture: aarch64_generic
+Installed-Size: 10036
+Filename: wwan_2019-04-29-6_aarch64_generic.ipk
+Size: 9852
+SHA256sum: f95cf3959811888a97f3c2d2cab9a6315cde623d480b810523538d412698948a
+Description:  Generic OpenWrt 3G/4G proto handler
+
+Package: zlib
+Version: 1.2.13-1
+Depends: libc
+Source: package/libs/zlib
+SourceName: zlib
+License: Zlib
+LicenseFiles: README
+Section: libs
+SourceDateEpoch: 1711146363
+CPE-ID: cpe:/a:gnu:zlib
+Architecture: aarch64_generic
+Installed-Size: 45093
+Filename: zlib_1.2.13-1_aarch64_generic.ipk
+Size: 45573
+SHA256sum: 10a2cf644aeebafaab5c350581d341b3a5c351e0ca3bb2949918745f9e6e5896
+Description:  zlib is a lossless data-compression library.
+ This package includes the shared library.
+
