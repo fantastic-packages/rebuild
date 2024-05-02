@@ -172,6 +172,8 @@ jobs:
             cd ..
           done
           popd
+          faillogs=$(curl -sL "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/faillogs.txt" | tr '\n' ' ' | sed 's|^\s*||;s|\s*$||')
+          installs=$(echo "$installs" | tr ' ' '\n' | grep -v '^$' | grep -Ev "^$(echo "$faillogs" | sed -E 's,\s+,|,g;s|^|\(|;s|$|\)|')$")
           echo installs: $installs
           scripts/feeds install $installs
           endgroup
