@@ -15,7 +15,7 @@ VERSION=<openwrt-imagebuilder-version> # e.g. 23.05.3
 TARGET=<openwrt-imagebuilder-target> # e.g. x86
 SUBTARGET=<openwrt-imagebuilder-subtarget> # e.g. 64
 TARGETBRANCH=$VERSION-$TARGET-$SUBTARGET
-sed -i "/src\/gz openwrt_core /{ \
+sed -i "/src\/gz rebuild_core /{ \
 	s|downloads.openwrt.org/releases/$VERSION|github.com/$REPO/raw/$TARGETBRANCH| \
 }" repositories.conf
 ```
@@ -28,7 +28,7 @@ VERSION=<openwrt-imagebuilder-version> # e.g. 23.05.3
 TARGET=<openwrt-imagebuilder-target> # e.g. x86
 SUBTARGET=<openwrt-imagebuilder-subtarget> # e.g. 64
 TARGETBRANCH=$VERSION-$TARGET-$SUBTARGET
-sed -i "/src\/gz openwrt_core /{ \
+sed -i "/src\/gz rebuild_core /{ \
 	s|downloads.openwrt.org/releases/$VERSION|github.com/$REPO/raw/$TARGETBRANCH| \
 }" /etc/opkg/distfeeds.conf
 ```
