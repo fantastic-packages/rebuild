@@ -134,8 +134,9 @@ jobs:
           # prebuilt LLVM toolchain
           op_target_url_prefix="https://downloads.openwrt.org/releases/$VERSION/targets/$BOARD/$SUBTARGET"
           sha256sums="$(curl -L "${op_target_url_prefix}/sha256sums")"
-          curl -Lo llvm-bpf.tar.xz "${op_target_url_prefix}/$(echo "$sha256sums" | sed -n '/\bllvm\b/{s|^[[:xdigit:]]*\s*\*||;p}')"
-          tar -xJf llvm-bpf.tar.xz -C openwrt/
+          llvm_bpf="$(echo "$sha256sums" | sed -n '/\bllvm\b/{s|^[[:xdigit:]]*\s*\*||;p}')"
+          curl -LO "${op_target_url_prefix}/${llvm_bpf}"
+          tar -xf "$llvm_bpf" -C openwrt/
 
       - name: Build world
         id: build_world
