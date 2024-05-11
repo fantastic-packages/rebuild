@@ -49,6 +49,7 @@ jobs:
       SUBTARGET: ${{ inputs.subtarget }}
       USIGN_ID: ${{ vars.USIGN_ID }}
       USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
+      USIGN_PUBKEY: ${{ vars[format('USIGN_PUB_{0}', vars.USIGN_ID )] }}
 
     steps:
       - name: Check if deployed
@@ -64,17 +65,6 @@ jobs:
           rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/config.buildinfo)
           echo rcode: $rcode
           [ "$rcode" != "404" ] || { >&2 echo No config.buildinfo can be build.; exit 1; }
-
-      - name: Import keys
-        env:
-          USIGN_PUBKEY_URL: 'https://github.com/${{ github.repository_owner }}/packages/raw/master/keys/usign/${{ env.USIGN_ID }}.pub'
-        shell: bash
-        run: |
-          # usign
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "USIGN_PUBKEY<<$EOF" >> $GITHUB_ENV
-          curl -sL "$USIGN_PUBKEY_URL" >> $GITHUB_ENV
-          echo "$EOF" >> $GITHUB_ENV
 
       - name: Maximize build space
         if: env.DELETE_USELESS_FILES == 'true' && !cancelled()
