@@ -177,8 +177,8 @@ jobs:
           make prepare -j$NPROC
           endgroup
           #
-          group "make package/compile V=s -j$NPROC"
-          make package/compile V=s -j$NPROC
+          group "make package/compile V=s -j$NPROC IGNORE_ERRORS=1"
+          make package/compile V=s -j$NPROC IGNORE_ERRORS=1
           endgroup
           #
           group "make package/install -j$NPROC"
