@@ -171,6 +171,7 @@ jobs:
           #
           group "make defconfig"
           make defconfig
+          [ "$VERSION" = "23.05.4" ] && echo -e 'CONFIG_KERNEL_DEBUG_INFO_BTF_MODULES=y\nCONFIG_KERNEL_MODULE_ALLOW_BTF_MISMATCH=y' >> .config || sleep 0
           endgroup
           #
           group "make prepare -j$NPROC"
