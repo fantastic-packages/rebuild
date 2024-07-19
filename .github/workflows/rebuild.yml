@@ -115,7 +115,7 @@ jobs:
         if: ${{ steps.checkout_to_targetbranch.outcome == 'success' }}
         shell: bash
         run: |
-          git clone --depth 1 --branch v23.05.3 https://github.com/openwrt/openwrt.git openwrt
+          git clone --depth 1 --branch v$VERSION https://github.com/openwrt/openwrt.git openwrt
           # .config
           curl -Lo openwrt/.config "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/config.buildinfo"
           # key-build
