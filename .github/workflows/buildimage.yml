@@ -56,6 +56,7 @@ jobs:
       USIGN_ID: ${{ vars.USIGN_ID }}
       USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
       USIGN_PUBKEY: ${{ vars[format('USIGN_PUB_{0}', vars.USIGN_ID )] }}
+      VERIFY_KEY_ID: ${{ vars.VERIFY_KEY_ID }}
       ROOTFS_SIZE: 256
 
     steps:
@@ -106,6 +107,10 @@ jobs:
           echo "$USIGN_KEY" > key-build
           echo "$USIGN_PUBKEY" > key-build.pub
           echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
+          # key-verify
+          for k in ${VERIFY_KEY_ID}; do
+            curl -Lo keys/${k,,} "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/keys/usign/${k^^}.pub"
+          done
           # core feed
           sed -i "/src\/gz rebuild_core /{ \
             s|https://downloads.openwrt.org/releases/$VERSION|file://$GITHUB_WORKSPACE| \
