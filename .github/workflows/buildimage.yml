@@ -6,7 +6,7 @@ on:
       version:
         description: 'Release version'
         required: true
-        default: '23.05.4'
+        default: '23.05.5|snapshots'
         type: string
       board:
         description: 'Device board'
@@ -90,13 +90,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ env.TARGETBRANCH }}
+          ref: ${{ env.CONFBRANCH }}
+
+      - name: Get preinstalled path
+        shell: bash
+        run: |
+          sel_config() {
+          if   [ -f "$2/$BOARD/$SUBTARGET/$3" ]; then
+            eval $1="$2/$BOARD/$SUBTARGET/$3"
+          elif [ -f "$2/$BOARD/$3" ]; then
+            eval $1="$2/$BOARD/$3"
+          elif [ -f "$2/$3" ]; then
+            eval $1="$2/$3"
+          else
+            return 1
+          fi
+          }
+          preinstalled=''
+          sel_config preinstalled "$VERSION" preinstalled ||
+          sel_config preinstalled "${VERSION%.*}" preinstalled ||
+          sel_config preinstalled "default" preinstalled || sleep 0
+          echo "preinstalled='$preinstalled'"
+          echo "preinstalled=$preinstalled" >> $GITHUB_ENV
+
+      - name: Checkout to TARGETBRANCH ${{ env.TARGETBRANCH }}
+        id: checkout_to_targetbranch
+        shell: bash
+        run: |
+            git fetch --depth=1 origin $TARGETBRANCH
+            git checkout -b $TARGETBRANCH --track origin/$TARGETBRANCH
 
       - name: Setup Image Builder
         id: setup
         shell: bash
         run: |
-          tar -xf targets/$BOARD/$SUBTARGET/*-imagebuilder-*.*
+          tar $(echo "targets/$BOARD/$SUBTARGET/"*-imagebuilder-*.* | grep -qE '\.tar\.zst$' && echo '-I zstd') -xf targets/$BOARD/$SUBTARGET/*-imagebuilder-*.*
           mv *-imagebuilder-* imagebuilder
           pushd imagebuilder
           #
@@ -131,7 +159,7 @@ jobs:
         shell: bash
         run: |
           INSTALLS=''
-          url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/preinstalled \
+          url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalled \
                https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/generic \
                https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/$ARCH_PACKAGES"
           for l in $url; do
@@ -163,6 +191,11 @@ jobs:
           trap 'endgroup' ERR
           sudo chown -R $USER:$GROUPS imagebuilder
           pushd imagebuilder
+          #
+          group "echo start"
+          echo start
+          endgroup
+          #
           group "ls -R keys/"
           ls -R keys/
           endgroup

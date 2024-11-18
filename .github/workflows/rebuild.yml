@@ -6,7 +6,7 @@ on:
       version:
         description: 'Release version'
         required: true
-        default: '23.05.4'
+        default: '23.05.5|snapshots'
         type: string
       board:
         description: 'Device board'
@@ -41,6 +41,7 @@ jobs:
       contents: write  # To push a branch
 
     env:
+      MIRROR_URL: 'https://downloads.openwrt.org/'
       TPATH: ''
       CONFBRANCH: 'conf'
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
@@ -59,12 +60,14 @@ jobs:
           echo rcode: $rcode
           [ "$rcode" = "404" ] || { echo "DEPLOYED=y" >> $GITHUB_ENV; }
 
-      - name: Check can be build
+      - name: Check raw config.buildinfo
         shell: bash
         run: |
-          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/config.buildinfo)
+          op_target_url_prefix="$MIRROR_URL$([ "$VERSION" = "snapshots" ] && echo || echo 'releases/')$VERSION/targets/$BOARD/$SUBTARGET"
+          rcode=$(curl -sL -w '%{http_code}' -o /dev/null "${op_target_url_prefix}/config.buildinfo")
           echo rcode: $rcode
-          [ "$rcode" != "404" ] || { >&2 echo No config.buildinfo can be build.; exit 1; }
+          [ "$rcode" != "404" ] || { >&2 echo No raw config.buildinfo exist.; exit 1; }
+          echo "op_target_url_prefix=$op_target_url_prefix" >> $GITHUB_ENV
 
       - name: Maximize build space
         if: env.DELETE_USELESS_FILES == 'true' && !cancelled()
@@ -90,6 +93,36 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ env.CONFBRANCH }}
+
+      - name: Get buildinfo.sh / faillogs.txt path
+        shell: bash
+        run: |
+          sel_config() {
+          if   [ -f "$2/$BOARD/$SUBTARGET/$3" ]; then
+            eval $1="$2/$BOARD/$SUBTARGET/$3"
+          elif [ -f "$2/$BOARD/$3" ]; then
+            eval $1="$2/$BOARD/$3"
+          elif [ -f "$2/$3" ]; then
+            eval $1="$2/$3"
+          else
+            return 1
+          fi
+          }
+          #
+          config=''
+          sel_config config "$VERSION" buildinfo.sh ||
+          sel_config config "${VERSION%.*}" buildinfo.sh ||
+          sel_config config "default" buildinfo.sh ||
+          { >&2 echo No buildinfo.sh can be build.; exit 1; }
+          echo "config='$config'"
+          echo "config=$config" >> $GITHUB_ENV
+          #
+          faillogs=''
+          sel_config faillogs "$VERSION" faillogs.txt ||
+          sel_config faillogs "${VERSION%.*}" faillogs.txt ||
+          sel_config faillogs "default" faillogs.txt || sleep 0
+          echo "faillogs='$faillogs'"
+          echo "faillogs=$faillogs" >> $GITHUB_ENV
 
       - name: Checkout to TARGETBRANCH ${{ env.TARGETBRANCH }}
         id: checkout_to_targetbranch
@@ -117,16 +150,19 @@ jobs:
         run: |
           git clone --depth 1 --branch v$VERSION https://github.com/openwrt/openwrt.git openwrt
           # .config
-          curl -Lo openwrt/.config "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/$BOARD/$SUBTARGET/config.buildinfo"
+          curl -Lo openwrt/.config "${op_target_url_prefix}/config.buildinfo"
+          git checkout origin/$CONFBRANCH -- "$config" 2>/dev/null || echo
+          sudo chmod +x "$config"
+          "$config" openwrt/.config
+          rm -f "$config"
           # key-build
           echo "$USIGN_KEY" > openwrt/key-build
           echo "$USIGN_PUBKEY" > openwrt/key-build.pub
           # prebuilt LLVM toolchain
-          op_target_url_prefix="https://downloads.openwrt.org/releases/$VERSION/targets/$BOARD/$SUBTARGET"
           sha256sums="$(curl -L "${op_target_url_prefix}/sha256sums")"
           llvm_bpf="$(echo "$sha256sums" | sed -n '/\bllvm\b/{s|^[[:xdigit:]]*\s*\*||;p}')"
           curl -LO "${op_target_url_prefix}/${llvm_bpf}"
-          tar -xf "$llvm_bpf" -C openwrt/
+          tar $(echo "$llvm_bpf" | grep -qE '\.tar\.zst$' && echo '-I zstd') -xf "$llvm_bpf" -C openwrt/
 
       - name: Build world
         id: build_world
@@ -149,6 +185,10 @@ jobs:
           sudo chown -R $USER:$GROUPS openwrt
           pushd openwrt
           #
+          group "echo start"
+          echo start
+          endgroup
+          #
           group "scripts/feeds update -a"
           scripts/feeds update -a
           endgroup
@@ -163,7 +203,7 @@ jobs:
             cd ..
           done
           popd
-          faillogs=$(curl -sL "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$VERSION/faillogs.txt" | tr '\n' ' ' | sed 's|^\s*||;s|\s*$||')
+          faillogs=$(curl -sL "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$faillogs" | tr '\n' ' ' | sed 's|^\s*||;s|\s*$||')
           installs=$(echo "$installs" | tr ' ' '\n' | grep -v '^$' | grep -Ev "^$(echo "$faillogs" | sed -E 's,\s+,|,g;s|^|\(|;s|$|\)|')$")
           echo installs: $installs
           scripts/feeds install $installs
@@ -171,7 +211,8 @@ jobs:
           #
           group "make defconfig"
           make defconfig
-          [ "$VERSION" = "23.05.4" ] && echo -e 'CONFIG_KERNEL_DEBUG_INFO_BTF_MODULES=y\nCONFIG_KERNEL_MODULE_ALLOW_BTF_MISMATCH=y' >> .config || sleep 0
+          # 23.05.4+
+          echo -e 'CONFIG_KERNEL_DEBUG_INFO_BTF_MODULES=y\nCONFIG_KERNEL_MODULE_ALLOW_BTF_MISMATCH=y' >> .config || sleep 0
           endgroup
           #
           group "make prepare -j$NPROC"
