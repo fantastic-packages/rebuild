@@ -148,7 +148,7 @@ jobs:
         if: ${{ steps.checkout_to_targetbranch.outcome == 'success' }}
         shell: bash
         run: |
-          git clone --depth 1 --branch v$VERSION https://github.com/openwrt/openwrt.git openwrt
+          git clone --depth 1 --branch $([ "$VERSION" = "snapshots" ] && echo 'master' || echo "v$VERSION") https://github.com/openwrt/openwrt.git openwrt
           # .config
           curl -Lo openwrt/.config "${op_target_url_prefix}/config.buildinfo"
           git checkout origin/$CONFBRANCH -- "$config" 2>/dev/null || echo
@@ -232,7 +232,7 @@ jobs:
             pushd $p/target-*/root-$BOARD/etc/opkg
               echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
               sed -i "/src\/gz openwrt_core /{ \
-                s|downloads.openwrt.org/releases/$VERSION|github.com/$GITHUB_REPOSITORY/raw/$TARGETBRANCH| \
+                s|${op_target_url_prefix}|https://github.com/$GITHUB_REPOSITORY/raw/$TARGETBRANCH/targets/$BOARD/$SUBTARGET| \
               }" distfeeds.conf
             popd
           done

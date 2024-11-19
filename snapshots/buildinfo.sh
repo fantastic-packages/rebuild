@@ -26,6 +26,9 @@ set_config CONFIG_BUILD_LOG y
 # no toolchain make
 set_config CONFIG_MAKE_TOOLCHAIN null
 
+# use apk
+set_config CONFIG_USE_APK y
+
 # use pre-built llvm
 set_config CONFIG_BPF_TOOLCHAIN_BUILD_LLVM null
 set_config CONFIG_SDK_LLVM_BPF null
