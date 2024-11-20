@@ -160,7 +160,7 @@ jobs:
           echo "$USIGN_PUBKEY" > openwrt/key-build.pub
           # prebuilt LLVM toolchain
           sha256sums="$(curl -L "${op_target_url_prefix}/sha256sums")"
-          llvm_bpf="$(echo "$sha256sums" | sed -n '/\bllvm\b/{s|^[[:xdigit:]]*\s*\*||;p}')"
+          llvm_bpf="$(sed -n '/\bllvm\b/{s|^[[:xdigit:]]*\s*\*||;p}' <<< "$sha256sums")"
           curl -LO "${op_target_url_prefix}/${llvm_bpf}"
           tar $(echo "$llvm_bpf" | grep -qE '\.tar\.zst$' && echo '-I zstd') -xf "$llvm_bpf" -C openwrt/
 
