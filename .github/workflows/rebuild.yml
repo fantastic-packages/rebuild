@@ -6,7 +6,7 @@ on:
       version:
         description: 'Release version'
         required: true
-        default: '23.05.5|snapshots'
+        default: '23.05.5|24.10-snapshots'
         type: string
       board:
         description: 'Device board'
@@ -63,7 +63,9 @@ jobs:
       - name: Check raw config.buildinfo
         shell: bash
         run: |
-          op_target_url_prefix="$MIRROR_URL$([ "$VERSION" = "snapshots" ] && echo || echo 'releases/')$VERSION/targets/$BOARD/$SUBTARGET"
+          SNAPSHOTS_BRANCH="$(echo "$VERSION" | sed -En 's|^(.+)-snapshots$|\1|p')"
+          echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
+          op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$VERSION")/targets/$BOARD/$SUBTARGET"
           rcode=$(curl -sL -w '%{http_code}' -o /dev/null "${op_target_url_prefix}/config.buildinfo")
           echo rcode: $rcode
           [ "$rcode" != "404" ] || { >&2 echo No raw config.buildinfo exist.; exit 1; }
@@ -148,7 +150,7 @@ jobs:
         if: ${{ steps.checkout_to_targetbranch.outcome == 'success' }}
         shell: bash
         run: |
-          git clone --depth 1 --branch $([ "$VERSION" = "snapshots" ] && echo 'master' || echo "v$VERSION") https://github.com/openwrt/openwrt.git openwrt
+          git clone --depth 1 --branch $([ -n "$SNAPSHOTS_BRANCH" ] && echo "openwrt-$SNAPSHOTS_BRANCH" || echo "v$VERSION") https://github.com/openwrt/openwrt.git openwrt
           # .config
           curl -Lo openwrt/.config "${op_target_url_prefix}/config.buildinfo"
           git checkout origin/$CONFBRANCH -- "$config" 2>/dev/null || echo
