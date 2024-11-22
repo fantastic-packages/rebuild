@@ -1,0 +1,18 @@
+Package: batctl-default
+Version: 2023.1-2
+Depends: libc, libnl-tiny1, librt
+Provides: batctl
+Alternatives: 200:/usr/sbin/batctl:/usr/libexec/batctl-default
+License: GPL-2.0-only ISC MIT
+Section: net
+Architecture: aarch64_cortex-a53
+Installed-Size: 45695
+Filename: batctl-default_2023.1-2_aarch64_cortex-a53.ipk
+Size: 46480
+SHA256sum: 479bb1952f05418cfe2068ad7f897d889a519a84f8f69962849986f6c7db377a
+Description:  batctl is a more intuitive managment utility for B.A.T.M.A.N.-Advanced.
+ It is an easier method for configuring batman-adv and provides some
+ additional tools for debugging as well. This package builds
+ version 2023.1 of the user space utility.
+ Standard subcommands for configuration and online debugging are enabled.
+
