@@ -133,6 +133,13 @@ jobs:
         id: setup
         shell: bash
         run: |
+          pushd targets/$BOARD/$SUBTARGET
+          if [ "$(basename *-imagebuilder-*.* | awk -F'.' '{print $NF}')" = "aa" ]; then
+            ibname=$(basename *-imagebuilder-*.* | sed -E 's|(\.tar\.[^\.]+).*|\1|')
+            cat ${ibname}.* > $ibname
+            rm -f ${ibname}.*
+          fi
+          popd
           tar $(echo "targets/$BOARD/$SUBTARGET/"*-imagebuilder-*.* | grep -qE '\.tar\.zst$' && echo '-I zstd') -xf targets/$BOARD/$SUBTARGET/*-imagebuilder-*.*
           mv *-imagebuilder-* imagebuilder
           pushd imagebuilder

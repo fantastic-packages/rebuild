@@ -51,6 +51,7 @@ jobs:
       USIGN_ID: ${{ vars.USIGN_ID }}
       USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
       USIGN_PUBKEY: ${{ vars[format('USIGN_PUB_{0}', vars.USIGN_ID )] }}
+      SINGLE_FILE_LIMIT: 80
 
     steps:
       - name: Check if deployed
@@ -266,14 +267,26 @@ jobs:
           git add targets/$BOARD/$SUBTARGET/sha256sums
           #git commit -m "Upload packages"
           #git push
-          git add targets/$BOARD/$SUBTARGET/*-imagebuilder-*.*
+          pushd targets/$BOARD/$SUBTARGET
+          if [ $(wc -c *-imagebuilder-*.* | awk '{print $1}') -gt $(( $SINGLE_FILE_LIMIT * 1024 ** 2 )) ]; then
+            ibname=$(basename *-imagebuilder-*.*)
+            split -b ${SINGLE_FILE_LIMIT}m $ibname ${ibname}.
+            git add ${ibname}.*
+          else
+            git add *-imagebuilder-*.*
+          fi
+          popd
           #git commit -m "Upload imagebuilder"
           #git push
           pushd targets/$BOARD/$SUBTARGET
-          sdkname=$(basename *-sdk-*.*)
-          split -b 80m $sdkname ${sdkname}.
+          if [ $(wc -c *-sdk-*.* | awk '{print $1}') -gt $(( $SINGLE_FILE_LIMIT * 1024 ** 2 )) ]; then
+            sdkname=$(basename *-sdk-*.*)
+            split -b ${SINGLE_FILE_LIMIT}m $sdkname ${sdkname}.
+            git add ${sdkname}.*
+          else
+            git add *-sdk-*.*
+          fi
           popd
-          git add targets/$BOARD/$SUBTARGET/${sdkname}.*
           #git commit -m "Upload sdk"
           #git push
           git commit -m "Upload packages imagebuilder sdk"
