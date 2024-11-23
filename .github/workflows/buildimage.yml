@@ -51,7 +51,6 @@ jobs:
       CONFBRANCH: 'conf'
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
       OP_VERSION: ${{ inputs.version }}
-      SUBTARGET: ${{ inputs.subtarget }}
       PROFILE: ${{ inputs.profile }}
       USIGN_ID: ${{ vars.USIGN_ID }}
       USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
@@ -72,7 +71,7 @@ jobs:
         run: |
           SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-snapshots$|\1|p')"
           echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
-          op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/$SUBTARGET"
+          op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
           echo "op_target_url_prefix=$op_target_url_prefix" >> $GITHUB_ENV
 
       - name: Maximize build space
@@ -104,8 +103,8 @@ jobs:
         shell: bash
         run: |
           sel_config() {
-          if   [ -f "$2/${{ inputs.board }}/$SUBTARGET/$3" ]; then
-            eval $1="$2/${{ inputs.board }}/$SUBTARGET/$3"
+          if   [ -f "$2/${{ inputs.board }}/${{ inputs.subtarget}}/$3" ]; then
+            eval $1="$2/${{ inputs.board }}/${{ inputs.subtarget}}/$3"
           elif [ -f "$2/${{ inputs.board }}/$3" ]; then
             eval $1="$2/${{ inputs.board }}/$3"
           elif [ -f "$2/$3" ]; then
@@ -132,14 +131,14 @@ jobs:
         id: setup
         shell: bash
         run: |
-          pushd targets/${{ inputs.board }}/$SUBTARGET
+          pushd targets/${{ inputs.board }}/${{ inputs.subtarget}}
           if [ "$(basename *-imagebuilder-*.* | awk -F'.' '{print $NF}')" = "aa" ]; then
             ibname=$(basename *-imagebuilder-*.* | sed -E 's|(\.tar\.[^\.]+).*|\1|')
             cat ${ibname}.* > $ibname
             rm -f ${ibname}.*
           fi
           popd
-          tar $(echo "targets/${{ inputs.board }}/$SUBTARGET/"*-imagebuilder-*.* | grep -qE '\.tar\.zst$' && echo '-I zstd') -xf targets/${{ inputs.board }}/$SUBTARGET/*-imagebuilder-*.*
+          tar $(echo "targets/${{ inputs.board }}/${{ inputs.subtarget}}/"*-imagebuilder-*.* | grep -qE '\.tar\.zst$' && echo '-I zstd') -xf targets/${{ inputs.board }}/${{ inputs.subtarget}}/*-imagebuilder-*.*
           mv *-imagebuilder-* imagebuilder
           pushd imagebuilder
           #
@@ -156,7 +155,7 @@ jobs:
           done
           # core feed
           sed -i "/src\/gz rebuild_core /{ \
-            s|${op_target_url_prefix}|file://$GITHUB_WORKSPACE/targets/${{ inputs.board }}/$SUBTARGET| \
+            s|${op_target_url_prefix}|file://$GITHUB_WORKSPACE/targets/${{ inputs.board }}/${{ inputs.subtarget}}| \
           }" repositories.conf
           # fantastic feeds
           n=$[ $(sed -n '/This is the local package repository/=' repositories.conf) -1 ]
@@ -233,6 +232,6 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.BOARD }}-${{ env.SUBTARGET }}-${{ inputs.profile }}-all
+          name: target-${{ env.OP_VERSION }}-${{ inputs.BOARD }}-${{ inputs.SUBTARGET }}-${{ inputs.profile }}-all
           path: |
-            imagebuilder/bin/targets/${{ inputs.BOARD }}/${{ env.SUBTARGET }}/
+            imagebuilder/bin/targets/${{ inputs.BOARD }}/${{ inputs.SUBTARGET }}/

@@ -46,7 +46,6 @@ jobs:
       CONFBRANCH: 'conf'
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
       OP_VERSION: ${{ inputs.version }}
-      SUBTARGET: ${{ inputs.subtarget }}
       USIGN_ID: ${{ vars.USIGN_ID }}
       USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
       USIGN_PUBKEY: ${{ vars[format('USIGN_PUB_{0}', vars.USIGN_ID )] }}
@@ -65,7 +64,7 @@ jobs:
         run: |
           SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-snapshots$|\1|p')"
           echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
-          op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/$SUBTARGET"
+          op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
           rcode=$(curl -sL -w '%{http_code}' -o /dev/null "${op_target_url_prefix}/config.buildinfo")
           echo rcode: $rcode
           [ "$rcode" != "404" ] || { >&2 echo No raw config.buildinfo exist.; exit 1; }
@@ -100,8 +99,8 @@ jobs:
         shell: bash
         run: |
           sel_config() {
-          if   [ -f "$2/${{ inputs.board }}/$SUBTARGET/$3" ]; then
-            eval $1="$2/${{ inputs.board }}/$SUBTARGET/$3"
+          if   [ -f "$2/${{ inputs.board }}/${{ inputs.subtarget}}/$3" ]; then
+            eval $1="$2/${{ inputs.board }}/${{ inputs.subtarget}}/$3"
           elif [ -f "$2/${{ inputs.board }}/$3" ]; then
             eval $1="$2/${{ inputs.board }}/$3"
           elif [ -f "$2/$3" ]; then
@@ -234,7 +233,7 @@ jobs:
             pushd $p/target-*/root-${{ inputs.board }}/etc/opkg
               echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
               sed -i "/src\/gz openwrt_core /{ \
-                s|${op_target_url_prefix}|https://github.com/$GITHUB_REPOSITORY/raw/$TARGETBRANCH/targets/${{ inputs.board }}/$SUBTARGET| \
+                s|${op_target_url_prefix}|https://github.com/$GITHUB_REPOSITORY/raw/$TARGETBRANCH/targets/${{ inputs.board }}/${{ inputs.subtarget}}| \
               }" distfeeds.conf
             popd
           done
@@ -259,14 +258,14 @@ jobs:
         run: |
           mv openwrt/bin/* ./
           git add packages/ # Non-essential
-          git add targets/${{ inputs.board }}/$SUBTARGET/packages/
-          git add targets/${{ inputs.board }}/$SUBTARGET/*.buildinfo
-          git add targets/${{ inputs.board }}/$SUBTARGET/*.json
-          git add targets/${{ inputs.board }}/$SUBTARGET/*.manifest
-          git add targets/${{ inputs.board }}/$SUBTARGET/sha256sums
+          git add targets/${{ inputs.board }}/${{ inputs.subtarget}}/packages/
+          git add targets/${{ inputs.board }}/${{ inputs.subtarget}}/*.buildinfo
+          git add targets/${{ inputs.board }}/${{ inputs.subtarget}}/*.json
+          git add targets/${{ inputs.board }}/${{ inputs.subtarget}}/*.manifest
+          git add targets/${{ inputs.board }}/${{ inputs.subtarget}}/sha256sums
           #git commit -m "Upload packages"
           #git push
-          pushd targets/${{ inputs.board }}/$SUBTARGET
+          pushd targets/${{ inputs.board }}/${{ inputs.subtarget}}
           if [ $(wc -c *-imagebuilder-*.* | awk '{print $1}') -gt $(( $SINGLE_FILE_LIMIT * 1024 ** 2 )) ]; then
             ibname=$(basename *-imagebuilder-*.*)
             split -b ${SINGLE_FILE_LIMIT}m $ibname ${ibname}.
@@ -277,7 +276,7 @@ jobs:
           popd
           #git commit -m "Upload imagebuilder"
           #git push
-          pushd targets/${{ inputs.board }}/$SUBTARGET
+          pushd targets/${{ inputs.board }}/${{ inputs.subtarget}}
           if [ $(wc -c *-sdk-*.* | awk '{print $1}') -gt $(( $SINGLE_FILE_LIMIT * 1024 ** 2 )) ]; then
             sdkname=$(basename *-sdk-*.*)
             split -b ${SINGLE_FILE_LIMIT}m $sdkname ${sdkname}.
@@ -290,53 +289,53 @@ jobs:
           #git push
           git commit -m "Upload packages imagebuilder sdk"
           git push
-          rm -f targets/${{ inputs.board }}/$SUBTARGET/${sdkname}.*
+          rm -f targets/${{ inputs.board }}/${{ inputs.subtarget}}/${sdkname}.*
 
       - name: Upload artifact (All)
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ env.SUBTARGET }}-all
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.SUBTARGET }}-all
           path: |
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/
-            !targets/${{ inputs.board }}/${{ env.SUBTARGET }}/packages/
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/
+            !targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/packages/
 
       - name: Upload artifact (Image files)
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ env.SUBTARGET }}-image
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.SUBTARGET }}-image
           path: |
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/*.bin
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/*.img
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/*.img.*
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/*-kernel.*
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/*-uImage.*
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/*-rootfs.*
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/*-factory.*
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/*-recovery.*
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/*-sysupgrade.*
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*.bin
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*.img
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*.img.*
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-kernel.*
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-uImage.*
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-rootfs.*
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-factory.*
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-recovery.*
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-sysupgrade.*
 
       - name: Upload artifact (Supplementary files)
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ env.SUBTARGET }}-supplementary
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.SUBTARGET }}-supplementary
           path: |
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/kernel-debug.*
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/kernel-debug.*
 
       - name: Upload artifact (Image Builder)
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ env.SUBTARGET }}-IB
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.SUBTARGET }}-IB
           path: |
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/*-imagebuilder-*.*
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-imagebuilder-*.*
 
       - name: Upload artifact (SDK)
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ env.SUBTARGET }}-SDK
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.SUBTARGET }}-SDK
           path: |
-            targets/${{ inputs.board }}/${{ env.SUBTARGET }}/*-sdk-*.*
+            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-sdk-*.*
