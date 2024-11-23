@@ -45,7 +45,7 @@ jobs:
       TPATH: ''
       CONFBRANCH: 'conf'
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
-      VERSION: ${{ inputs.version }}
+      OP_VERSION: ${{ inputs.version }}
       BOARD: ${{ inputs.board }}
       SUBTARGET: ${{ inputs.subtarget }}
       USIGN_ID: ${{ vars.USIGN_ID }}
@@ -64,9 +64,9 @@ jobs:
       - name: Check raw config.buildinfo
         shell: bash
         run: |
-          SNAPSHOTS_BRANCH="$(echo "$VERSION" | sed -En 's|^(.+)-snapshots$|\1|p')"
+          SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-snapshots$|\1|p')"
           echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
-          op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$VERSION")/targets/$BOARD/$SUBTARGET"
+          op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/$BOARD/$SUBTARGET"
           rcode=$(curl -sL -w '%{http_code}' -o /dev/null "${op_target_url_prefix}/config.buildinfo")
           echo rcode: $rcode
           [ "$rcode" != "404" ] || { >&2 echo No raw config.buildinfo exist.; exit 1; }
@@ -113,16 +113,16 @@ jobs:
           }
           #
           config=''
-          sel_config config "$VERSION" buildinfo.sh ||
-          sel_config config "${VERSION%.*}" buildinfo.sh ||
+          sel_config config "$OP_VERSION" buildinfo.sh ||
+          sel_config config "${OP_VERSION%.*}" buildinfo.sh ||
           sel_config config "default" buildinfo.sh ||
           { >&2 echo No buildinfo.sh can be build.; exit 1; }
           echo "config='$config'"
           echo "config=$config" >> $GITHUB_ENV
           #
           faillogs=''
-          sel_config faillogs "$VERSION" faillogs.txt ||
-          sel_config faillogs "${VERSION%.*}" faillogs.txt ||
+          sel_config faillogs "$OP_VERSION" faillogs.txt ||
+          sel_config faillogs "${OP_VERSION%.*}" faillogs.txt ||
           sel_config faillogs "default" faillogs.txt || sleep 0
           echo "faillogs='$faillogs'"
           echo "faillogs=$faillogs" >> $GITHUB_ENV
@@ -151,7 +151,7 @@ jobs:
         if: ${{ steps.checkout_to_targetbranch.outcome == 'success' }}
         shell: bash
         run: |
-          git clone --depth 1 --branch $([ -n "$SNAPSHOTS_BRANCH" ] && echo "openwrt-$SNAPSHOTS_BRANCH" || echo "v$VERSION") https://github.com/openwrt/openwrt.git openwrt
+          git clone --depth 1 --branch $([ -n "$SNAPSHOTS_BRANCH" ] && echo "openwrt-$SNAPSHOTS_BRANCH" || echo "v$OP_VERSION") https://github.com/openwrt/openwrt.git openwrt
           # .config
           curl -Lo openwrt/.config "${op_target_url_prefix}/config.buildinfo"
           git checkout origin/$CONFBRANCH -- "$config" 2>/dev/null || echo
@@ -297,7 +297,7 @@ jobs:
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-all
+          name: target-${{ env.OP_VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-all
           path: |
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/
             !targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/packages/
@@ -306,7 +306,7 @@ jobs:
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-image
+          name: target-${{ env.OP_VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-image
           path: |
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*.bin
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*.img
@@ -322,7 +322,7 @@ jobs:
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-supplementary
+          name: target-${{ env.OP_VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-supplementary
           path: |
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/kernel-debug.*
 
@@ -330,7 +330,7 @@ jobs:
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-IB
+          name: target-${{ env.OP_VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-IB
           path: |
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-imagebuilder-*.*
 
@@ -338,6 +338,6 @@ jobs:
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-SDK
+          name: target-${{ env.OP_VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-SDK
           path: |
             targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/*-sdk-*.*

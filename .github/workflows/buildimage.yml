@@ -50,7 +50,7 @@ jobs:
       MIRROR_URL: 'https://downloads.openwrt.org/'
       CONFBRANCH: 'conf'
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
-      VERSION: ${{ inputs.version }}
+      OP_VERSION: ${{ inputs.version }}
       BOARD: ${{ inputs.board }}
       SUBTARGET: ${{ inputs.subtarget }}
       PROFILE: ${{ inputs.profile }}
@@ -71,9 +71,9 @@ jobs:
       - name: Generate op_target_url_prefix
         shell: bash
         run: |
-          SNAPSHOTS_BRANCH="$(echo "$VERSION" | sed -En 's|^(.+)-snapshots$|\1|p')"
+          SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-snapshots$|\1|p')"
           echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
-          op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$VERSION")/targets/$BOARD/$SUBTARGET"
+          op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/$BOARD/$SUBTARGET"
           echo "op_target_url_prefix=$op_target_url_prefix" >> $GITHUB_ENV
 
       - name: Maximize build space
@@ -116,8 +116,8 @@ jobs:
           fi
           }
           preinstalled=''
-          sel_config preinstalled "$VERSION" preinstalled ||
-          sel_config preinstalled "${VERSION%.*}" preinstalled ||
+          sel_config preinstalled "$OP_VERSION" preinstalled ||
+          sel_config preinstalled "${OP_VERSION%.*}" preinstalled ||
           sel_config preinstalled "default" preinstalled || sleep 0
           echo "preinstalled='$preinstalled'"
           echo "preinstalled=$preinstalled" >> $GITHUB_ENV
@@ -162,9 +162,9 @@ jobs:
           # fantastic feeds
           n=$[ $(sed -n '/This is the local package repository/=' repositories.conf) -1 ]
           sed -i "${n}i\
-          src/gz fantasticpackages_packages https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH_PACKAGES/packages\n\
-          src/gz fantasticpackages_luci https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH_PACKAGES/luci\n\
-          src/gz fantasticpackages_special https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${VERSION%.*}/packages/$ARCH_PACKAGES/special" \
+          src/gz fantasticpackages_packages https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${OP_VERSION%.*}/packages/$ARCH_PACKAGES/packages\n\
+          src/gz fantasticpackages_luci https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${OP_VERSION%.*}/packages/$ARCH_PACKAGES/luci\n\
+          src/gz fantasticpackages_special https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/gh-pages/releases/${OP_VERSION%.*}/packages/$ARCH_PACKAGES/special" \
           repositories.conf
           # ROOTFS_SIZE
           sed -i "s|\(\bCONFIG_TARGET_ROOTFS_PARTSIZE\)=.*|\1=$ROOTFS_SIZE|" .config
@@ -234,6 +234,6 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-${{ inputs.profile }}-all
+          name: target-${{ env.OP_VERSION }}-${{ env.BOARD }}-${{ env.SUBTARGET }}-${{ inputs.profile }}-all
           path: |
             imagebuilder/bin/targets/${{ env.BOARD }}/${{ env.SUBTARGET }}/
