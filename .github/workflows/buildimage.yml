@@ -51,7 +51,6 @@ jobs:
       CONFBRANCH: 'conf'
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
       OP_VERSION: ${{ inputs.version }}
-      PROFILE: ${{ inputs.profile }}
       USIGN_ID: ${{ vars.USIGN_ID }}
       USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
       USIGN_PUBKEY: ${{ vars[format('USIGN_PUB_{0}', vars.USIGN_ID )] }}
@@ -220,7 +219,7 @@ jobs:
           #
           group "make image"
           make image \
-            PROFILE="$PROFILE" \
+            PROFILE="${{ inputs.profile }}" \
             DISABLED_SERVICES="$DISABLED_SERVICES" \
             ADD_LOCAL_KEY="$ADD_LOCAL_KEY" \
             PACKAGES="$INSTALLS"

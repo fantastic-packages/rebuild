@@ -42,7 +42,6 @@ jobs:
 
     env:
       MIRROR_URL: 'https://downloads.openwrt.org/'
-      TPATH: ''
       CONFBRANCH: 'conf'
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
       OP_VERSION: ${{ inputs.version }}
