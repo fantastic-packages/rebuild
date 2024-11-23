@@ -6,7 +6,7 @@ on:
       version:
         description: 'Release version'
         required: true
-        default: '23.05.5|24.10-snapshots'
+        default: '23.05.5|24.10-SNAPSHOT'
         type: string
       board:
         description: 'Device board'
@@ -68,7 +68,7 @@ jobs:
       - name: Generate op_target_url_prefix
         shell: bash
         run: |
-          SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-snapshots$|\1|p')"
+          SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-SNAPSHOT$|\1|p')"
           echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
           op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
           echo "op_target_url_prefix=$op_target_url_prefix" >> $GITHUB_ENV
