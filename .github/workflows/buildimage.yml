@@ -237,18 +237,18 @@ jobs:
           # core feed
           sed -Ei "/\/targets\/${{ inputs.board }}\/${{ inputs.subtarget}}\/packages/{ \
             s,https?://.*/(releases/$OP_VERSION|snapshots),file://$GITHUB_WORKSPACE, \
-          }" repositories.conf
+          }" repositories
           # SNAPSHOT
           if [ -n "$SNAPSHOTS" ]; then
-            sed -i "s|releases/$OP_VERSION|snapshots|" repositories.conf
+            sed -i "s|releases/$OP_VERSION|snapshots|" repositories
           fi
           # fantastic feeds
-          n=$[ $(sed -n '/This is the local package repository/=' repositories.conf) -1 ]
-          sed -i "${n}i\
-          src/gz fantasticpackages_packages https://github.com/$GITHUB_REPOSITORY_OWNER/releases/raw/gh-pages/$BRANCH/packages/$ARCH_PACKAGES/packages\n\
-          src/gz fantasticpackages_luci     https://github.com/$GITHUB_REPOSITORY_OWNER/releases/raw/gh-pages/$BRANCH/packages/$ARCH_PACKAGES/luci\n\
-          src/gz fantasticpackages_special  https://github.com/$GITHUB_REPOSITORY_OWNER/releases/raw/gh-pages/$BRANCH/packages/$ARCH_PACKAGES/special" \
-          repositories.conf
+          n=$(sed -n '$=' repositories)
+          sed -i "${n}a\
+          https://github.com/$GITHUB_REPOSITORY_OWNER/releases/raw/gh-pages/$BRANCH/packages/$ARCH_PACKAGES/packages/packages.adb\n\
+          https://github.com/$GITHUB_REPOSITORY_OWNER/releases/raw/gh-pages/$BRANCH/packages/$ARCH_PACKAGES/luci/packages.adb\n\
+          https://github.com/$GITHUB_REPOSITORY_OWNER/releases/raw/gh-pages/$BRANCH/packages/$ARCH_PACKAGES/special/packages.adb" \
+          repositories
           # ROOTFS_SIZE
           sed -i "s|\(\bCONFIG_TARGET_ROOTFS_PARTSIZE\)=.*|\1=$ROOTFS_SIZE|" .config
           #
@@ -302,8 +302,8 @@ jobs:
           ls -R keys/
           endgroup
           #
-          group "repositories.conf"
-          cat repositories.conf
+          group "repositories"
+          cat repositories
           endgroup
           #
           group "make image"
