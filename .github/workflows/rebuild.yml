@@ -180,8 +180,8 @@ jobs:
           "$config" openwrt/.config
           git reset HEAD "$config"
           # key-build
-          echo "$USIGN_KEY" > openwrt/key-build
-          echo "$USIGN_PUBKEY" > openwrt/key-build.pub
+          echo "$APK_SIGN_KEY" > openwrt/private-key.pem
+          echo "$APK_SIGN_PUBKEY" > openwrt/public-key.pem
           # prebuilt LLVM toolchain
           sha256sums="$(curl -L "${op_target_url_prefix}/sha256sums")"
           llvm_bpf="$(sed -n '/\bllvm\b/{s|^[[:xdigit:]]*\s*\*||;p}' <<< "$sha256sums")"
