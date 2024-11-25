@@ -77,10 +77,10 @@ jobs:
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
       OP_VERSION: ${{ inputs.version }}
       INSTALL_PACKAGES: ${{ inputs.install_packages }}
-      USIGN_ID: ${{ vars.USIGN_ID }}
-      USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
-      USIGN_PUBKEY: ${{ vars[format('USIGN_PUB_{0}', vars.USIGN_ID )] }}
-      VERIFY_KEY_ID: ${{ vars.VERIFY_KEY_ID }}
+      APK_SIGN_ID: ${{ vars.APK_SIGN_ID }}
+      APK_SIGN_KEY: ${{ secrets[format('APK_SIGN_{0}', vars.APK_SIGN_ID )] }}
+      APK_SIGN_PUBKEY: ${{ vars[format('APK_SIGN_PUB_{0}', vars.APK_SIGN_ID )] }}
+      APK_SIGN_VERIFY_KEY_ID: ${{ vars.APK_SIGN_VERIFY_KEY_ID }}
       ROOTFS_SIZE: ${{ inputs.rootfs_size }}
 
     steps:
