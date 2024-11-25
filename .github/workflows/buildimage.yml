@@ -116,9 +116,14 @@ jobs:
           fi
           }
           preinstalled=''
-          sel_config preinstalled "$OP_VERSION" preinstalled ||
-          sel_config preinstalled "${OP_VERSION%.*}" preinstalled ||
-          sel_config preinstalled "default" preinstalled || sleep 0
+          if [ -n "$SNAPSHOTS_BRANCH" ]; then
+            sel_config preinstalled "snapshots" preinstalled ||
+            sel_config preinstalled "default" preinstalled || sleep 0
+          else
+            sel_config preinstalled "$OP_VERSION" preinstalled ||
+            sel_config preinstalled "${OP_VERSION%.*}" preinstalled ||
+            sel_config preinstalled "default" preinstalled || sleep 0
+          fi
           echo "preinstalled='$preinstalled'"
           echo "preinstalled=$preinstalled" >> $GITHUB_ENV
 

@@ -111,17 +111,28 @@ jobs:
           }
           #
           config=''
-          sel_config config "$OP_VERSION" buildinfo.sh ||
-          sel_config config "${OP_VERSION%.*}" buildinfo.sh ||
-          sel_config config "default" buildinfo.sh ||
-          { >&2 echo No buildinfo.sh can be build.; exit 1; }
+          if [ -n "$SNAPSHOTS_BRANCH" ]; then
+            sel_config config "snapshots" buildinfo.sh ||
+            sel_config config "default" buildinfo.sh ||
+            { >&2 echo No buildinfo.sh can be build.; exit 1; }
+          else
+            sel_config config "$OP_VERSION" buildinfo.sh ||
+            sel_config config "${OP_VERSION%.*}" buildinfo.sh ||
+            sel_config config "default" buildinfo.sh ||
+            { >&2 echo No buildinfo.sh can be build.; exit 1; }
+          fi
           echo "config='$config'"
           echo "config=$config" >> $GITHUB_ENV
           #
           faillogs=''
-          sel_config faillogs "$OP_VERSION" faillogs.txt ||
-          sel_config faillogs "${OP_VERSION%.*}" faillogs.txt ||
-          sel_config faillogs "default" faillogs.txt || sleep 0
+          if [ -n "$SNAPSHOTS_BRANCH" ]; then
+            sel_config faillogs "snapshots" faillogs.txt ||
+            sel_config faillogs "default" faillogs.txt || sleep 0
+          else
+            sel_config faillogs "$OP_VERSION" faillogs.txt ||
+            sel_config faillogs "${OP_VERSION%.*}" faillogs.txt ||
+            sel_config faillogs "default" faillogs.txt || sleep 0
+          fi
           echo "faillogs='$faillogs'"
           echo "faillogs=$faillogs" >> $GITHUB_ENV
 
