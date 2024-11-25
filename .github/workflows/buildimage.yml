@@ -227,12 +227,12 @@ jobs:
           ARCH_PACKAGES=$CONFIG_TARGET_ARCH_PACKAGES
           echo "ARCH_PACKAGES=$ARCH_PACKAGES" >> $GITHUB_ENV
           # key-build
-          echo "$USIGN_KEY" > key-build
-          echo "$USIGN_PUBKEY" > key-build.pub
-          echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
+          echo "$APK_SIGN_KEY" > keys/local-private-key.pem
+          echo "$APK_SIGN_PUBKEY" > keys/local-public-key.pem
+          echo "$APK_SIGN_PUBKEY" > keys/fantastic-packages-${APK_SIGN_ID,,}.pem
           # key-verify
-          for k in ${VERIFY_KEY_ID}; do
-            curl -Lo keys/${k,,} "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/keys/usign/${k^^}.pub"
+          for k in ${APK_SIGN_VERIFY_KEY_ID}; do
+            curl -Lo keys/${k}.pem "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/keys/apksign/${k}.pub"
           done
           # core feed
           sed -Ei "/\/targets\/${{ inputs.board }}\/${{ inputs.subtarget}}\/packages/{ \
