@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      MIRROR_URL: 'https://downloads.openwrt.org/'
+      MIRROR_URL: 'https://downloads.openwrt.org'
       CONFBRANCH: 'conf'
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
       OP_VERSION: ${{ inputs.version }}
@@ -70,7 +70,7 @@ jobs:
         run: |
           SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-SNAPSHOT$|\1|p')"
           echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
-          op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
+          op_target_url_prefix="$MIRROR_URL/$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
           echo "op_target_url_prefix=$op_target_url_prefix" >> $GITHUB_ENV
 
       - name: Maximize build space

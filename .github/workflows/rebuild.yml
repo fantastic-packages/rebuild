@@ -41,7 +41,7 @@ jobs:
       contents: write  # To push a branch
 
     env:
-      MIRROR_URL: 'https://downloads.openwrt.org/'
+      MIRROR_URL: 'https://downloads.openwrt.org'
       CONFBRANCH: 'conf'
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
       OP_VERSION: ${{ inputs.version }}
@@ -63,11 +63,11 @@ jobs:
         run: |
           SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-SNAPSHOT$|\1|p')"
           echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
-          op_target_url_prefix="$MIRROR_URL$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
+          op_target_url_prefix="$MIRROR_URL/$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
+          echo "op_target_url_prefix=$op_target_url_prefix" >> $GITHUB_ENV
           rcode=$(curl -sL -w '%{http_code}' -o /dev/null "${op_target_url_prefix}/config.buildinfo")
           echo rcode: $rcode
           [ "$rcode" != "404" ] || { >&2 echo No raw config.buildinfo exist.; exit 1; }
-          echo "op_target_url_prefix=$op_target_url_prefix" >> $GITHUB_ENV
 
       - name: Maximize build space
         if: env.DELETE_USELESS_FILES == 'true' && !cancelled()
