@@ -155,7 +155,7 @@ jobs:
           git checkout origin/$CONFBRANCH -- "$config" 2>/dev/null || echo
           sudo chmod +x "$config"
           "$config" openwrt/.config
-          rm -f "$config"
+          git reset HEAD "$config"
           # key-build
           echo "$USIGN_KEY" > openwrt/key-build
           echo "$USIGN_PUBKEY" > openwrt/key-build.pub
@@ -226,17 +226,6 @@ jobs:
           #
           group "make package/install -j$NPROC"
           make package/install -j$NPROC
-          endgroup
-          #
-          group "install fantastic feed"
-          for p in build_dir staging_dir; do
-            pushd $p/target-*/root-${{ inputs.board }}/etc/opkg
-              echo "$USIGN_PUBKEY" > keys/${USIGN_ID,,}
-              sed -i "/src\/gz openwrt_core /{ \
-                s|${op_target_url_prefix}|https://github.com/$GITHUB_REPOSITORY/raw/$TARGETBRANCH/targets/${{ inputs.board }}/${{ inputs.subtarget}}| \
-              }" distfeeds.conf
-            popd
-          done
           endgroup
           #
           group "make target/install -j$NPROC"

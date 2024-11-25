@@ -221,7 +221,7 @@ jobs:
           make image \
             PROFILE="${{ inputs.profile }}" \
             DISABLED_SERVICES="$DISABLED_SERVICES" \
-            ADD_LOCAL_KEY="$ADD_LOCAL_KEY" \
+            ADD_LOCAL_KEY=1 \
             PACKAGES="$INSTALLS"
           endgroup
           #
