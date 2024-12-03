@@ -6,7 +6,7 @@ on:
       version:
         description: 'Release version'
         required: true
-        default: '23.05.5|24.10.0-rc1'
+        default: '23.05.5|24.10.0-rc1|SNAPSHOT'
         type: string
       board:
         description: 'Device board'
@@ -68,12 +68,14 @@ jobs:
       - name: Determine branch name and Generate op_target_url_prefix
         shell: bash
         run: |
+          SNAPSHOTS=$(echo "$OP_VERSION" | grep -q SNAPSHOT && { [ "$OP_VERSION" = "SNAPSHOT" ] && echo y || echo i; } || echo )
+          echo "SNAPSHOTS=$SNAPSHOTS" >> $GITHUB_ENV
           SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-SNAPSHOT$|\1|p')"
           echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
           BRANCH="$([ -n "$SNAPSHOTS_BRANCH" ] && echo "$SNAPSHOTS_BRANCH" || echo "${OP_VERSION%.*}")"
           echo "Building for $BRANCH"
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-          op_target_url_prefix="$MIRROR_URL/$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
+          op_target_url_prefix="$MIRROR_URL/$([ -n "$SNAPSHOTS" ] && echo snapshots || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
           echo "op_target_url_prefix=$op_target_url_prefix" >> $GITHUB_ENV
 
       - name: Maximize build space
@@ -116,12 +118,13 @@ jobs:
           fi
           }
           preinstalled=''
-          if [ -n "$SNAPSHOTS_BRANCH" ]; then
+          if [ -n "$SNAPSHOTS" ]; then
+            sel_config preinstalled "$BRANCH" preinstalled ||
             sel_config preinstalled "snapshots" preinstalled ||
             sel_config preinstalled "default" preinstalled || sleep 0
           else
             sel_config preinstalled "$OP_VERSION" preinstalled ||
-            sel_config preinstalled "${OP_VERSION%.*}" preinstalled ||
+            sel_config preinstalled "$BRANCH" preinstalled ||
             sel_config preinstalled "default" preinstalled || sleep 0
           fi
           echo "preinstalled='$preinstalled'"
@@ -164,6 +167,11 @@ jobs:
           sed -i "/src\/gz rebuild_core /{ \
             s|${op_target_url_prefix}|file://$GITHUB_WORKSPACE/targets/${{ inputs.board }}/${{ inputs.subtarget}}| \
           }" repositories.conf
+          # SNAPSHOT
+          if [ -n "$SNAPSHOTS" ]; then
+            sed -i "/\/targets\/${{ inputs.board }}\/${{ inputs.subtarget}}\/kmods\//d" repositories.conf
+            sed -i "s|releases/$OP_VERSION|snapshots|" repositories.conf
+          fi
           # fantastic feeds
           n=$[ $(sed -n '/This is the local package repository/=' repositories.conf) -1 ]
           sed -i "${n}i\

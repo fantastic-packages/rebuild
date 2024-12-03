@@ -6,7 +6,7 @@ on:
       version:
         description: 'Release version'
         required: true
-        default: '23.05.5|24.10.0-rc1'
+        default: '23.05.5|24.10.0-rc1|SNAPSHOT'
         type: string
       board:
         description: 'Device board'
@@ -58,13 +58,22 @@ jobs:
           echo rcode: $rcode
           [ "$rcode" = "404" ] || { echo "DEPLOYED=y" >> $GITHUB_ENV; }
 
+      - name: Determine branch name and Generate op_target_url_prefix
+        shell: bash
+        run: |
+          SNAPSHOTS=$(echo "$OP_VERSION" | grep -q SNAPSHOT && { [ "$OP_VERSION" = "SNAPSHOT" ] && echo y || echo i; } || echo )
+          echo "SNAPSHOTS=$SNAPSHOTS" >> $GITHUB_ENV
+          SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-SNAPSHOT$|\1|p')"
+          echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
+          BRANCH="$([ -n "$SNAPSHOTS_BRANCH" ] && echo "$SNAPSHOTS_BRANCH" || echo "${OP_VERSION%.*}")"
+          echo "Building for $BRANCH"
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+          op_target_url_prefix="$MIRROR_URL/$([ -n "$SNAPSHOTS" ] && echo snapshots || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
+          echo "op_target_url_prefix=$op_target_url_prefix" >> $GITHUB_ENV
+
       - name: Check raw config.buildinfo
         shell: bash
         run: |
-          SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-SNAPSHOT$|\1|p')"
-          echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
-          op_target_url_prefix="$MIRROR_URL/$([ -n "$SNAPSHOTS_BRANCH" ] && echo 'snapshots' || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
-          echo "op_target_url_prefix=$op_target_url_prefix" >> $GITHUB_ENV
           rcode=$(curl -sL -w '%{http_code}' -o /dev/null "${op_target_url_prefix}/config.buildinfo")
           echo rcode: $rcode
           [ "$rcode" != "404" ] || { >&2 echo No raw config.buildinfo exist.; exit 1; }
@@ -111,13 +120,14 @@ jobs:
           }
           #
           config=''
-          if [ -n "$SNAPSHOTS_BRANCH" ]; then
+          if [ -n "$SNAPSHOTS" ]; then
+            sel_config config "$BRANCH" buildinfo.sh ||
             sel_config config "snapshots" buildinfo.sh ||
             sel_config config "default" buildinfo.sh ||
             { >&2 echo No buildinfo.sh can be build.; exit 1; }
           else
             sel_config config "$OP_VERSION" buildinfo.sh ||
-            sel_config config "${OP_VERSION%.*}" buildinfo.sh ||
+            sel_config config "$BRANCH" buildinfo.sh ||
             sel_config config "default" buildinfo.sh ||
             { >&2 echo No buildinfo.sh can be build.; exit 1; }
           fi
@@ -125,12 +135,13 @@ jobs:
           echo "config=$config" >> $GITHUB_ENV
           #
           faillogs=''
-          if [ -n "$SNAPSHOTS_BRANCH" ]; then
+          if [ -n "$SNAPSHOTS" ]; then
+            sel_config faillogs "$BRANCH" faillogs.txt ||
             sel_config faillogs "snapshots" faillogs.txt ||
             sel_config faillogs "default" faillogs.txt || sleep 0
           else
             sel_config faillogs "$OP_VERSION" faillogs.txt ||
-            sel_config faillogs "${OP_VERSION%.*}" faillogs.txt ||
+            sel_config faillogs "$BRANCH" faillogs.txt ||
             sel_config faillogs "default" faillogs.txt || sleep 0
           fi
           echo "faillogs='$faillogs'"
@@ -160,7 +171,8 @@ jobs:
         if: ${{ steps.checkout_to_targetbranch.outcome == 'success' }}
         shell: bash
         run: |
-          git clone --depth 1 --branch $([ -n "$SNAPSHOTS_BRANCH" ] && echo "openwrt-$SNAPSHOTS_BRANCH" || echo "v$OP_VERSION") https://github.com/openwrt/openwrt.git openwrt
+          git clone --depth 1 --branch $([ -z "$SNAPSHOTS" ] && echo "v$OP_VERSION" || { [ "$SNAPSHOTS" = "i" ] && echo "openwrt-$BRANCH" || echo main; }) \
+          https://github.com/openwrt/openwrt.git openwrt
           # .config
           curl -Lo openwrt/.config "${op_target_url_prefix}/config.buildinfo"
           git checkout origin/$CONFBRANCH -- "$config" 2>/dev/null || echo
