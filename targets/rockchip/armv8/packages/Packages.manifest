@@ -16943,10 +16943,10 @@ Section: devel
 SourceDateEpoch: 1727132013
 Maintainer: Felix Fietkau <nbd@nbd.name>
 Architecture: aarch64_generic
-Installed-Size: 1249961
+Installed-Size: 1250145
 Filename: perf_5.15.167-5_aarch64_generic.ipk
-Size: 1247848
-SHA256sum: 84be97d65884bee6bbfddbbc977428086e91a7c7d3c0aa1b47741d2404309414
+Size: 1247976
+SHA256sum: 1c7db080f1c9d6aa26d243b61d168ab4914b9f731de65096720d691e0f8a171a
 Description:  perf is the Linux performance monitoring tool
 
 Package: qosify
