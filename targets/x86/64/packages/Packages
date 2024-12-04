@@ -13378,10 +13378,10 @@ Version: 5.15.167-5
 Depends: libc, libelf1, libdw1, libpthread, librt, objdump, libbfd, libopcodes
 Section: devel
 Architecture: x86_64
-Installed-Size: 1605951
+Installed-Size: 1599200
 Filename: perf_5.15.167-5_x86_64.ipk
-Size: 1600627
-SHA256sum: b95e761b14db973e7669b5d8bb9bf14a7762766564450f47d7c8f3fb04b19704
+Size: 1593507
+SHA256sum: 3bc8ea29171bb4c4008873c40026c17f3d5cbb05289a4984dd7cee30eb52b0d8
 Description:  perf is the Linux performance monitoring tool
 
 Package: qosify
