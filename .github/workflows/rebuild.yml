@@ -223,7 +223,7 @@ jobs:
           pushd feeds
           for feed in $extfeeds; do
             cd $feed
-            installs=${installs:+$installs }$(grep -Er "\\$+\(eval \\$+\(call KernelPackage," | awk -F ':' '{print $1}' | sort -u | awk -F '/' '{print $(NF-1)}')
+            installs=${installs:+$installs }$(grep -Er "\\$+\(eval \\$+\(call KernelPackage," | awk -F ':' '{print $1}' | sort -u | awk -F '/' '{print $(NF-1)}' || echo)
             cd ..
           done
           popd
