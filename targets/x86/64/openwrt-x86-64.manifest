@@ -1,5 +1,5 @@
-apk-mbedtls - 3.0.0_pre20241113-r2
-base-files - 1~3ba6737
+apk-mbedtls - 3.0.0_pre20241130-r1
+base-files - 1~b4cc574
 busybox - 1.36.1-r2
 ca-bundle - 20240203-r1
 dnsmasq - 2.90-r3
