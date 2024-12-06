@@ -15,9 +15,10 @@ VERSION=<openwrt-imagebuilder-version> # e.g. 23.05.3
 TARGET=<openwrt-imagebuilder-target> # e.g. x86
 SUBTARGET=<openwrt-imagebuilder-subtarget> # e.g. 64
 TARGETBRANCH=$VERSION-$TARGET-$SUBTARGET
-sed -i "/src\/gz rebuild_core /{ \
-	s|downloads.openwrt.org/releases/$VERSION|github.com/$REPO/raw/$TARGETBRANCH| \
-}" repositories.conf
+sed -Ei "/\/targets\/$TARGET\/$SUBTARGET\/packages/{ \
+	s,downloads.openwrt.org/(releases/$VERSION|snapshots),raw.githubusercontent.com/$REPO/$TARGETBRANCH, \
+}" repositories
+sed -i "/\/targets\/$TARGET\/$SUBTARGET\/kmods/d" repositories
 ```
 OR
 <details><summary>Expand/Collapse</summary>
@@ -28,9 +29,10 @@ VERSION=<openwrt-imagebuilder-version> # e.g. 23.05.3
 TARGET=<openwrt-imagebuilder-target> # e.g. x86
 SUBTARGET=<openwrt-imagebuilder-subtarget> # e.g. 64
 TARGETBRANCH=$VERSION-$TARGET-$SUBTARGET
-sed -i "/src\/gz rebuild_core /{ \
-	s|downloads.openwrt.org/releases/$VERSION|fastly.jsdelivr.net/gh/$REPO@$TARGETBRANCH| \
-}" repositories.conf
+sed -Ei "/\/targets\/$TARGET\/$SUBTARGET\/packages/{ \
+	s,downloads.openwrt.org/(releases/$VERSION|snapshots),fastly.jsdelivr.net/gh/$REPO@$TARGETBRANCH, \
+}" repositories
+sed -i "/\/targets\/$TARGET\/$SUBTARGET\/kmods/d" repositories
 ```
 </details>
 
@@ -42,9 +44,10 @@ VERSION=<openwrt-imagebuilder-version> # e.g. 23.05.3
 TARGET=<openwrt-imagebuilder-target> # e.g. x86
 SUBTARGET=<openwrt-imagebuilder-subtarget> # e.g. 64
 TARGETBRANCH=$VERSION-$TARGET-$SUBTARGET
-sed -i "/src\/gz rebuild_core /{ \
-	s|downloads.openwrt.org/releases/$VERSION|github.com/$REPO/raw/$TARGETBRANCH| \
-}" /etc/opkg/distfeeds.conf
+sed -Ei "/\/targets\/$TARGET\/$SUBTARGET\/packages/{ \
+	s,downloads.openwrt.org/(releases/$VERSION|snapshots),raw.githubusercontent.com/$REPO/$TARGETBRANCH, \
+}" /etc/apk/repositories.d/distfeeds.list
+sed -i "/\/targets\/$TARGET\/$SUBTARGET\/kmods/d" /etc/apk/repositories.d/distfeeds.list
 ```
 OR
 <details><summary>Expand/Collapse</summary>
@@ -55,8 +58,9 @@ VERSION=<openwrt-imagebuilder-version> # e.g. 23.05.3
 TARGET=<openwrt-imagebuilder-target> # e.g. x86
 SUBTARGET=<openwrt-imagebuilder-subtarget> # e.g. 64
 TARGETBRANCH=$VERSION-$TARGET-$SUBTARGET
-sed -i "/src\/gz rebuild_core /{ \
-	s|downloads.openwrt.org/releases/$VERSION|fastly.jsdelivr.net/gh/$REPO@$TARGETBRANCH| \
-}" /etc/opkg/distfeeds.conf
+sed -Ei "/\/targets\/$TARGET\/$SUBTARGET\/packages/{ \
+	s,downloads.openwrt.org/(releases/$VERSION|snapshots),fastly.jsdelivr.net/gh/$REPO@$TARGETBRANCH, \
+}" /etc/apk/repositories.d/distfeeds.list
+sed -i "/\/targets\/$TARGET\/$SUBTARGET\/kmods/d" /etc/apk/repositories.d/distfeeds.list
 ```
 </details>
