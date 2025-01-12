@@ -44,7 +44,7 @@ set_config CONFIG_BPF y # dae
 set_config CONFIG_BPF_SYSCALL y # einet-ebpf,dae
 set_config CONFIG_BPF_JIT y # einet-ebpf,dae
 set_config CONFIG_DWARVES y
-set_config CONFIG_KERNEL_BPF_EVENTS y # dae
+set_config CONFIG_KERNEL_BPF_EVENTS y # einet-ebpf,dae
 set_config CONFIG_KERNEL_BPF_STREAM_PARSER y # dae
 set_config CONFIG_KERNEL_CGROUPS y # dae
 set_config CONFIG_KERNEL_KALLSYMS y
