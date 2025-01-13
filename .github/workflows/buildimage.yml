@@ -23,6 +23,11 @@ on:
         required: true
         default: 'generic'
         type: string
+      install_packages:
+        description: 'Install packages'
+        required: false
+        default: 'kmod-ikconfig einat-ebpf'
+        type: string
   workflow_call:
     inputs:
       version:
@@ -36,6 +41,9 @@ on:
         type: string
       profile:
         required: true
+        type: string
+      install_packages:
+        required: false
         type: string
 
 env:
@@ -51,6 +59,7 @@ jobs:
       CONFBRANCH: 'conf'
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
       OP_VERSION: ${{ inputs.version }}
+      INSTALL_PACKAGES: ${{ inputs.install_packages }}
       USIGN_ID: ${{ vars.USIGN_ID }}
       USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
       USIGN_PUBKEY: ${{ vars[format('USIGN_PUB_{0}', vars.USIGN_ID )] }}
@@ -187,7 +196,7 @@ jobs:
       - name: Determine packages be installed
         shell: bash
         run: |
-          INSTALLS=''
+          INSTALLS="$INSTALL_PACKAGES"
           url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalled \
                https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/generic \
                https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/$ARCH_PACKAGES"
