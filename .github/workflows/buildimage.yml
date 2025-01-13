@@ -173,12 +173,11 @@ jobs:
             curl -Lo keys/${k,,} "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/keys/usign/${k^^}.pub"
           done
           # core feed
-          sed -i "/\/targets\/${{ inputs.board }}\/${{ inputs.subtarget}}\/packages/{ \
-            s|$MIRROR_URL/releases/$OP_VERSION|file://$GITHUB_WORKSPACE| \
+          sed -Ei "/\/targets\/${{ inputs.board }}\/${{ inputs.subtarget}}\/packages/{ \
+            s,https?://.*/(releases/$OP_VERSION|snapshots),file://$GITHUB_WORKSPACE, \
           }" repositories.conf
           # SNAPSHOT
           if [ -n "$SNAPSHOTS" ]; then
-            sed -i "/\/targets\/${{ inputs.board }}\/${{ inputs.subtarget}}\/kmods/d" repositories.conf
             sed -i "s|releases/$OP_VERSION|snapshots|" repositories.conf
           fi
           # fantastic feeds
