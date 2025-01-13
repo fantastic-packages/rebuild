@@ -188,9 +188,18 @@ jobs:
           axel -q -n8 "${op_target_url_prefix}/${llvm_bpf}"
           tar $(echo "$llvm_bpf" | grep -qE '\.tar\.zst$' && echo '-I zstd') -xf "$llvm_bpf" -C openwrt/
 
+      - name: Initialize Rebuild Environment
+        id: init_rebuid_env
+        if: ${{ steps.init_openwrt_env.outcome == 'success' }}
+        shell: bash
+        run: |
+          # override core feeds
+          sed -i "/%U\/targets\//{s|%U|https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$TARGETBRANCH|}" openwrt/include/feeds.mk
+          sed -i "/%S\/kmods\//{s|echo '|echo '#|}" openwrt/include/feeds.mk
+
       - name: Build world
         id: build_world
-        if: ${{ steps.init_openwrt_env.outcome == 'success' }}
+        if: ${{ steps.init_rebuid_env.outcome == 'success' }}
         shell: bash
         run: |
           group() {
