@@ -56,7 +56,7 @@ jobs:
 
     env:
       MIRROR_URL: 'https://downloads.openwrt.org'
-      CONFBRANCH: 'conf'
+      CONFBRANCH: ${{ github.ref_name }}
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
       OP_VERSION: ${{ inputs.version }}
       INSTALL_PACKAGES: ${{ inputs.install_packages }}
@@ -198,8 +198,8 @@ jobs:
         run: |
           INSTALLS="$INSTALL_PACKAGES"
           url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalled \
-               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/generic \
-               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/master/.github/workflows/prebuildpackages/$ARCH_PACKAGES"
+               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/$CONFBRANCH/.github/workflows/prebuildpackages/generic \
+               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/$CONFBRANCH/.github/workflows/prebuildpackages/$ARCH_PACKAGES"
           for l in $url; do
             if [ "$(curl -sL -w '%{http_code}' "$l" -o preinstalled)" != "404" ]; then
               INSTALLS=${INSTALLS:+$INSTALLS }$(cat preinstalled 2>/dev/null | tr '\n' ' ')

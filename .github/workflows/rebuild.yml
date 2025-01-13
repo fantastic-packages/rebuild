@@ -42,7 +42,7 @@ jobs:
 
     env:
       MIRROR_URL: 'https://downloads.openwrt.org'
-      CONFBRANCH: 'conf'
+      CONFBRANCH: ${{ github.ref_name }}
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
       OP_VERSION: ${{ inputs.version }}
       USIGN_ID: ${{ vars.USIGN_ID }}
