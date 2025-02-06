@@ -23,6 +23,11 @@ on:
         required: true
         default: 'generic'
         type: string
+      rootfs_size:
+        description: 'RootFS size'
+        required: false
+        default: 256
+        type: number
       install_packages:
         description: 'Install packages'
         required: false
@@ -42,6 +47,9 @@ on:
       profile:
         required: true
         type: string
+      rootfs_size:
+        required: false
+        type: number
       install_packages:
         required: false
         type: string
@@ -64,7 +72,7 @@ jobs:
       USIGN_KEY: ${{ secrets[format('USIGN_{0}', vars.USIGN_ID )] }}
       USIGN_PUBKEY: ${{ vars[format('USIGN_PUB_{0}', vars.USIGN_ID )] }}
       VERIFY_KEY_ID: ${{ vars.VERIFY_KEY_ID }}
-      ROOTFS_SIZE: 256
+      ROOTFS_SIZE: ${{ inputs.rootfs_size }}
 
     steps:
       - name: Check if deployed
