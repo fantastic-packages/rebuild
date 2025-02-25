@@ -263,6 +263,6 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.BOARD }}-${{ inputs.SUBTARGET }}-${{ inputs.profile }}-all
+          name: target-${{ env.OP_VERSION }}-${{ inputs.BOARD }}-${{ inputs.subtarget }}-${{ inputs.profile }}-all
           path: |
-            imagebuilder/bin/targets/${{ inputs.BOARD }}/${{ inputs.SUBTARGET }}/
+            imagebuilder/bin/targets/${{ inputs.BOARD }}/${{ inputs.subtarget }}/

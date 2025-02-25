@@ -310,53 +310,54 @@ jobs:
           #git push
           git commit -m "Upload packages imagebuilder sdk"
           git push
+          rm -f targets/${{ inputs.board }}/${{ inputs.subtarget}}/${ibname}.*
           rm -f targets/${{ inputs.board }}/${{ inputs.subtarget}}/${sdkname}.*
 
       - name: Upload artifact (All)
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.SUBTARGET }}-all
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-all
           path: |
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/
-            !targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/packages/
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/
+            !targets/${{ inputs.board }}/${{ inputs.subtarget }}/packages/
 
       - name: Upload artifact (Image files)
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.SUBTARGET }}-image
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-image
           path: |
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*.bin
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*.img
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*.img.*
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-kernel.*
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-uImage.*
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-rootfs.*
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-factory.*
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-recovery.*
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-sysupgrade.*
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.bin
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.img
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.img.*
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-kernel.*
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-uImage.*
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-rootfs.*
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-factory.*
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-recovery.*
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-sysupgrade.*
 
       - name: Upload artifact (Supplementary files)
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.SUBTARGET }}-supplementary
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-supplementary
           path: |
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/kernel-debug.*
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/kernel-debug.*
 
       - name: Upload artifact (Image Builder)
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.SUBTARGET }}-IB
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-IB
           path: |
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-imagebuilder-*.*
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-imagebuilder-*.*
 
       - name: Upload artifact (SDK)
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v4
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.SUBTARGET }}-SDK
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-SDK
           path: |
-            targets/${{ inputs.board }}/${{ inputs.SUBTARGET }}/*-sdk-*.*
+            targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-sdk-*.*
