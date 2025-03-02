@@ -179,6 +179,12 @@ jobs:
           sudo chmod +x "$config"
           "$config" openwrt/.config
           git reset HEAD "$config"
+          # feeds.conf.default
+          sed -i \
+            -e 's,https://git.openwrt.org/feed/,https://github.com/openwrt/,' \
+            -e 's,https://git.openwrt.org/openwrt/,https://github.com/openwrt/,' \
+            -e 's,https://git.openwrt.org/project/,https://github.com/openwrt/,' \
+            openwrt/feeds.conf.default
           # key-build
           echo "$USIGN_KEY" > openwrt/key-build
           echo "$USIGN_PUBKEY" > openwrt/key-build.pub
