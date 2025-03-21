@@ -134,6 +134,7 @@ jobs:
             return 1
           fi
           }
+          #
           preinstalled=''
           if [ -n "$SNAPSHOTS" ]; then
             sel_config preinstalled "$BRANCH" preinstalled ||
@@ -146,6 +147,19 @@ jobs:
           fi
           echo "preinstalled='$preinstalled'"
           echo "preinstalled=$preinstalled" >> $GITHUB_ENV
+          #
+          preinstalledarch=''
+          if [ -n "$SNAPSHOTS" ]; then
+            sel_config preinstalledarch "$BRANCH" preinstalled-arch ||
+            sel_config preinstalledarch "snapshots" preinstalled-arch ||
+            sel_config preinstalledarch "default" preinstalled-arch || sleep 0
+          else
+            sel_config preinstalledarch "$OP_VERSION" preinstalled-arch ||
+            sel_config preinstalledarch "$BRANCH" preinstalled-arch ||
+            sel_config preinstalledarch "default" preinstalled-arch || sleep 0
+          fi
+          echo "preinstalledarch='$preinstalledarch'"
+          echo "preinstalledarch=$preinstalledarch" >> $GITHUB_ENV
 
       - name: Checkout to TARGETBRANCH ${{ env.TARGETBRANCH }}
         id: checkout_to_targetbranch
@@ -205,8 +219,7 @@ jobs:
         run: |
           INSTALLS="$INSTALL_PACKAGES"
           url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalled \
-               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/$BRANCH/.github/workflows/prebuildpackages/generic \
-               https://github.com/$GITHUB_REPOSITORY_OWNER/packages/raw/$BRANCH/.github/workflows/prebuildpackages/$ARCH_PACKAGES"
+               https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalledarch"
           for l in $url; do
             if [ "$(curl -sL -w '%{http_code}' "$l" -o preinstalled)" != "404" ]; then
               INSTALLS=${INSTALLS:+$INSTALLS }$(cat preinstalled 2>/dev/null | tr '\n' ' ')
