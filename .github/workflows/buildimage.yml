@@ -33,6 +33,11 @@ on:
         required: false
         default: 'kmod-ikconfig einat-ebpf'
         type: string
+      lite_install:
+        description: 'Lite install'
+        required: false
+        default: false
+        type: boolean
   workflow_call:
     inputs:
       version:
@@ -53,6 +58,10 @@ on:
       install_packages:
         required: false
         type: string
+      lite_install:
+        required: false
+        default: false
+        type: boolean
 
 env:
   DELETE_USELESS_FILES: false
@@ -148,6 +157,19 @@ jobs:
           echo "preinstalled='$preinstalled'"
           echo "preinstalled=$preinstalled" >> $GITHUB_ENV
           #
+          preinstalledgeneric=''
+          if [ -n "$SNAPSHOTS" ]; then
+            sel_config preinstalledgeneric "$BRANCH" preinstalled-generic ||
+            sel_config preinstalledgeneric "snapshots" preinstalled-generic ||
+            sel_config preinstalledgeneric "default" preinstalled-generic || sleep 0
+          else
+            sel_config preinstalledgeneric "$OP_VERSION" preinstalled-generic ||
+            sel_config preinstalledgeneric "$BRANCH" preinstalled-generic ||
+            sel_config preinstalledgeneric "default" preinstalled-generic || sleep 0
+          fi
+          echo "preinstalledgeneric='$preinstalledgeneric'"
+          echo "preinstalledgeneric=$preinstalledgeneric" >> $GITHUB_ENV
+          #
           preinstalledarch=''
           if [ -n "$SNAPSHOTS" ]; then
             sel_config preinstalledarch "$BRANCH" preinstalled-arch ||
@@ -218,8 +240,12 @@ jobs:
         shell: bash
         run: |
           INSTALLS="$INSTALL_PACKAGES"
-          url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalled \
-               https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalledarch"
+          url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalled"
+          if [ "${{ inputs.lite_install }}" != "true" ]; then
+            url="$url \
+                 https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalledgeneric \
+                 https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalledarch"
+          fi
           for l in $url; do
             if [ "$(curl -sL -w '%{http_code}' "$l" -o preinstalled)" != "404" ]; then
               INSTALLS=${INSTALLS:+$INSTALLS }$(cat preinstalled 2>/dev/null | tr '\n' ' ')
