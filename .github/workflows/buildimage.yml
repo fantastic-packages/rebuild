@@ -6,7 +6,7 @@ on:
       version:
         description: 'Release version'
         required: true
-        default: '23.05.5|24.10.0|SNAPSHOT'
+        default: '23.05.5|24.10.1|SNAPSHOT'
         type: string
       board:
         description: 'Device board'
