@@ -1,0 +1,1 @@
+{"serialNumber":"urn:uuid:be0cfbec-002d-43c6-a132-2a34fee35f6a","specVersion":"1.4","components":[{"type":"application","name":"batctl-default","version":"2024.3","licenses":[{"license":{"name":"GPL-2.0-only"}},{"license":{"name":"ISC"}},{"license":{"name":"MIT"}}]}],"bomFormat":"CycloneDX","version":1,"metadata":{"timestamp":"2025-05-13T13:44:35Z"}}
