@@ -42,7 +42,6 @@ jobs:
 
     env:
       MIRROR_URL: 'https://downloads.openwrt.org'
-      CONFBRANCH: ${{ github.ref_name }}
       TARGETBRANCH: ${{ inputs.version }}-${{ inputs.board }}-${{ inputs.subtarget }}
       OP_VERSION: ${{ inputs.version }}
       USIGN_ID: ${{ vars.USIGN_ID }}
@@ -89,6 +88,18 @@ jobs:
           op_target_url_prefix="$MIRROR_URL/$([ -n "$SNAPSHOTS" ] && echo snapshots || echo "releases/$OP_VERSION")/targets/${{ inputs.board }}/${{ inputs.subtarget}}"
           echo "op_target_url_prefix=$op_target_url_prefix" >> $GITHUB_ENV
 
+      - name: Check ${{ env.BRANCH }} if deployed
+        run: |
+          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/$GITHUB_REPOSITORY/tree/$BRANCH)
+          if [ "$rcode" != "404" ]; then
+            echo Branch $BRANCH is deployed. will be used.
+            BUILDBRANCH="$BRANCH"
+          else
+            echo Branch $BRANCH is not deployed, branch $GITHUB_REF_NAME will be used.
+            BUILDBRANCH="$GITHUB_REF_NAME"
+          fi
+          echo "BUILDBRANCH=$BUILDBRANCH" >> $GITHUB_ENV
+
       - name: Check raw config.buildinfo
         shell: bash
         run: |
@@ -120,7 +131,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          ref: ${{ env.CONFBRANCH }}
+          ref: ${{ env.BUILDBRANCH }}
 
       - name: Get buildinfo.sh / faillogs.txt path
         shell: bash
@@ -193,7 +204,7 @@ jobs:
           https://github.com/openwrt/openwrt.git openwrt
           # .config
           curl -Lo openwrt/.config "${op_target_url_prefix}/config.buildinfo"
-          git checkout origin/$CONFBRANCH -- "$config" 2>/dev/null || echo
+          git checkout origin/$BUILDBRANCH -- "$config" 2>/dev/null || echo
           sudo chmod +x "$config"
           "$config" openwrt/.config
           git reset HEAD "$config"
@@ -260,7 +271,7 @@ jobs:
             cd ..
           done
           popd
-          faillogs=$(curl -sL "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$faillogs" | tr '\n' ' ' | sed 's|^\s*||;s|\s*$||')
+          faillogs=$(curl -sL "https://github.com/$GITHUB_REPOSITORY/raw/$BUILDBRANCH/$faillogs" | tr '\n' ' ' | sed 's|^\s*||;s|\s*$||')
           installs=$(echo "$installs" | tr ' ' '\n' | grep -v '^$' | grep -Ev "^$(echo "$faillogs" | sed -E 's,\s+,|,g;s|^|\(|;s|$|\)|')$")
           echo installs: $installs
           scripts/feeds install $installs
