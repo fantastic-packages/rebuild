@@ -54,7 +54,7 @@ on:
         type: string
       rootfs_size:
         required: false
-        type: number
+        type: string
       install_packages:
         required: false
         type: string

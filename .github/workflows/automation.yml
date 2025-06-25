@@ -1,0 +1,103 @@
+name: Automation
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_mode:
+        description: 'Build mode'
+        required: true
+        default: 'build_world_and_img'
+        type: choice
+        options:
+        - build_world_and_img
+        - build_img
+        - build_world
+      version:
+        description: 'Release version'
+        required: true
+        default: '23.05.5|24.10.2|SNAPSHOT'
+        type: string
+      rootfs_size:
+        description: 'RootFS size'
+        required: false
+        default: 256
+        type: number
+      install_packages:
+        description: 'Install packages'
+        required: false
+        default: 'kmod-ikconfig einat-ebpf'
+        type: string
+      lite_install:
+        description: 'Lite install'
+        required: false
+        default: false
+        type: boolean
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: false
+
+jobs:
+  build_world:
+    if: (inputs.build_mode == 0 || inputs.build_mode == 'build_world_and_img' || inputs.build_mode == 'build_world') && !cancelled()
+    permissions:
+      contents: write  # To push a branch
+    strategy:
+      matrix:
+        version:
+          - ${{ inputs.version }}
+        devices:
+          - x86-64
+          - nanopi-r2s
+          - rpi-3
+        include:
+          - devices: x86-64
+            target: ['x86', '64'] # for imagebuilder
+            profile: generic # for imagebuilder
+          - devices: nanopi-r2s
+            target: ['rockchip', 'armv8']
+            profile: friendlyarm_nanopi-r2s
+          - devices: rpi-3
+            target: ['bcm27xx', 'bcm2710']
+            profile: rpi-3
+    uses: ./.github/workflows/rebuild.yml
+    with:
+      version: ${{ matrix.version }}
+      board: ${{ matrix.target[0] }}
+      subtarget: ${{ matrix.target[1] }}
+    secrets: inherit
+
+  build_img:
+    needs: [build_world]
+    if: (inputs.build_mode == 0 || inputs.build_mode == 'build_world_and_img' || inputs.build_mode == 'build_img') && !cancelled()
+    strategy:
+      matrix:
+        version:
+          - ${{ inputs.version }}
+        devices:
+          - x86-64
+          - nanopi-r2s
+          - rpi-3
+        include:
+          - devices: x86-64
+            target: ['x86', '64'] # for imagebuilder
+            profile: generic # for imagebuilder
+          - devices: nanopi-r2s
+            target: ['rockchip', 'armv8']
+            profile: friendlyarm_nanopi-r2s
+          - devices: rpi-3
+            target: ['bcm27xx', 'bcm2710']
+            profile: rpi-3
+    uses: ./.github/workflows/buildimage.yml
+    with:
+      version: ${{ matrix.version }}
+      board: ${{ matrix.target[0] }}
+      subtarget: ${{ matrix.target[1] }}
+      profile: ${{ matrix.profile }}
+      rootfs_size: ${{ inputs.rootfs_size }}
+      install_packages: ${{ inputs.install_packages }}
+      lite_install: ${{ inputs.lite_install }}
+    secrets: inherit
+
