@@ -1,1 +1,7 @@
-{"architecture": "aarch64_generic", "packages":{"batctl-default": "2024.3-r1"}}
+{
+  "version": 2,
+  "architecture": "aarch64_generic",
+  "packages": {
+    "batctl-default": "2025.2-r1"
+  }
+}
