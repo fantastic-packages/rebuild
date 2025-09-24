@@ -1,0 +1,1 @@
+{"components":[{"name":"batctl-default","type":"application","licenses":[{"license":{"name":"GPL-2.0-only"}},{"license":{"name":"ISC"}},{"license":{"name":"MIT"}}],"version":"2024.3"}],"bomFormat":"CycloneDX","metadata":{"timestamp":"2025-09-24T07:47:52Z"},"serialNumber":"urn:uuid:7e09ee43-cc5b-4bd0-a7be-e8cc1903dbb2","specVersion":"1.4","version":1}
