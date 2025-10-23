@@ -1,4 +1,4 @@
-bash nano getopt coreutils-base64 coreutils-sha1sum coreutils-stat jq
+bash nano getopt coreutils-base64 coreutils-sha1sum coreutils-stat jq-full yq scart
 unzip gzip tar bzip2 xz lzmainfo zstd
 lscpu htop atop iftop
 ethtool arp-scan arp-scan-database bind-tools knot-dig iperf3
@@ -17,7 +17,7 @@ kmod-fs-msdos kmod-nls-base kmod-nls-utf8 kmod-nls-cp932 kmod-nls-cp936 kmod-nls
 kmod-tcp-bbr kmod-ipt-offload kmod-nft-offload kmod-nft-tproxy kmod-tun ip-full iw-full
 zoneinfo-core zoneinfo-simple zoneinfo-asia
 
-luci luci-compat luci-lib-ipkg luci-mod-dashboard luci-theme-material
+luci luci-compat luci-lib-ipkg luci-mod-dashboard
 luci-app-ttyd luci-app-advanced-reboot luci-app-commands luci-app-log-viewer
 luci-app-natmapt natmapt-client-script-transmission natmapt-notify-script-telegram natmapt-notify-script-pushover natmapt-notify-script-pushbullet
 shadowsocks-rust-ssserver luci-app-shadowsocks-rust
