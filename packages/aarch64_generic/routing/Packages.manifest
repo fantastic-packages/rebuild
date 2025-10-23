@@ -1,0 +1,24 @@
+Package: batctl-default
+Version: 2024.3-r2
+Depends: libc, libnl-tiny1, librt
+Provides: batctl
+Alternatives: 200:/usr/sbin/batctl:/usr/libexec/batctl-default
+Source: feeds/routing/batctl
+SourceName: batctl
+License: GPL-2.0-only ISC MIT
+LicenseFiles: LICENSES/preferred/GPL-2.0 LICENSES/preferred/MIT LICENSES/deprecated/ISC
+Section: net
+SourceDateEpoch: 1758711076
+URL: https://www.open-mesh.org/
+Maintainer: Simon Wunderlich <sw@simonwunderlich.de>
+Architecture: aarch64_generic
+Installed-Size: 143360
+Filename: batctl-default_2024.3-r2_aarch64_generic.ipk
+Size: 47261
+SHA256sum: ad221e2571256f8ab669d60811e6d03053e16db1cdd677bbbbc59a1eeda05a72
+Description:  batctl is a more intuitive managment utility for B.A.T.M.A.N.-Advanced.
+ It is an easier method for configuring batman-adv and provides some
+ additional tools for debugging as well. This package builds
+ version 2024.3 of the user space utility.
+ Standard subcommands for configuration and online debugging are enabled.
+
