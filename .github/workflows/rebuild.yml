@@ -350,7 +350,7 @@ jobs:
 
       - name: Upload artifact (All)
         if: ${{ steps.push_packages.outcome == 'success' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-all
           path: |
@@ -359,7 +359,7 @@ jobs:
 
       - name: Upload artifact (Image files)
         if: ${{ steps.push_packages.outcome == 'success' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-image
           path: |
@@ -375,7 +375,7 @@ jobs:
 
       - name: Upload artifact (Supplementary files)
         if: ${{ steps.push_packages.outcome == 'success' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-supplementary
           path: |
@@ -383,7 +383,7 @@ jobs:
 
       - name: Upload artifact (Image Builder)
         if: ${{ steps.push_packages.outcome == 'success' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-IB
           path: |
@@ -391,7 +391,7 @@ jobs:
 
       - name: Upload artifact (SDK)
         if: ${{ steps.push_packages.outcome == 'success' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-SDK
           path: |
