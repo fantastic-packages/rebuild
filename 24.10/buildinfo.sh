@@ -20,6 +20,10 @@ set_config() {
 # rename
 set_config CONFIG_VERSION_DIST '"Rebuild"'
 
+# qemu / vbox
+set_config CONFIG_QCOW2_IMAGES y
+set_config CONFIG_VDI_IMAGES y
+
 # build log
 set_config CONFIG_BUILD_LOG y
 
@@ -50,7 +54,7 @@ set_config CONFIG_KERNEL_CGROUPS y # dae
 set_config CONFIG_KERNEL_KALLSYMS y
 set_config CONFIG_KERNEL_KPROBES y # dae
 set_config CONFIG_KERNEL_KPROBE_EVENTS y # dae
-set_config CONFIG_KERNEL_XDP_SOCKETS y
+set_config CONFIG_KERNEL_XDP_SOCKETS y # dae
 set_config CONFIG_NET_INGRESS y # dae
 set_config CONFIG_NET_EGRESS y # dae
 set_config CONFIG_NET_CLS_ACT y # dae
