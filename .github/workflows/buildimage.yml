@@ -143,7 +143,7 @@ jobs:
           zlib1g-dev file wget zstd python3-venv python3-pyelftools python3-cryptography \
 
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ env.CONFBRANCH }}
 
