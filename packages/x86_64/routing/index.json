@@ -2,6 +2,6 @@
   "version": 2,
   "architecture": "x86_64",
   "packages": {
-    "batctl-default": "2025.3-r1"
+    "batctl-default": "2025.4-r1"
   }
 }
