@@ -310,7 +310,7 @@ jobs:
           make image \
             PROFILE="${{ inputs.profile }}" \
             DISABLED_SERVICES="$DISABLED_SERVICES" \
-            ADD_LOCAL_KEY=1 \
+            ADD_LOCAL_KEY= \
             PACKAGES="$INSTALLS"
           endgroup
           #
