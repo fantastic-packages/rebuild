@@ -25,7 +25,7 @@ on:
       install_packages:
         description: 'Install packages'
         required: false
-        default: 'kmod-ikconfig einat-ebpf'
+        default: 'kmod-ikconfig einat-ebpf qemu-img git git-http '
         type: string
       lite_install:
         description: 'Lite install'

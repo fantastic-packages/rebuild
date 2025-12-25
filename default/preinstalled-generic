@@ -12,7 +12,7 @@ kmod-sdhci kmod-mmc
 blockd mount-utils swap-utils usbutils pciutils
 lsblk blkid cfdisk cgdisk fixparts parted
 coreutils-truncate losetup parted resize2fs lsblk coreutils-df coreutils-dd
-kmod-fs-vfat kmod-fs-exfat kmod-fs-ext4
+kmod-fs-vfat kmod-fs-exfat kmod-fs-ext4 kmod-fs-ntfs3
 kmod-fs-msdos kmod-nls-base kmod-nls-utf8 kmod-nls-cp932 kmod-nls-cp936 kmod-nls-cp950
 kmod-tcp-bbr kmod-ipt-offload kmod-nft-offload kmod-nft-tproxy kmod-tun ip-full iw-full
 zoneinfo-core zoneinfo-simple zoneinfo-asia
