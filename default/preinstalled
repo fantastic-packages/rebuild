@@ -1,12 +1,15 @@
+attendedsysupgrade-common
 cgi-io
 libiwinfo
 libiwinfo-data
 liblucihttp
 liblucihttp-ucode
 luci
+luci-app-attendedsysupgrade
 luci-app-firewall
 luci-app-package-manager
 luci-base
+luci-lib-uqr
 luci-light
 luci-mod-admin-full
 luci-mod-network
@@ -21,14 +24,16 @@ rpcd
 rpcd-mod-file
 rpcd-mod-iwinfo
 rpcd-mod-luci
+rpcd-mod-rpcsys
 rpcd-mod-rrdns
 rpcd-mod-ucode
 ucode-mod-html
+ucode-mod-log
 ucode-mod-math
 uhttpd
 uhttpd-mod-ubus
 
 dnsmasq-full -dnsmasq
 iw-full iwinfo
-ca-certificates curl wget-ssl
+ca-certificates curl wget-ssl iusebash
 fantastic-keyring fantastic-packages-feeds
