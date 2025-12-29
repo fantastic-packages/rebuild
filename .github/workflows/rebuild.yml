@@ -214,6 +214,7 @@ jobs:
             -e 's,https://git.openwrt.org/openwrt/,https://github.com/openwrt/,' \
             -e 's,https://git.openwrt.org/project/,https://github.com/openwrt/,' \
             openwrt/feeds.conf.default
+          cat openwrt/feeds.conf.default
           # key-build
           echo "$APK_SIGN_KEY" > openwrt/private-key.pem
           echo "$APK_SIGN_PUBKEY" > openwrt/public-key.pem
