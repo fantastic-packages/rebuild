@@ -216,7 +216,7 @@ jobs:
             rm -f ${ibname}.*
           fi
           popd
-          tar $(echo "targets/${{ inputs.board }}/${{ inputs.subtarget}}/"*-imagebuilder-*.* | grep -qE '\.tar\.zst$' && echo '-I zstd') -xf targets/${{ inputs.board }}/${{ inputs.subtarget}}/*-imagebuilder-*.*
+          tar -xf targets/${{ inputs.board }}/${{ inputs.subtarget}}/*-imagebuilder-*.*
           mv *-imagebuilder-* imagebuilder
           pushd imagebuilder
           #

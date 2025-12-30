@@ -217,7 +217,7 @@ jobs:
           sha256sums="$(curl -L "${op_target_url_prefix}/sha256sums")"
           llvm_bpf="$(sed -n '/\bllvm\b/{s|^[[:xdigit:]]*\s*\*||;p}' <<< "$sha256sums")"
           axel -q -n8 "${op_target_url_prefix}/${llvm_bpf}"
-          tar $(echo "$llvm_bpf" | grep -qE '\.tar\.zst$' && echo '-I zstd') -xf "$llvm_bpf" -C openwrt/
+          tar -xf "$llvm_bpf" -C openwrt/
 
       - name: Initialize Rebuild Environment
         id: init_rebuid_env
