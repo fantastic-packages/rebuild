@@ -68,13 +68,6 @@ jobs:
           Total memory: $[ ${{ steps.system-info.outputs.totalmem }} / 1024**3 ] GB
           EOF
 
-      - name: Check if deployed
-        shell: bash
-        run: |
-          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/$GITHUB_REPOSITORY/tree/$TARGETBRANCH)
-          echo rcode: $rcode
-          [ "$rcode" = "404" ] || { echo "DEPLOYED=y" >> $GITHUB_ENV; }
-
       - name: Determine branch name and Generate op_target_url_prefix
         shell: bash
         run: |
@@ -183,16 +176,18 @@ jobs:
           git config --local user.name "GitHub Action"
           git config --local user.email "actions-user@users.noreply.github.com"
           #
-          if [ "$DEPLOYED" = "y" ]; then
-            git fetch --depth=1 origin $TARGETBRANCH
-            git checkout -b $TARGETBRANCH --track origin/$TARGETBRANCH
-            rm -rf *
-            git add .
-          else
+          rcode=$(curl -sL -w '%{http_code}' -o /dev/null https://github.com/$GITHUB_REPOSITORY/tree/$TARGETBRANCH)
+          #
+          if [ "$rcode" = "404" ]; then
             git checkout --orphan $TARGETBRANCH
             git reset .
             git commit -m '' --allow-empty --allow-empty-message
             git push --set-upstream origin $TARGETBRANCH
+          else
+            git fetch --depth=1 origin $TARGETBRANCH
+            git checkout -b $TARGETBRANCH --track origin/$TARGETBRANCH
+            rm -rf *
+            git add .
           fi
 
       - name: Initialize Openwrt Environment
