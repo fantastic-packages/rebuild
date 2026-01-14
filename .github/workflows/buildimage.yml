@@ -216,8 +216,8 @@ jobs:
             rm -f ${ibname}.*
           fi
           popd
-          tar -xf targets/${{ inputs.board }}/${{ inputs.subtarget}}/*-imagebuilder-*.*
-          mv *-imagebuilder-* imagebuilder
+          mkdir imagebuilder
+          tar -xf targets/${{ inputs.board }}/${{ inputs.subtarget}}/*-imagebuilder-*.* --strip=1 --no-same-owner -C imagebuilder
           pushd imagebuilder
           #
           eval "$(grep CONFIG_TARGET_ARCH_PACKAGES .config)"
