@@ -111,11 +111,10 @@ jobs:
       - name: Determine branch name
         shell: bash
         run: |
-          SNAPSHOTS=$(echo "$OP_VERSION" | grep -q SNAPSHOT && { [ "$OP_VERSION" = "SNAPSHOT" ] && echo y || echo i; } || echo )
-          echo "SNAPSHOTS=$SNAPSHOTS" >> $GITHUB_ENV
-          SNAPSHOTS_BRANCH="$(echo "$OP_VERSION" | sed -En 's|^(.+)-SNAPSHOT$|\1|p')"
-          echo "SNAPSHOTS_BRANCH=$SNAPSHOTS_BRANCH" >> $GITHUB_ENV
-          BRANCH="$([ -n "$SNAPSHOTS_BRANCH" ] && echo "$SNAPSHOTS_BRANCH" || echo "${OP_VERSION%.*}")"
+          FMTED_VERSION=$([ -z "$OP_VERSION" ] || grep -qiE "^(main|master|snapshots?)$" <<< "$OP_VERSION" || echo "$OP_VERSION")
+          echo "Building for $FMTED_VERSION"
+          echo "FMTED_VERSION=$FMTED_VERSION" >> $GITHUB_ENV
+          BRANCH=$([ -z "$FMTED_VERSION" ] && echo SNAPSHOT || grep -oE '^[0-9]+\.[0-9]+' <<< "$FMTED_VERSION")
           echo "Building for $BRANCH"
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
 
@@ -160,12 +159,11 @@ jobs:
           }
           #
           preinstalled=''
-          if [ -n "$SNAPSHOTS" ]; then
-            sel_config preinstalled "$BRANCH" preinstalled ||
+          if [ -z "$FMTED_VERSION" ]; then
             sel_config preinstalled "snapshots" preinstalled ||
             sel_config preinstalled "default" preinstalled || sleep 0
           else
-            sel_config preinstalled "$OP_VERSION" preinstalled ||
+            sel_config preinstalled "$FMTED_VERSION" preinstalled ||
             sel_config preinstalled "$BRANCH" preinstalled ||
             sel_config preinstalled "default" preinstalled || sleep 0
           fi
@@ -173,12 +171,11 @@ jobs:
           echo "preinstalled=$preinstalled" >> $GITHUB_ENV
           #
           preinstalledgeneric=''
-          if [ -n "$SNAPSHOTS" ]; then
-            sel_config preinstalledgeneric "$BRANCH" preinstalled-generic ||
+          if [ -z "$FMTED_VERSION" ]; then
             sel_config preinstalledgeneric "snapshots" preinstalled-generic ||
             sel_config preinstalledgeneric "default" preinstalled-generic || sleep 0
           else
-            sel_config preinstalledgeneric "$OP_VERSION" preinstalled-generic ||
+            sel_config preinstalledgeneric "$FMTED_VERSION" preinstalled-generic ||
             sel_config preinstalledgeneric "$BRANCH" preinstalled-generic ||
             sel_config preinstalledgeneric "default" preinstalled-generic || sleep 0
           fi
@@ -186,12 +183,11 @@ jobs:
           echo "preinstalledgeneric=$preinstalledgeneric" >> $GITHUB_ENV
           #
           preinstalledarch=''
-          if [ -n "$SNAPSHOTS" ]; then
-            sel_config preinstalledarch "$BRANCH" preinstalled-arch ||
+          if [ -z "$FMTED_VERSION" ]; then
             sel_config preinstalledarch "snapshots" preinstalled-arch ||
             sel_config preinstalledarch "default" preinstalled-arch || sleep 0
           else
-            sel_config preinstalledarch "$OP_VERSION" preinstalled-arch ||
+            sel_config preinstalledarch "$FMTED_VERSION" preinstalled-arch ||
             sel_config preinstalledarch "$BRANCH" preinstalled-arch ||
             sel_config preinstalledarch "default" preinstalled-arch || sleep 0
           fi
@@ -233,11 +229,11 @@ jobs:
           done
           # core feed
           sed -Ei "/\/targets\/${{ inputs.board }}\/${{ inputs.subtarget}}\/packages/{ \
-            s,https?://.*/(releases/$OP_VERSION|snapshots),file://$GITHUB_WORKSPACE, \
+            s,https?://.*/(releases/[^/]+|snapshots),file://$GITHUB_WORKSPACE, \
           }" repositories
           # SNAPSHOT
-          if [ -n "$SNAPSHOTS" ]; then
-            sed -i "s|releases/$OP_VERSION|snapshots|" repositories
+          if [ -z "$FMTED_VERSION" ]; then
+            sed -i "s|releases/[^/]+|snapshots|" repositories
           fi
           # fantastic feeds
           n=$(sed -n '$=' repositories)
