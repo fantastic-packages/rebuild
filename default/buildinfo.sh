@@ -21,8 +21,11 @@ set_config() {
 set_config CONFIG_VERSION_DIST '"Rebuild"'
 
 # qemu / vbox
-#set_config CONFIG_QCOW2_IMAGES y
+#set_config CONFIG_ISO_IMAGES y
+set_config CONFIG_QCOW2_IMAGES y
 #set_config CONFIG_VDI_IMAGES y
+#set_config CONFIG_VHDX_IMAGES y
+set_config CONFIG_VMDK_IMAGES y
 
 # build log
 set_config CONFIG_BUILD_LOG y
