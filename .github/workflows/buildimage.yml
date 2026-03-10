@@ -313,6 +313,50 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.BOARD }}-${{ inputs.subtarget }}-${{ inputs.profile }}-all
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-all
           path: |
-            imagebuilder/bin/targets/${{ inputs.BOARD }}/${{ inputs.subtarget }}/
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/
+
+      - name: Upload artifact (Ext4 Images)
+        if: ${{ steps.build_image.outcome == 'success' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-ext4-image
+          path: |
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-ext4-*
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
+
+      - name: Upload artifact (SquashFS Images)
+        if: ${{ steps.build_image.outcome == 'success' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-squashfs-image
+          path: |
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-squashfs-*
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
+
+      - name: Upload artifact (EroFS Images)
+        if: ${{ steps.build_image.outcome == 'success' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-erofs-image
+          path: |
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-erofs-*
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
+
+      - name: Upload artifact (Targz Images)
+        if: ${{ steps.build_image.outcome == 'success' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-targz-image
+          path: |
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-targz-*
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
