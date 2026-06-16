@@ -126,15 +126,15 @@ jobs:
         with:
           ref: ${{ env.BUILDBRANCH }}
 
-      - name: Get buildinfo.sh / faillogs.txt path
+      - name: Get buildinfo.sh / faillogs.txt path / patchs path
         shell: bash
         run: |
           sel_config() {
-          if   [ -f "$2/${{ inputs.board }}/${{ inputs.subtarget}}/$3" ]; then
+          if   [ -e "$2/${{ inputs.board }}/${{ inputs.subtarget}}/$3" ]; then
             eval $1="$2/${{ inputs.board }}/${{ inputs.subtarget}}/$3"
-          elif [ -f "$2/${{ inputs.board }}/$3" ]; then
+          elif [ -e "$2/${{ inputs.board }}/$3" ]; then
             eval $1="$2/${{ inputs.board }}/$3"
-          elif [ -f "$2/$3" ]; then
+          elif [ -e "$2/$3" ]; then
             eval $1="$2/$3"
           else
             return 1
@@ -166,6 +166,18 @@ jobs:
           fi
           echo "faillogs='$faillogs'"
           echo "faillogs=$faillogs" >> $GITHUB_ENV
+          #
+          patchs=''
+          if [ -z "$FMTED_VERSION" ]; then
+            sel_config patchs "snapshots" patchs ||
+            sel_config patchs "default" patchs || sleep 0
+          else
+            sel_config patchs "$FMTED_VERSION" patchs ||
+            sel_config patchs "$BRANCH" patchs ||
+            sel_config patchs "default" patchs || sleep 0
+          fi
+          echo "patchs='$patchs'"
+          echo "patchs=$patchs" >> $GITHUB_ENV
 
       - name: Checkout to TARGETBRANCH ${{ env.TARGETBRANCH }}
         id: checkout_to_targetbranch
@@ -198,9 +210,9 @@ jobs:
           # .config
           curl -Lo openwrt/.config "${op_target_url_prefix}/config.buildinfo"
           git checkout origin/$BUILDBRANCH -- "$config" 2>/dev/null || echo
+          git reset HEAD "$config"
           sudo chmod +x "$config"
           "$config" openwrt/.config
-          git reset HEAD "$config"
           # feeds.conf.default
           sed -i \
             -e 's,https://git.openwrt.org/feed/,https://github.com/openwrt/,' \
@@ -225,6 +237,18 @@ jobs:
           # override core feeds
           sed -i "/%U\/targets\//{s|%U|https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$TARGETBRANCH|}" openwrt/include/feeds.mk
           sed -i "/%S\/kmods\//{s|echo '|echo '#|}" openwrt/include/feeds.mk
+          # qcow2 support
+          git checkout origin/$BUILDBRANCH -- "$patchs" 2>/dev/null || echo
+          git reset HEAD "$patchs"
+          pushd openwrt
+          for f in "$GITHUB_WORKSPACE/$patchs"/*.patch; do
+            echo "◆ Applying '$f'."
+            git apply --check "$f" && {
+              git apply "$f"
+              [ "$?" = 0 ] && echo "◆ Apply success." || { echo "◆ Apply failed."; exit 1; }
+            } || { echo "◆ Apply failed."; exit 1; }
+          done
+          popd
 
       - name: Build world
         id: build_world
