@@ -1,0 +1,76 @@
+---
+ config/Config-images.in           | 6 ++++++
+ target/linux/armsr/image/Makefile | 4 ++++
+ target/linux/x86/image/Makefile   | 6 ++++++
+ 3 files changed, 16 insertions(+)
+
+diff --git a/config/Config-images.in b/config/Config-images.in
+index c32fa00c5f..59ff685b53 100644
+--- a/config/Config-images.in
++++ b/config/Config-images.in
+@@ -260,6 +260,12 @@ menu "Target Images"
+ 		depends on TARGET_x86
+ 		depends on GRUB_IMAGES || GRUB_EFI_IMAGES
+
++	config QCOW2_IMAGES
++		bool "Build PVE/KVM image files (QCOW2)"
++		depends on TARGET_x86 || TARGET_armsr
++		depends on GRUB_IMAGES || GRUB_EFI_IMAGES
++		select PACKAGE_kmod-e1000
++
+ 	config VDI_IMAGES
+ 		bool "Build VirtualBox image files (VDI)"
+ 		depends on TARGET_x86
+diff --git a/target/linux/armsr/image/Makefile b/target/linux/armsr/image/Makefile
+index 4c20cf0e9f..fcc5806a4f 100644
+--- a/target/linux/armsr/image/Makefile
++++ b/target/linux/armsr/image/Makefile
+@@ -79,6 +79,7 @@ define Device/efi-default
+   IMAGE/rootfs.img.gz := append-rootfs | pad-to $(ROOTFS_PARTSIZE) | gzip
+   IMAGE/combined.img := grub-config efi | combined efi | grub-install efi | append-metadata
+   IMAGE/combined.img.gz := grub-config efi | combined efi | grub-install efi | gzip | append-metadata
++  IMAGE/combined.qcow2 := grub-config efi | combined efi | grub-install efi | qemu-image qcow2
+   IMAGE/combined.vmdk := grub-config efi | combined efi | grub-install efi | qemu-image vmdk
+  ifeq ($(CONFIG_TARGET_IMAGES_GZIP),y)
+     IMAGES-y := rootfs.img.gz
+@@ -87,6 +88,9 @@ define Device/efi-default
+     IMAGES-y := rootfs.img
+     IMAGES-y += combined.img
+   endif
++  ifeq ($(CONFIG_QCOW2_IMAGES),y)
++    IMAGES-y += combined.qcow2
++  endif
+   ifeq ($(CONFIG_VMDK_IMAGES),y)
+     IMAGES-y += combined.vmdk
+   endif
+diff --git a/target/linux/x86/image/Makefile b/target/linux/x86/image/Makefile
+index 322131c2a4..677b758e01 100644
+--- a/target/linux/x86/image/Makefile
++++ b/target/linux/x86/image/Makefile
+@@ -107,6 +107,7 @@ define Device/Default
+   ARTIFACT/image.iso := grub-config iso | iso
+   IMAGE/combined.img := grub-config pc | combined | grub-install | append-metadata
+   IMAGE/combined.img.gz := grub-config pc | combined | grub-install | gzip | append-metadata
++  IMAGE/combined.qcow2 := grub-config pc | combined | grub-install | qemu-image qcow2
+   IMAGE/combined.vdi := grub-config pc | combined | grub-install | qemu-image vdi
+   IMAGE/combined.vmdk := grub-config pc | combined | grub-install | qemu-image vmdk
+   IMAGE/combined.vhdx := grub-config pc | combined | grub-install | qemu-image vhdx -o subformat=dynamic
+@@ -115,6 +116,7 @@ define Device/Default
+   ARTIFACT/image-efi.iso := grub-config iso | iso efi
+   IMAGE/combined-efi.img := grub-config efi | combined efi | grub-install efi | append-metadata
+   IMAGE/combined-efi.img.gz := grub-config efi | combined efi | grub-install efi | gzip | append-metadata
++  IMAGE/combined-efi.qcow2 := grub-config efi | combined efi | grub-install efi | qemu-image qcow2
+   IMAGE/combined-efi.vdi := grub-config efi | combined efi | grub-install efi | qemu-image vdi
+   IMAGE/combined-efi.vmdk := grub-config efi | combined efi | grub-install efi | qemu-image vmdk
+   IMAGE/combined-efi.vhdx := grub-config efi | combined efi | grub-install efi | qemu-image vhdx -o subformat=dynamic
+@@ -134,6 +136,10 @@ define Device/Default
+     ARTIFACTS-$$(CONFIG_GRUB_IMAGES) += image.iso
+     ARTIFACTS-$$(CONFIG_GRUB_EFI_IMAGES) += image-efi.iso
+   endif
++  ifeq ($(CONFIG_QCOW2_IMAGES),y)
++    IMAGES-$$(CONFIG_GRUB_IMAGES) += combined.qcow2
++    IMAGES-$$(CONFIG_GRUB_EFI_IMAGES) += combined-efi.qcow2
++  endif
+   ifeq ($(CONFIG_VDI_IMAGES),y)
+     IMAGES-$$(CONFIG_GRUB_IMAGES) += combined.vdi
+     IMAGES-$$(CONFIG_GRUB_EFI_IMAGES) += combined-efi.vdi
