@@ -35,5 +35,5 @@ uhttpd-mod-ubus
 
 dnsmasq-full -dnsmasq
 iw-full iwinfo
-ca-certificates curl wget-ssl
+ca-certificates curl wget-ssl iusebash
 fantastic-keyring fantastic-packages-feeds
