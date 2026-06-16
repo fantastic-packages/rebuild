@@ -393,44 +393,111 @@ jobs:
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/
 
-      - name: Upload artifact (Ext4 Images)
+      - name: Upload artifact (RootFS)
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-ext4-image
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-rootfs
+          path: |
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-kernel.bin
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-rootfs.tar.gz
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
+
+      - name: Upload artifact (ISO Images)
+        if: ${{ steps.build_image.outcome == 'success' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-iso-image
+          path: |
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.iso
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
+
+      - name: Upload artifact (QCOW2 Images)
+        if: ${{ steps.build_image.outcome == 'success' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-qcow2-image
+          path: |
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.qcow2.gz
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
+
+      - name: Upload artifact (VDI Images)
+        if: ${{ steps.build_image.outcome == 'success' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-vdi-image
+          path: |
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.vdi.gz
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
+
+      - name: Upload artifact (VMDK Images)
+        if: ${{ steps.build_image.outcome == 'success' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-vmdk-image
+          path: |
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.vmdk.gz
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
+
+      - name: Upload artifact (VHDK Images)
+        if: ${{ steps.build_image.outcome == 'success' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-vhdk-image
+          path: |
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.vhdk.gz
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
+            imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
+
+      - name: Upload artifact (Ext4 FS)
+        if: ${{ steps.build_image.outcome == 'success' }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-ext4-fs
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-ext4-*
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
 
-      - name: Upload artifact (SquashFS Images)
+      - name: Upload artifact (SquashFS FS)
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-squashfs-image
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-squashfs-fs
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-squashfs-*
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
 
-      - name: Upload artifact (EroFS Images)
+      - name: Upload artifact (EroFS FS)
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-erofs-image
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-erofs-fs
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-erofs-*
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.manifest
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/sha256sums
 
-      - name: Upload artifact (Targz Images)
+      - name: Upload artifact (Targz FS)
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-targz-image
+          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-targz-fs
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-targz-*
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
