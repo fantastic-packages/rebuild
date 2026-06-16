@@ -15,7 +15,7 @@ on:
       version:
         description: 'Release version'
         required: true
-        default: '24.10.6|SNAPSHOT'
+        default: '24.10.7|SNAPSHOT'
         type: string
       rootfs_size:
         description: 'RootFS size'
@@ -100,4 +100,3 @@ jobs:
       install_packages: ${{ inputs.install_packages }}
       lite_install: ${{ inputs.lite_install }}
     secrets: inherit
-
