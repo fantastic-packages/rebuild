@@ -177,11 +177,12 @@ jobs:
           echo "faillogs=$faillogs" >> $GITHUB_ENV
           #
           patchs=''
-          if [ -z "$FMTED_VERSION" ]; then
+          if [ -n "$SNAPSHOTS" ]; then
+            sel_config patchs "$BRANCH" patchs ||
             sel_config patchs "snapshots" patchs ||
             sel_config patchs "default" patchs || sleep 0
           else
-            sel_config patchs "$FMTED_VERSION" patchs ||
+            sel_config patchs "$OP_VERSION" patchs ||
             sel_config patchs "$BRANCH" patchs ||
             sel_config patchs "default" patchs || sleep 0
           fi
