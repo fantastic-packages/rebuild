@@ -38,6 +38,31 @@ on:
         required: false
         default: false
         type: boolean
+      images_iso:
+        description: 'Export ISO'
+        required: false
+        default: false
+        type: boolean
+      images_qcow2:
+        description: 'Export QCOW2'
+        required: false
+        default: false
+        type: boolean
+      images_vdi:
+        description: 'Export VDI'
+        required: false
+        default: false
+        type: boolean
+      images_vmdk:
+        description: 'Export VMDK'
+        required: false
+        default: false
+        type: boolean
+      images_vhdk:
+        description: 'Export VHDX'
+        required: false
+        default: false
+        type: boolean
   workflow_call:
     inputs:
       version:
@@ -59,6 +84,26 @@ on:
         required: false
         type: string
       lite_install:
+        required: false
+        default: false
+        type: boolean
+      images_iso:
+        required: false
+        default: false
+        type: boolean
+      images_qcow2:
+        required: false
+        default: false
+        type: boolean
+      images_vdi:
+        required: false
+        default: false
+        type: boolean
+      images_vmdk:
+        required: false
+        default: false
+        type: boolean
+      images_vhdk:
         required: false
         default: false
         type: boolean
@@ -251,6 +296,26 @@ jobs:
           repositories.conf
           # ROOTFS_SIZE
           sed -i "s|\(\bCONFIG_TARGET_ROOTFS_PARTSIZE\)=.*|\1=$ROOTFS_SIZE|" .config
+          # IMAGES
+          # set_config <CONFIG_NAME> <value|y|n|null>
+          set_config() {
+            local prefix suffix
+            if [ "$2" = "null" ]; then
+              prefix='# '
+              suffix=' is not set'
+            else
+              prefix=''
+              suffix="=$2"
+            fi
+            sed -Ei "/^(# )?($1)[ =].*/{s|^(# )?($1).*|$prefix\2$suffix|};
+            1i\\$prefix$1$suffix" .config
+          }
+          #
+          [ "${{ inputs.images_iso }}" != "true" ] || set_config CONFIG_ISO_IMAGES y
+          [ "${{ inputs.images_qcow2 }}" != "true" ] || set_config CONFIG_QCOW2_IMAGES y
+          [ "${{ inputs.images_vdi }}" != "true" ] || set_config CONFIG_VDI_IMAGES y
+          [ "${{ inputs.images_vmdk }}" != "true" ] || set_config CONFIG_VMDK_IMAGES y
+          [ "${{ inputs.images_vhdk }}" != "true" ] || set_config CONFIG_VHDX_IMAGES y
           #
           popd
 
@@ -315,6 +380,10 @@ jobs:
           endgroup
           #
           popd
+
+      - name: Display structure of upload files (${{ env.OP_VERSION }}, ${{ inputs.board }}-${{ inputs.subtarget }})
+        run: ls -R
+        working-directory: imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/
 
       - name: Upload artifact (All)
         if: ${{ steps.build_image.outcome == 'success' }}
