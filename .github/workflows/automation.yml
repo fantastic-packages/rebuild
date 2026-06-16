@@ -32,6 +32,31 @@ on:
         required: false
         default: false
         type: boolean
+      images_iso:
+        description: 'Export ISO'
+        required: false
+        default: false
+        type: boolean
+      images_qcow2:
+        description: 'Export QCOW2'
+        required: false
+        default: false
+        type: boolean
+      images_vdi:
+        description: 'Export VDI'
+        required: false
+        default: false
+        type: boolean
+      images_vmdk:
+        description: 'Export VMDK'
+        required: false
+        default: false
+        type: boolean
+      images_vhdk:
+        description: 'Export VHDX'
+        required: false
+        default: false
+        type: boolean
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -99,4 +124,9 @@ jobs:
       rootfs_size: ${{ inputs.rootfs_size }}
       install_packages: ${{ inputs.install_packages }}
       lite_install: ${{ inputs.lite_install }}
+      images_iso: ${{ inputs.images_iso }}
+      images_qcow2: ${{ inputs.images_qcow2 }}
+      images_vdi: ${{ inputs.images_vdi }}
+      images_vmdk: ${{ inputs.images_vmdk }}
+      images_vhdk: ${{ inputs.images_vhdk }}
     secrets: inherit
