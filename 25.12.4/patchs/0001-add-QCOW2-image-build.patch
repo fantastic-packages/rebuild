@@ -5,7 +5,7 @@
  3 files changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/config/Config-images.in b/config/Config-images.in
-index 6b9901b65d0..af4cc439da4 100644
+index 6b9901b65d..af4cc439da 100644
 --- a/config/Config-images.in
 +++ b/config/Config-images.in
 @@ -291,6 +291,12 @@ menu "Target Images"
@@ -22,7 +22,7 @@ index 6b9901b65d0..af4cc439da4 100644
  		bool "Build VirtualBox image files (VDI)"
  		depends on TARGET_x86
 diff --git a/target/linux/armsr/image/Makefile b/target/linux/armsr/image/Makefile
-index 79173e67dac..011d30d19d9 100644
+index 79173e67da..011d30d19d 100644
 --- a/target/linux/armsr/image/Makefile
 +++ b/target/linux/armsr/image/Makefile
 @@ -75,6 +75,7 @@ define Device/efi-default
@@ -44,7 +44,7 @@ index 79173e67dac..011d30d19d9 100644
      IMAGES-y += combined-efi.vmdk
    endif
 diff --git a/target/linux/x86/image/Makefile b/target/linux/x86/image/Makefile
-index 87256c884d3..60a4588df53 100644
+index 87256c884d..60a4588df5 100644
 --- a/target/linux/x86/image/Makefile
 +++ b/target/linux/x86/image/Makefile
 @@ -129,6 +129,7 @@ define Device/Default
