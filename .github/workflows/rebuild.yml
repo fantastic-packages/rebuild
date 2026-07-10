@@ -244,7 +244,6 @@ jobs:
         run: |
           # override core feeds
           sed -i "/%U\/targets\//{s|%U|https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$TARGETBRANCH|}" openwrt/include/feeds.mk
-          sed -i "/%S\/kmods\//{s|echo '|echo '#|}" openwrt/include/feeds.mk
           # qcow2 support
           git checkout origin/$BUILDBRANCH -- "$patchs" 2>/dev/null || echo
           git reset HEAD "$patchs"
@@ -325,10 +324,24 @@ jobs:
           make target/install -j$NPROC
           endgroup
           #
+          group "make kmods directory"
+          libc_suffix="$(sed -ne '/^CONFIG_LIBC=/ { s!^CONFIG_LIBC="\\(.*\\)"!\\1!; s!^musl$!!; s!.\\+!-&!p }' .config)"
+          kernelversion="$(TOPDIR="$GITHUB_WORKSPACE/openwrt" make --no-print-directory -C target/linux/ val.LINUX_VERSION val.LINUX_RELEASE val.LINUX_VERMAGIC | xargs printf '%s-%s-%s')"
+          mkdir -p bin/targets/${{ inputs.board }}/${{ inputs.subtarget}}${libc_suffix}/kmods/${kernelversion}
+          rsync --remove-source-files \
+            --include=/kmod-*.ipk \
+            --include=/kmod-*.apk \
+            --exclude=* \
+            -va \
+            bin/targets/${{ inputs.board }}/${{ inputs.subtarget}}${libc_suffix}/packages/ \
+            bin/targets/${{ inputs.board }}/${{ inputs.subtarget}}${libc_suffix}/kmods/${kernelversion}/
+          make -r package/index PACKAGE_SUBDIRS=bin/targets/${{ inputs.board }}/${{ inputs.subtarget}}${libc_suffix}/kmods/${kernelversion}/
+          endgroup
+          #
           group "finishing work"
-          make package/index
-          make json_overview_image_info
-          make checksum
+          make -r package/index
+          make -r json_overview_image_info
+          make -r checksum
           endgroup
           #
           popd
