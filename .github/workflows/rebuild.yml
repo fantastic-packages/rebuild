@@ -346,6 +346,7 @@ jobs:
           mv openwrt/bin/* ./
           git add packages/ # Non-essential
           git add targets/${{ inputs.board }}/${{ inputs.subtarget}}/packages/
+          git add targets/${{ inputs.board }}/${{ inputs.subtarget}}/kmods/
           git add targets/${{ inputs.board }}/${{ inputs.subtarget}}/*.buildinfo
           git add targets/${{ inputs.board }}/${{ inputs.subtarget}}/*.json
           git add targets/${{ inputs.board }}/${{ inputs.subtarget}}/*.manifest
@@ -387,6 +388,7 @@ jobs:
           path: |
             targets/${{ inputs.board }}/${{ inputs.subtarget }}/
             !targets/${{ inputs.board }}/${{ inputs.subtarget }}/packages/
+            !targets/${{ inputs.board }}/${{ inputs.subtarget }}/kmods/
 
       - name: Upload artifact (Image files)
         if: ${{ steps.push_packages.outcome == 'success' }}
