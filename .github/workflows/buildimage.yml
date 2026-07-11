@@ -389,7 +389,7 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-all
+          name: image-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-all
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/
 
@@ -397,7 +397,7 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-rootfs
+          name: image-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-rootfs
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-kernel.bin
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-rootfs.tar.gz
@@ -409,7 +409,7 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-iso-image
+          name: image-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-iso-image
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.iso
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
@@ -420,7 +420,7 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-qcow2-image
+          name: image-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-qcow2-image
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.qcow2.gz
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
@@ -431,7 +431,7 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-vdi-image
+          name: image-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-vdi-image
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.vdi.gz
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
@@ -442,7 +442,7 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-vmdk-image
+          name: image-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-vmdk-image
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.vmdk.gz
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
@@ -453,7 +453,7 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-vhdk-image
+          name: image-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-vhdk-image
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.vhdk.gz
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
@@ -464,7 +464,7 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-ext4-fs
+          name: image-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-ext4-fs
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-ext4-*
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
@@ -475,7 +475,7 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-squashfs-fs
+          name: image-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-squashfs-fs
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-squashfs-*
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
@@ -486,7 +486,7 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-erofs-fs
+          name: image-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-erofs-fs
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-erofs-*
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json
@@ -497,7 +497,7 @@ jobs:
         if: ${{ steps.build_image.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-targz-fs
+          name: image-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-${{ inputs.profile }}-targz-fs
           path: |
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-targz-*
             imagebuilder/bin/targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.json

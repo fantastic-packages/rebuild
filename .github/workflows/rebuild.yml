@@ -392,7 +392,7 @@ jobs:
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-all
+          name: world-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-all
           path: |
             targets/${{ inputs.board }}/${{ inputs.subtarget }}/
             !targets/${{ inputs.board }}/${{ inputs.subtarget }}/packages/
@@ -402,7 +402,7 @@ jobs:
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-image
+          name: world-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-image
           path: |
             targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.bin
             targets/${{ inputs.board }}/${{ inputs.subtarget }}/*.img
@@ -418,7 +418,7 @@ jobs:
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-supplementary
+          name: world-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-supplementary
           path: |
             targets/${{ inputs.board }}/${{ inputs.subtarget }}/kernel-debug.*
 
@@ -426,7 +426,7 @@ jobs:
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-IB
+          name: world-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-IB
           path: |
             targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-imagebuilder-*.*
 
@@ -434,6 +434,6 @@ jobs:
         if: ${{ steps.push_packages.outcome == 'success' }}
         uses: actions/upload-artifact@v7
         with:
-          name: target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-SDK
+          name: world-target-${{ env.OP_VERSION }}-${{ inputs.board }}-${{ inputs.subtarget }}-SDK
           path: |
             targets/${{ inputs.board }}/${{ inputs.subtarget }}/*-sdk-*.*
