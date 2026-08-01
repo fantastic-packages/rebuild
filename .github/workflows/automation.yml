@@ -15,7 +15,7 @@ on:
       version:
         description: 'Release version'
         required: true
-        default: '24.10.7|SNAPSHOT'
+        default: '24.10.8|SNAPSHOT'
         type: string
       rootfs_size:
         description: 'RootFS size'
