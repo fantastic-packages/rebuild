@@ -32,6 +32,11 @@ on:
         required: false
         default: false
         type: boolean
+      as_recovery:
+        description: 'As Recovery'
+        required: false
+        default: false
+        type: boolean
       images_iso:
         description: 'Export ISO'
         required: false
@@ -124,6 +129,7 @@ jobs:
       rootfs_size: ${{ inputs.rootfs_size }}
       install_packages: ${{ inputs.install_packages }}
       lite_install: ${{ inputs.lite_install }}
+      as_recovery: ${{ inputs.as_recovery }}
       images_iso: ${{ inputs.images_iso }}
       images_qcow2: ${{ inputs.images_qcow2 }}
       images_vdi: ${{ inputs.images_vdi }}

@@ -38,6 +38,11 @@ on:
         required: false
         default: false
         type: boolean
+      as_recovery:
+        description: 'As Recovery'
+        required: false
+        default: false
+        type: boolean
       images_iso:
         description: 'Export ISO'
         required: false
@@ -84,6 +89,10 @@ on:
         required: false
         type: string
       lite_install:
+        required: false
+        default: false
+        type: boolean
+      as_recovery:
         required: false
         default: false
         type: boolean
@@ -227,6 +236,18 @@ jobs:
           echo "preinstalledgeneric='$preinstalledgeneric'"
           echo "preinstalledgeneric=$preinstalledgeneric" >> $GITHUB_ENV
           #
+          preinstalledrecovery=''
+          if [ -z "$FMTED_VERSION" ]; then
+            sel_config preinstalledrecovery "snapshots" preinstalled-recovery ||
+            sel_config preinstalledrecovery "default" preinstalled-recovery || sleep 0
+          else
+            sel_config preinstalledrecovery "$FMTED_VERSION" preinstalled-recovery ||
+            sel_config preinstalledrecovery "$BRANCH" preinstalled-recovery ||
+            sel_config preinstalledrecovery "default" preinstalled-recovery || sleep 0
+          fi
+          echo "preinstalledrecovery='$preinstalledrecovery'"
+          echo "preinstalledrecovery=$preinstalledrecovery" >> $GITHUB_ENV
+          #
           preinstalledarch=''
           if [ -z "$FMTED_VERSION" ]; then
             sel_config preinstalledarch "snapshots" preinstalled-arch ||
@@ -319,7 +340,7 @@ jobs:
           url="https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalled"
           if [ "${{ inputs.lite_install }}" != "true" ]; then
             url="$url \
-                 https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalledgeneric \
+                 $([ "${{ inputs.as_recovery }}" = "true" ] && echo "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalledrecovery" || echo "https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalledgeneric") \
                  https://github.com/$GITHUB_REPOSITORY/raw/$CONFBRANCH/$preinstalledarch"
           fi
           for l in $url; do

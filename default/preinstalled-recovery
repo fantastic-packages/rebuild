@@ -1,0 +1,26 @@
+bash nano
+ethtool arp-scan arp-scan-database bind-tools knot-dig iperf3
+stuntman-client speedtest-go pppoe-discovery tcpdump
+kmod-ikconfig
+kmod-ata-core kmod-ata-ahci
+kmod-scsi-core kmod-scsi-generic
+kmod-usb-core kmod-usb-uhci kmod-usb-ohci kmod-usb-ohci-pci kmod-usb-ehci kmod-usb2 kmod-usb2-pci kmod-usb3
+kmod-usb-storage kmod-usb-storage-uas kmod-usb-storage-extras
+kmod-sdhci kmod-mmc
+blockd mount-utils swap-utils usbutils pciutils
+lsblk blkid cfdisk cgdisk fixparts parted
+coreutils-truncate losetup parted resize2fs lsblk coreutils-df coreutils-dd
+kmod-fs-vfat kmod-fs-exfat kmod-fs-ext4 kmod-fs-ntfs3
+kmod-fs-msdos kmod-nls-base kmod-nls-utf8 kmod-nls-cp932 kmod-nls-cp936 kmod-nls-cp950
+kmod-tcp-bbr kmod-ipt-offload kmod-nft-offload ip-full iw-full
+zoneinfo-core zoneinfo-simple zoneinfo-asia
+
+luci luci-compat luci-lib-ipkg luci-mod-dashboard
+luci-app-ttyd luci-app-advanced-reboot luci-app-commands luci-app-log-viewer
+luci-app-natmapt natmapt-client-script-transmission natmapt-notify-script-telegram natmapt-notify-script-pushover natmapt-notify-script-pushbullet
+shadowsocks-rust-ssserver luci-app-shadowsocks-rust
+luci-app-wol luci-app-change-mac luci-app-einat
+luci-app-uhttpd luci-app-netspeedtest
+luci-app-filemanager luci-app-tinyfilemanager
+acme-acmesh-dnsapi luci-app-acme
+luci-app-upnp
