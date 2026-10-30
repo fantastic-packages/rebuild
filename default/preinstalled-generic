@@ -30,4 +30,4 @@ luci-app-diskman luci-app-disks-info
 luci-app-cpu-status luci-app-tn-netports luci-app-interfaces-statistics
 luci-app-internet-detector luci-app-ipinfo
 acme-acmesh-dnsapi luci-app-acme
-luci-app-upnp
+luci-app-upnp luci-app-keepalived

@@ -23,4 +23,4 @@ luci-app-wol luci-app-change-mac luci-app-einat
 luci-app-uhttpd luci-app-netspeedtest
 luci-app-filemanager luci-app-tinyfilemanager
 acme-acmesh-dnsapi luci-app-acme
-luci-app-upnp
+luci-app-upnp luci-app-keepalived
