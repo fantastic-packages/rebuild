@@ -5,7 +5,7 @@
  3 files changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/config/Config-images.in b/config/Config-images.in
-index 6b9901b65d0..af4cc439da4 100644
+index 7cc3225182e..89403253f77 100644
 --- a/config/Config-images.in
 +++ b/config/Config-images.in
 @@ -291,6 +291,12 @@ menu "Target Images"
@@ -20,7 +20,7 @@ index 6b9901b65d0..af4cc439da4 100644
 +
  	config VDI_IMAGES
  		bool "Build VirtualBox image files (VDI)"
- 		depends on TARGET_x86
+ 		depends on USES_VDI
 diff --git a/target/linux/armsr/image/Makefile b/target/linux/armsr/image/Makefile
 index 79173e67dac..011d30d19d9 100644
 --- a/target/linux/armsr/image/Makefile
@@ -44,26 +44,26 @@ index 79173e67dac..011d30d19d9 100644
      IMAGES-y += combined-efi.vmdk
    endif
 diff --git a/target/linux/x86/image/Makefile b/target/linux/x86/image/Makefile
-index 87256c884d3..60a4588df53 100644
+index 93f644c2dfa..c6a9908f420 100644
 --- a/target/linux/x86/image/Makefile
 +++ b/target/linux/x86/image/Makefile
-@@ -129,6 +129,7 @@ define Device/Default
+@@ -130,6 +130,7 @@ define Device/Default
    ARTIFACT/image.iso := grub-config iso | iso
    IMAGE/combined.img := grub-config pc | combined | grub-install | append-metadata
-   IMAGE/combined.img.gz := grub-config pc | combined | grub-install | gzip | append-metadata
+   IMAGE/combined.img.gz := grub-config pc | combined | grub-install | libdeflate-gzip | append-metadata
 +  IMAGE/combined.qcow2 := grub-config pc | combined | grub-install | qemu-image qcow2
    IMAGE/combined.vdi := grub-config pc | combined | grub-install | qemu-image vdi
    IMAGE/combined.vmdk := grub-config pc | combined | grub-install | qemu-image vmdk
    IMAGE/combined.vhdx := grub-config pc | combined | grub-install | qemu-image vhdx -o subformat=dynamic
-@@ -137,6 +138,7 @@ define Device/Default
+@@ -138,6 +139,7 @@ define Device/Default
    ARTIFACT/image-efi.iso := grub-config iso | iso efi
    IMAGE/combined-efi.img := grub-config efi | combined efi | grub-install efi | append-metadata
-   IMAGE/combined-efi.img.gz := grub-config efi | combined efi | grub-install efi | gzip | append-metadata
+   IMAGE/combined-efi.img.gz := grub-config efi | combined efi | grub-install efi | libdeflate-gzip | append-metadata
 +  IMAGE/combined-efi.qcow2 := grub-config efi | combined efi | grub-install efi | qemu-image qcow2
    IMAGE/combined-efi.vdi := grub-config efi | combined efi | grub-install efi | qemu-image vdi
    IMAGE/combined-efi.vmdk := grub-config efi | combined efi | grub-install efi | qemu-image vmdk
    IMAGE/combined-efi.vhdx := grub-config efi | combined efi | grub-install efi | qemu-image vhdx -o subformat=dynamic
-@@ -157,7 +159,10 @@ define Device/Default
+@@ -158,7 +160,10 @@ define Device/Default
      ARTIFACTS-$$(CONFIG_GRUB_IMAGES) += image.iso
      ARTIFACTS-$$(CONFIG_GRUB_EFI_IMAGES) += image-efi.iso
    endif
@@ -75,7 +75,7 @@ index 87256c884d3..60a4588df53 100644
    ifeq ($(CONFIG_VDI_IMAGES),y)
      IMAGES-$$(CONFIG_GRUB_IMAGES) += combined.vdi
      IMAGES-$$(CONFIG_GRUB_EFI_IMAGES) += combined-efi.vdi
-@@ -170,6 +175,7 @@ define Device/Default
+@@ -171,6 +176,7 @@ define Device/Default
      IMAGES-$$(CONFIG_GRUB_IMAGES) += combined.vhdx
      IMAGES-$$(CONFIG_GRUB_EFI_IMAGES) += combined-efi.vhdx
    endif
