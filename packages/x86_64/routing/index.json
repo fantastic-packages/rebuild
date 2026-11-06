@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "architecture": "x86_64",
-  "packages": {
-    "batctl-default": "2026.1-r1"
-  }
-}
