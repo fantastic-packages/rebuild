@@ -1,0 +1,1183 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:e3f786f2-0cdd-5cff-9a87-786c026214bc",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-05T22:59:22Z"
+  },
+  "components": [
+    {
+      "name": "aeonsemi-as21xxx-firmware",
+      "version": "20261019-r1",
+      "type": "firmware"
+    },
+    {
+      "name": "arptables-nft",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-aread",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-atmaddr",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-atmdiag",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-atmdump",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-atmloop",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-atmsigd",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-atmswitch",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-atmtcp",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-awrite",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-bus",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-debug-tools",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-diagnostics",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-esi",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-ilmid",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-ilmidiag",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-lecs",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-les",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-mpcd",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-saaldump",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-sonetdiag",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-svc_recv",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-svc_send",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-tools",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-ttcp_atm",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "atm-zeppelin",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "base-files",
+      "version": "1~bb8054e",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "bcm27xx-gpu-fw",
+      "version": "2026.09.15-r1",
+      "type": "application"
+    },
+    {
+      "name": "bcm27xx-utils",
+      "version": "2026.09.17-r1",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "BSD-3-Clause"
+          }
+        }
+      ]
+    },
+    {
+      "name": "bcm27xx-utils-rpi-fw-crypto",
+      "version": "2026.09.17-r1",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "BSD-3-Clause"
+          }
+        }
+      ]
+    },
+    {
+      "name": "block-mount",
+      "version": "2026.10.18~907cf449-r1",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "blockd",
+      "version": "2026.10.18~907cf449-r1",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "br2684ctl",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "comgt",
+      "version": "0.32-r38",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "comgt-directip",
+      "version": "0.32-r38",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "comgt-ncm",
+      "version": "0.32-r38",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dropbear",
+      "version": "2026.94-r3",
+      "cpe": "cpe:/a:dropbear_ssh_project:dropbear_ssh",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dropbearconvert",
+      "version": "2026.94-r3",
+      "cpe": "cpe:/a:dropbear_ssh_project:dropbear_ssh",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ebtables-nft",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "fstools",
+      "version": "2026.10.18~907cf449-r1",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "fwtool",
+      "version": "2025.10.03~04cd252e-r1",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ip6tables-extra",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ip6tables-mod-nat",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ip6tables-nft",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ip6tables-zz-legacy",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-checksum",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-cluster",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-conntrack-extra",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-extra",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-filter",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-hashlimit",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-ipopt",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-iprange",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-ipsec",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-led",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-nat-extra",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-nflog",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-nfqueue",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-physdev",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-rpfilter",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-socket",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-tee",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-tproxy",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-trace",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-mod-u32",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-nft",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "iptables-zz-legacy",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "jool-tools-netfilter",
+      "version": "4.1.15-r1",
+      "cpe": "cpe:/a:jool:jool",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0-only"
+          }
+        }
+      ]
+    },
+    {
+      "name": "kernel",
+      "version": "6.18.60~bba72c9a26c87f26f04cc96a40cb725b-r1",
+      "cpe": "cpe:/o:linux:linux_kernel",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0-only"
+          }
+        }
+      ]
+    },
+    {
+      "name": "kselftests-bpf",
+      "version": "6.18.60-r1",
+      "type": "application"
+    },
+    {
+      "name": "libatomic1",
+      "version": "14.4.0-r5",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-3.0-with-GCC-exception"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libc",
+      "version": "1.2.6-r5",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-3.0-with-GCC-exception"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libgcc1",
+      "version": "14.4.0-r5",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-3.0-with-GCC-exception"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libip4tc2",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libip6tc2",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libiptext-nft0",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libiptext0",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libiptext6-0",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libpthread",
+      "version": "1.2.6-r5",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-3.0-with-GCC-exception"
+          }
+        }
+      ]
+    },
+    {
+      "name": "librt",
+      "version": "1.2.6-r5",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-3.0-with-GCC-exception"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libstdcpp6",
+      "version": "14.4.0-r5",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-3.0-with-GCC-exception"
+          }
+        }
+      ]
+    },
+    {
+      "name": "libxtables12",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "linux-atm",
+      "version": "2.5.2-r8",
+      "cpe": "cpe:/a:linux-atm:linux-atm",
+      "type": "library",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "mtd",
+      "version": "29",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "perf",
+      "version": "6.18.60-r7",
+      "type": "application"
+    },
+    {
+      "name": "procd-ujail",
+      "version": "2026.11.03~fb611687-r1",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "qosify",
+      "version": "2026.10.15~143d71d2-r1",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "snapshot-tool",
+      "version": "2026.10.18~907cf449-r1",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "uboot-envtools",
+      "version": "2026.10-r2",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        },
+        {
+          "license": {
+            "name": "GPL-2.0+"
+          }
+        }
+      ]
+    },
+    {
+      "name": "umbim",
+      "version": "2025.10.04~2939b7d0-r1",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "uqmi",
+      "version": "2025.07.30~7914da43-r2",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "xtables-legacy",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "xtables-nft",
+      "version": "1.8.10-r3",
+      "cpe": "cpe:/a:netfilter:iptables",
+      "type": "application",
+      "licenses": [
+        {
+          "license": {
+            "name": "GPL-2.0"
+          }
+        }
+      ]
+    }
+  ]
+}
