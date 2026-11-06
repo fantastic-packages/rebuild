@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "architecture": "aarch64_generic",
-  "packages": {
-    "batctl-default": "2025.5-r1"
-  }
-}
