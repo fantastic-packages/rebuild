@@ -67,15 +67,18 @@ set_config CONFIG_NET_SCH_INGRESS m # dae
 
 # rm luci
 sed -Ei "/CONFIG_PACKAGE_\
-(cgi-io\
+(attendedsysupgrade-common\
+|cgi-io\
 |libiwinfo\
 |libiwinfo-data\
 |liblucihttp\
 |liblucihttp-ucode\
 |luci\
+|luci-app-attendedsysupgrade\
 |luci-app-firewall\
 |luci-app-package-manager\
 |luci-base\
+|luci-lib-uqr\
 |luci-light\
 |luci-mod-admin-full\
 |luci-mod-network\
@@ -85,14 +88,18 @@ sed -Ei "/CONFIG_PACKAGE_\
 |luci-proto-ppp\
 |luci-ssl\
 |luci-theme-bootstrap\
+|owut\
 |px5g-mbedtls\
 |rpcd\
 |rpcd-mod-file\
 |rpcd-mod-iwinfo\
 |rpcd-mod-luci\
+|rpcd-mod-rpcsys\
 |rpcd-mod-rrdns\
 |rpcd-mod-ucode\
 |ucode-mod-html\
+|ucode-mod-log\
 |ucode-mod-math\
+|ucode-mod-uclient\
 |uhttpd\
 |uhttpd-mod-ubus)/d" "$config"

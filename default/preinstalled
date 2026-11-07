@@ -19,6 +19,7 @@ luci-proto-ipv6
 luci-proto-ppp
 luci-ssl
 luci-theme-bootstrap
+owut
 px5g-mbedtls
 rpcd
 rpcd-mod-file
@@ -30,6 +31,7 @@ rpcd-mod-ucode
 ucode-mod-html
 ucode-mod-log
 ucode-mod-math
+ucode-mod-uclient
 uhttpd
 uhttpd-mod-ubus
 
